@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch Thi Đấu Esports - TECHSHOP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/tournament.css">
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/ranking.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+      <script src="/js/tournament.js"></script>
+</head>
+<body class="bw-theme">
+<header class="techshop-header">
+  <a href="/html/home.html" class="techshop-header__logo">
+    <img src="/img/logo.png" alt="Techshop Logo">
+    <span>TECHSHOP</span>
+  </a>
+
+  <nav class="techshop-header__navbar">
+    <a href="/html/home-login.html" >Home</a>
+    <a href="/html/shop-login.html">Shop</a>
+    <a href="/html/tournament-login.html" class="active">Tournament</a>
+    <a href="/html/about-login.html">About</a>
+    <a href="https://www.facebook.com/huylv.2k3">Contact</a>
+  </nav>
+
+  <div class="techshop-header__right">
+    <div class="techshop-header__search-bar">
+        <input type="text" placeholder="Search products...">
+        <button><i class="fas fa-search"></i></button>
+    </div>
+
+    <a href="/html/cart.html" class="techshop-header__cart-icon"><i class="fas fa-shopping-cart"></i></a>
+
+    <div class="techshop-header__notification">
+        <i class="fas fa-bell"></i>
+        <span class="techshop-header__badge">3</span>
+    </div>
+
+    <div class="techshop-header__user-dropdown">
+        <input type="checkbox" id="toggle-dropdown-techshop">
+        <label for="toggle-dropdown-techshop" class="techshop-header__avatar-wrapper">
+            <img src="/img/le_van_huy.png" alt="User Avatar" class="techshop-header__avatar-img">
+        </label>
+
+        <div class="techshop-header__dropdown-menu">
+            <a href="#">Profile</a>
+            <a href="#">Settings</a>
+            <a href="/html/home.html">Logout</a>
+        </div>
+    </div>
+  </div>
+</header>
+
+
+    <main class="main-tournament-schedule">
+        <div class="sidebar left-sidebar">
+            <h3><i class="fas fa-list-ul"></i> Tournaments</h3>
+            <ul class="tournament-categories">
+                <li><a href="#" class="filter-btn active" data-filter="all">All Tournaments</a></li>
+                <li><a href="#" class="filter-btn" data-filter="valorant">VALORANT</a></li>
+                <li><a href="#" class="filter-btn" data-filter="dota">DOTA</a></li>
+                <li><a href="#" class="filter-btn" data-filter="csgo">CS:GO</a></li>
+            </ul>
+            <h3 style="margin-top: 30px;"><i class="fas fa-cog"></i> Ranking</h3>
+            <ul>
+                <li><a href="/html/ra" class="filter-btn" data-filter="rankings_only">Team Rankings</a></li>
+            </ul>
+        </div>
+
+        <div class="schedule-content">
+            
+            <div class="rankings-section">
+                <h2><i class="fas fa-trophy"></i> Global Team Rankings</h2>
+                <h3>VALORANT</h3>
+                <ul class="ranking-list-main">
+                    <li class="ranking-item-main"><span class="rank">1</span><img class="team-logo" src="https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/361349085_754694893326924_7642632371693014100_n.png?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=LJx5Lj01_vgQ7kNvwFuQo4B&_nc_oc=AdlEupPwi_IdUx8kk76TpP4qOQxgu2jxLTPHhwddMbefcCdUtX195rcT66OdQDBGy-A&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=vO5FEZHO8uSuZvKU_de_Cw&oh=00_AfMligqRATy_wSQ-2emB8kQP-LlD4tDbG7F5VJg1dY9r5g&oe=68537505" alt="Sentinels Logo"><span class="team-name">Sentinels</span></li>
+                    <li class="ranking-item-main"><span class="rank">2</span><img class="team-logo" src="https://cdn-media.sforum.vn/storage/app/media/wp-content/uploads/2021/07/lol-t1-1.jpg" alt="T1 Logo"><span class="team-name">T1</span></li>
+                    <li class="ranking-item-main"><span class="rank">3</span><img class="team-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgfLvrauSzI4ICE8_xnXzwLvTxSAWqq_fYzA&s" alt="FNC Logo"><span class="team-name">Fnatic</span></li>
+                </ul>
+                <h3>CS:GO</h3>
+                <ul class="ranking-list-main">
+                    <li class="ranking-item-main"><span class="rank">1</span><img class="team-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/NAVI-Logo.svg/800px-NAVI-Logo.svg.png" alt="NAVI Logo"><span class="team-name">Natus Vincere</span></li>
+                    <li class="ranking-item-main"><span class="rank">2</span><img class="team-logo" src="https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/462571433_1087749126045199_4331675682158258955_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=nehrDUKzHzwQ7kNvwHsxSHH&_nc_oc=AdmAbsa2TATU2wlKoHByNjt5Umkepeut_bJTOWwXhpAxXyJnNEKRtBCItQ1kUmjSbO8&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=hl7Kj3zIke7f2gNaiNd6kQ&oh=00_AfNriFFyXRBD4ZEJa-IuSd2fNwyR-BIGbvNlwcCHnIi1Rg&oe=6850AB72" alt="FaZe Clan Logo"><span class="team-name">FaZe Clan</span></li>
+                    <li class="ranking-item-main"><span class="rank">3</span><img class="team-logo" src="https://upload.wikimedia.org/wikipedia/en/1/12/Esports_organization_G2_Esports_logo.svg" alt="G2 Logo"><span class="team-name">G2</span></li>
+                </ul>
+                <h3>DOTA</h3>
+                <ul class="ranking-list-main">
+                    <li class="ranking-item-main"><span class="rank">1</span><img class="team-logo" src="https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/462571433_1087749126045199_4331675682158258955_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=nehrDUKzHzwQ7kNvwHsxSHH&_nc_oc=AdmAbsa2TATU2wlKoHByNjt5Umkepeut_bJTOWwXhpAxXyJnNEKRtBCItQ1kUmjSbO8&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=hl7Kj3zIke7f2gNaiNd6kQ&oh=00_AfNriFFyXRBD4ZEJa-IuSd2fNwyR-BIGbvNlwcCHnIi1Rg&oe=6850AB72" alt="FaZe Logo"><span class="team-name">FaZe Clan</span></li>
+                    <li class="ranking-item-main"><span class="rank">2</span><img class="team-logo" src="https://wstatic-prod-boc.krafton.com/entry/player/20240418/4hdPxuri.png" alt="17Gaming Logo"><span class="team-name">17Gaming</span></li>
+                    <li class="ranking-item-main"><span class="rank">3</span><img class="team-logo" src="https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-1/503403162_1174979051310895_7258116514411032834_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=101&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=Fv4OUdg7qQcQ7kNvwEp77B3&_nc_oc=AdnsCaZCaqwRtc0xEw9BdhMD5uBscilXfKycw-CUXcnrGdYd0JtH3t_N0gbxDXfzdO8&_nc_zt=24&_nc_ht=scontent.fsgn2-4.fna&_nc_gid=AXJ3-aB13XDOSz6c6DViTw&oh=00_AfNVQK26AbaSLT4exfPHznlsdlgHEP71uFX9LpoRM6qPqQ&oe=68536457" alt="DAY Logo"><span class="team-name">Cerberus</span></li>
+                </ul>
+            </div>
+
+            <div class="tournament-section" data-id="valorant">
+                <h2><i class="far fa-calendar-alt"></i> Match Schedule - VALORANT </h2>
+                <div class="match-day">
+                    <h3><i class="fas fa-calendar-day"></i> Saturday, May 24, 2025</h3>
+                    <ul class="matches">
+                        <li class="match-item"><div class="team team1"><img src="https://scontent.fsgn2-10.fna.fbcdn.net/v/t39.30808-6/491810406_1098416458991736_8932614531938378371_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=hH7Cnq1GNnQQ7kNvwF26Gll&_nc_oc=Adll6FVw8v9d28rCvCP0kANbjhYljAS-WnzSgOU_a2nplasHY4E4csNk4WlWqh393bs&_nc_zt=23&_nc_ht=scontent.fsgn2-10.fna&_nc_gid=S_WVXovqdk27a7_yZW_UHA&oh=00_AfNkHKWNpo7Jq3BRVbgGIHpMJyxcuF25vlbm3b_FnT0DQA&oe=68535E8D" alt="GAM Logo"> <span>GAM</span></div><div class="match-details"><span class="match-time">17:00</span><span class="vs">VS</span><i class="fas fa-eye toggle-score" title="View score"></i><span class="score" style="display: none;">2 - 1</span></div><div class="team team2"><img src="https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/331565342_505430728444174_4104361749573723217_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=GdLOrv1qCbwQ7kNvwHdsqzH&_nc_oc=AdmjQvquO39RlQKgqSM8JRjkCa-SaQc3UD-bYpObuP6ywK8oSc7dUG4Y_9jJcBIC_Hc&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=k9apUmInQA-NfsW_xtDCNQ&oh=00_AfOFGFDemAYcvB_wa-wFM803KirfaEh2epve_t__ziOtZQ&oe=685361D1" alt="DFM Logo"> <span>DFM</span></div><a href="https://www.youtube.com/watch?v=aZXY4zCMGBQ" class="watch-link"><i class="fas fa-play-circle"></i> Watch</a>
+                    </ul>
+                </div>
+                <div class="match-day">
+                    <h3><i class="fas fa-calendar-day"></i> Sunday, May 25, 2025</h3>
+                    <ul class="matches">
+                        <li class="match-item"><div class="team team1"><img src="https://cdn-media.sforum.vn/storage/app/media/wp-content/uploads/2021/07/lol-t1-1.jpg" alt="T1 Logo"> <span>T1</span></div><div class="match-details"><span class="match-time">16:00</span><span class="vs">VS</span><i class="fas fa-eye toggle-score" title="View score"></i><span class="score" style="display: none;">3 - 1</span></div><div class="team team2"><img src="https://images.seeklogo.com/logo-png/40/1/gen-g-logo-png_seeklogo-400443.png" alt="GenG Logo"> <span>Gen.G</span></div><a href="https://www.youtube.com/watch?v=aZXY4zCMGBQ" class="watch-link"><i class="fas fa-play-circle"></i> Watch</a></li>
+                        <li class="match-item"><div class="team team1"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgfLvrauSzI4ICE8_xnXzwLvTxSAWqq_fYzA&s" alt="FNC Logo"> <span>Fnatic</span></div><div class="match-details"><span class="match-time">20:00</span><span class="vs">VS</span><i class="fas fa-eye toggle-score" title="View score"></i><span class="score" style="display: none;">2 - 0</span></div><div class="team team2"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/b651c089934095.5e1db2ae7842c.png" alt="LOUD Logo"> <span>LOUD</span></div><a href="https://www.youtube.com/watch?v=aZXY4zCMGBQ" class="watch-link"><i class="fas fa-play-circle"></i> Watch</a></li>
+                    </ul>
+                </div>
+                <div class="match-day">
+                    <h3><i class="fas fa-calendar-day"></i> Monday, May 26, 2025</h3>
+                    <ul class="matches">
+                        <li class="match-item"><div class="team team1"><img src="https://www.sheepesports.com/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F9rqbl8zs%2Fproduction%2Fccb00fba531916fd446f001c7714328cc3d0ef2c-1600x900.webp&w=3840&q=75" alt="BLG Logo"> <span>Bilibili Gaming</span></div><div class="match-details"><span class="match-time">18:00</span><span class="vs">VS</span><i class="fas fa-eye toggle-score" title="View score"></i><span class="score" style="display: none;">3 - 2</span></div><div class="team team2"><img src="https://static.gosugamers.net/3e/2e/c5/bf896426940e406202b24026fb418cc6a8aca763fecc6de317a2e950e3.png?w=256" alt="JDG Logo"> <span>JD Gaming</span></div><a href="https://www.youtube.com/watch?v=aZXY4zCMGBQ" class="watch-link"><i class="fas fa-play-circle"></i> Watch</a></li>
+                        <li class="match-item"><div class="team team1"><img src="https://storage.googleapis.com/lolscore-bf2e2.appspot.com/optimize/images/teams/128268/256_index.png" alt="KC Logo"> <span>Karmine Corp</span></div><div class="match-details"><span class="match-time">21:00</span><span class="vs">VS</span><i class="fas fa-eye toggle-score" title="View score"></i><span class="score" style="display: none;">1 - 2</span></div><div class="team team2"><img src="https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-1/361349085_754694893326924_7642632371693014100_n.png?stp=dst-png_s200x200&_nc_cat=103&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=BZ0U1tOIU9QQ7kNvwGPHboh&_nc_oc=AdkmGEb5Cw54kmELqPZWpFO4l_lLxM5jARFFgP85ZXn6I4txQXYnoQQSooCuK32S9gs&_nc_zt=24&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=sVyxIHDctpO6sUTaHvsWMA&oh=00_AfPi6Vi295wjeMgHPBDWrhCE87SLqnaiVsUe6JphURVlKw&oe=6850A383" alt="SEN Logo"> <span>Sentinels</span></div><a href="https://www.youtube.com/watch?v=aZXY4zCMGBQ" class="watch-link"><i class="fas fa-play-circle"></i> Watch</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tournament-section" data-id="dota">
+                <h2><i class="far fa-calendar-alt"></i> Match Schedule - DOTA</h2>
+                <div class="match-day">
+                    <h3><i class="fas fa-calendar-day"></i> Friday, May 23, 2025</h3>
+                    <ul class="matches">
+                        <li class="match-item"><div class="team team1"><img src="https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/503403162_1174979051310895_7258116514411032834_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Fv4OUdg7qQcQ7kNvwGtSS7-&_nc_oc=Adnp6Onr6Fqws14Pj5HdhHz3UfNIuVmbARbovoV_IS9znyGX0h7HlY76ujjjjJM9HLk&_nc_zt=23&_nc_ht=scontent.fsgn2-4.fna&_nc_gid=hO0AmwlTbkBAG3OfDbAakA&oh=00_AfOCvOoHKX9tw-M1cl2k-etat5IEtz8eBndLqNWYS5ctHw&oe=6850B095" alt="DAY Logo"> <span>Cerberus</span></div><div class="match-details"><span class="match-time">19:00</span><span class="vs">VS</span><i class="fas fa-eye toggle-score" title="View score"></i><span class="score" style="display: none;">3 - 2</span></div><div class="team team2"><img src="https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/499717883_1349373660282304_4461045350492391065_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=xbVg4C7XgeUQ7kNvwGtOExr&_nc_oc=Adk4CvvXbFx4383BQywxCqkJYpvvB1o9EIEqdIadNdBvFnG4bqf7gRFP4rsuo92Dknk&_nc_zt=23&_nc_ht=scontent.fsgn2-4.fna&_nc_gid=mlGU3iRuUSSKHyJZxPN9OQ&oh=00_AfNtCBUpsDF4G4FycGshTr-auOdTCFwKzQ9-Z40eQp1oDw&oe=68509FE5" alt="TE Logo"> <span>TE Esport</span></div><a href="https://www.youtube.com/watch?v=aZXY4zCMGBQ" class="watch-link"><i class="fas fa-play-circle"></i> Watch</a>
+                    </ul>
+                </div>
+                <div class="match-day">
+                    <h3><i class="fas fa-calendar-day"></i> Saturday, May 24, 2025</h3>
+                    <ul class="matches">
+                        <li class="match-item"><div class="team team1"><img src="https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/462571433_1087749126045199_4331675682158258955_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=nehrDUKzHzwQ7kNvwHsxSHH&_nc_oc=AdmAbsa2TATU2wlKoHByNjt5Umkepeut_bJTOWwXhpAxXyJnNEKRtBCItQ1kUmjSbO8&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=hl7Kj3zIke7f2gNaiNd6kQ&oh=00_AfNriFFyXRBD4ZEJa-IuSd2fNwyR-BIGbvNlwcCHnIi1Rg&oe=6850AB72" alt="FaZe Logo"> <span>FaZe Clan</span></div><div class="match-details"><span class="match-time">18:00</span><span class="vs">VS</span><i class="fas fa-eye toggle-score" title="View score"></i><span class="score" style="display: none;">4 - 1</span></div><div class="team team2"><img src="https://wstatic-prod-boc.krafton.com/common/team/20230412/poj31Iy0/twis.png" alt="TM Logo"> <span>Twisted Minds</span></div><a href="https://www.youtube.com/watch?v=aZXY4zCMGBQ" class="watch-link"><i class="fas fa-play-circle"></i> Watch</a></li>
+                        <li class="match-item"><div class="team team1"><img src="https://wstatic-prod-boc.krafton.com/entry/player/20240418/4hdPxuri.png" alt="17Gaming Logo"> <span>17Gaming</span></div><div class="match-details"><span class="match-time">20:00</span><span class="vs">VS</span><i class="fas fa-eye toggle-score" title="View score"></i><span class="score" style="display: none;">3 - 1</span></div><div class="team team2"><img src="https://pbs.twimg.com/profile_images/1118496220509560833/-3ej1f9-_400x400.jpg" alt="4AM Logo"> <span>Four Angry Men</span></div><a href="https://www.youtube.com/watch?v=aZXY4zCMGBQ" class="watch-link"><i class="fas fa-play-circle"></i> Watch</a></li>
+                    </ul>
+                </div>
+                <div class="match-day">
+                    <h3><i class="fas fa-calendar-day"></i> Monday, May 26, 2025</h3>
+                    <ul class="matches">
+                        <li class="match-item"><div class="team team1"><img src="https://twire-assets.s3.eu-west-1.amazonaws.com/pubg/team-logos/daytrade-gaming.png" alt="Daytrade Logo"> <span>Daytrade Gaming</span></div><div class="match-details"><span class="match-time">19:00</span><span class="vs">VS</span><i class="fas fa-eye toggle-score" title="View score"></i><span class="score" style="display: none;">2 - 3</span></div><div class="team team2"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO54CWZuPsDWc5aTL8NoVke8jH9SlWFtbQ_Q&s" alt="LG Divine Logo"> <span>LG Divine</span></div><a href="https://www.youtube.com/watch?v=aZXY4zCMGBQ" class="watch-link"><i class="fas fa-play-circle"></i> Watch</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="tournament-section" data-id="csgo">
+                <h2><i class="far fa-calendar-alt"></i> Match Schedule - CS:GO</h2>
+                <div class="match-day">
+                    <h3><i class="fas fa-calendar-day"></i> Saturday, May 24, 2025</h3>
+                    <ul class="matches">
+                        <li class="match-item"><div class="team team1"><img src="https://upload.wikimedia.org/wikipedia/en/1/12/Esports_organization_G2_Esports_logo.svg" alt="G2 Logo"> <span>G2</span></div><div class="match-details"><span class="match-time">22:00</span><span class="vs">VS</span><i class="fas fa-eye toggle-score" title="View score"></i><span class="score" style="display: none;">0 - 2</span></div><div class="team team2"><img src="https://static.gosugamers.net/75/a1/7d/0f796a6d73751a6e78c40cd11f27d30c6a1e2afaa9dc3d3be122f5e992.png?w=256" alt="VIT Logo"> <span>VIT</span></div><a href="https://www.youtube.com/watch?v=aZXY4zCMGBQ" class="watch-link"><i class="fas fa-play-circle"></i> Watch</a></li>
+                    </ul>
+                </div>
+                <div class="match-day">
+                    <h3><i class="fas fa-calendar-day"></i> Sunday, May 25, 2025</h3>
+                    <ul class="matches">
+                        <li class="match-item"><div class="team team1"><img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/FaZe_Clan_2025_svg.svg" alt="FaZe Logo"> <span>FaZe Clan</span></div><div class="match-details"><span class="match-time">20:00</span><span class="vs">VS</span><i class="fas fa-eye toggle-score" title="View score"></i><span class="score" style="display: none;">2 - 1</span></div><div class="team team2"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/NAVI-Logo.svg/800px-NAVI-Logo.svg.png" alt="NAVI Logo"> <span>NAVI</span></div><a href="https://www.youtube.com/watch?v=aZXY4zCMGBQ" class="watch-link"><i class="fas fa-play-circle"></i> Watch</a></li>
+                        <li class="match-item"><div class="team team1"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLqdji9F5CQlIht-qS_HiJkK8DtsEgJI2wlQ&s" alt="Astralis Logo"> <span>Astralis</span></div><div class="match-details"><span class="match-time">01:00</span><span class="vs">VS</span><i class="fas fa-eye toggle-score" title="View score"></i><span class="score" style="display: none;">2 - 0</span></div><div class="team team2"><img src="https://cdn.escharts.com/uploads/public/601/c31/c24/601c31c24ea9b760095689.png" alt="NIP Logo"> <span>NIP</span></div><a href="https://www.youtube.com/watch?v=aZXY4zCMGBQ" class="watch-link"><i class="fas fa-play-circle"></i> Watch</a></li>
+                    </ul>
+                </div>
+                <div class="match-day">
+                    <h3><i class="fas fa-calendar-day"></i> Monday, May 26, 2025</h3>
+                    <ul class="matches">
+                        <li class="match-item"><div class="team team1"><img src="https://img-cache.coccoc.com/image2?i=2&l=84/120277243" alt="ENCE Logo"> <span>ENCE</span></div><div class="match-details"><span class="match-time">21:00</span><span class="vs">VS</span><i class="fas fa-eye toggle-score" title="View score"></i><span class="score" style="display: none;">2 - 0</span></div><div class="team team2"><img src="https://img-cache.coccoc.com/image2?i=1&l=4/315197771" alt="VP Logo"> <span>Virtus.pro</span></div><a href="https://www.youtube.com/watch?v=aZXY4zCMGBQ" class="watch-link"><i class="fas fa-play-circle"></i> Watch</a></li>
+                        <li class="match-item"><div class="team team1"><img src="https://images.seeklogo.com/logo-png/48/2/big-clan-logo-png_seeklogo-485781.png" alt="BIG Logo"> <span>BIG</span></div><div class="match-details"><span class="match-time">23:00</span><span class="vs">VS</span><i class="fas fa-eye toggle-score" title="View score"></i><span class="score" style="display: none;">1 - 2</span></div><div class="team team2"><img src="https://upload.wikimedia.org/wikipedia/id/9/9e/Logo_Team_Falcons.png" alt="Falcons Logo"> <span>Team Falcons</span></div><a href="https://www.youtube.com/watch?v=aZXY4zCMGBQ" class="watch-link"><i class="fas fa-play-circle"></i> Watch</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar right-sidebar">
+            <h3><i class="fas fa-medal"></i> Rankings</h3>
+            <ul class="ranking-list">
+                <li><a href="#">1. <img src="https://cdn-media.sforum.vn/storage/app/media/wp-content/uploads/2021/07/lol-t1-1.jpg" alt="T1" style="height:18px; vertical-align:middle; background-color:#3a3a3e; padding:1px; border-radius:3px;"> T1</a></li>
+                <li><a href="#">2. <img src="https://images.seeklogo.com/logo-png/40/1/gen-g-logo-png_seeklogo-400443.png" alt="Gen.G" style="height:18px; vertical-align:middle; background-color:#3a3a3e; padding:1px; border-radius:3px;">
+ Gen.G</a></li>
+                <li><a href="#">3. <img src="https://scontent.fsgn2-10.fna.fbcdn.net/v/t39.30808-6/491810406_1098416458991736_8932614531938378371_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=hH7Cnq1GNnQQ7kNvwF26Gll&_nc_oc=Adll6FVw8v9d28rCvCP0kANbjhYljAS-WnzSgOU_a2nplasHY4E4csNk4WlWqh393bs&_nc_zt=23&_nc_ht=scontent.fsgn2-10.fna&_nc_gid=S_WVXovqdk27a7_yZW_UHA&oh=00_AfNkHKWNpo7Jq3BRVbgGIHpMJyxcuF25vlbm3b_FnT0DQA&oe=68535E8D" alt="GAM" style="height:18px; vertical-align:middle; background-color: #3a3a3e; padding:1px; border-radius:3px;"> GAM Esports</a></li>
+            </ul>
+            
+            <h3 style="margin-top: 30px;"><i class="far fa-newspaper"></i> Featured News</h3>
+            <ul class="news-list">
+                <li><a href="#">MSI 2025 Finals: [Team A] becomes champion!</a></li>
+                <li><a href="#">[Player X] wins MVP of the week.</a></li>
+                <li><a href="#">Worlds 2025 schedule announced.</a></li>
+                <li><a href="https://gamek.vn/esport.chn" class="watch-link"><i class="fas fa-play-circle"></i> Read more news</a></li>
+            </ul>
+            
+            <h3 style="margin-top: 30px;"><i class="fas fa-video"></i> Live Streams</h3>
+            <ul class="stream-list">
+                <li><a href="https://www.twitch.tv/lec" target="_blank"><i class="fab fa-twitch"></i> Twitch Channel </a></li>
+                <li><a href="https://www.facebook.com/ViRiuu2508"target="_blank"><i class="fab fa-facebook"></i> Facebook </a></li>
+                <li><a href="#">More channels...</a></li>
+            </ul>
+        </div>
+    </main>
+
+
+   <!-- footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="/img/logo.png" alt="Techshop Logo">
+        <h3>TECHSHOP</h3>
+        <p>The World of Technology & Esports</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="/html/home.html">Home</a></li>
+          <li><a href="/html/shop.html">Store</a></li>
+          <li><a href="/html/tournament.html">Tournament</a></li>
+          <li><a href="https://www.facebook.com/huylv.2k3">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact Information</h4>
+        <p><i class="fas fa-phone"></i>(+84) 0896 492 400</p>
+        <p><i class="fas fa-envelope"></i> levanhuy06042003@gmail.com</p>
+        <p><i class="fas fa-map-marker-alt"></i> 99 To Hien Thanh, Son Tra, Da Nang</p>
+      </div>
+      <div class="footer-social">
+        <h4>Follow Us</h4>
+        <a href="https://www.facebook.com/huylv.2k3"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.instagram.com/levanhuy06042003/"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 TECHSHOP. All rights reserved.</p>
+    </div>
+  </footer>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

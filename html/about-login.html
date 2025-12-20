@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới thiệu Techshop</title>
+    <link rel="stylesheet" href="/css/about.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="techshop-header">
+  <a href="/html/home.html" class="techshop-header__logo">
+    <img src="/img/logo.png" alt="Techshop Logo">
+    <span>TECHSHOP</span>
+  </a>
+
+  <nav class="techshop-header__navbar">
+    <a href="/html/home-login.html" >Home</a>
+    <a href="/html/shop-login.html">Shop</a>
+    <a href="/html/tournament-login.html">Tournament</a>
+    <a href="/html/about-login.html" class="active">About</a>
+    <a href="https://www.facebook.com/huylv.2k3">Contact</a>
+  </nav>
+
+  <div class="techshop-header__right">
+    <div class="techshop-header__search-bar">
+        <input type="text" placeholder="Search products...">
+        <button><i class="fas fa-search"></i></button>
+    </div>
+
+    <a href="/html/cart.html" class="techshop-header__cart-icon"><i class="fas fa-shopping-cart"></i></a>
+
+    <div class="techshop-header__notification">
+        <i class="fas fa-bell"></i>
+        <span class="techshop-header__badge">3</span>
+    </div>
+
+    <div class="techshop-header__user-dropdown">
+        <input type="checkbox" id="toggle-dropdown-techshop">
+        <label for="toggle-dropdown-techshop" class="techshop-header__avatar-wrapper">
+            <img src="/img/le_van_huy.png" alt="User Avatar" class="techshop-header__avatar-img">
+        </label>
+
+        <div class="techshop-header__dropdown-menu">
+            <a href="#">Profile</a>
+            <a href="#">Settings</a>
+            <a href="/html/home.html">Logout</a>
+        </div>
+    </div>
+  </div>
+</header>
+
+   <!-- Replace content in <main class="about-container"> with the translated version -->
+<main class="about-container">
+    <section class="about-hero animate fade-up" role="region" aria-labelledby="hero-heading">
+        <div class="hero-bg"></div>
+        <h1 id="hero-heading">About Techshop</h1>
+        <p>Discover our story and mission to bring exceptional technology experiences. Techshop proudly stands as a leading destination for genuine tech products and dedicated customer service.</p>
+        <div class="hero-stats">
+            <div class="stat-item card animate zoom-in">
+                <i class="fas fa-users"></i>
+                <h4>10,000+</h4>
+                <p>Trusted Customers</p>
+            </div>
+            <div class="stat-item card animate zoom-in">
+                <i class="fas fa-box"></i>
+                <h4>5,000+</h4>
+                <p>Products Sold</p>
+            </div>
+            <div class="stat-item card animate zoom-in">
+                <i class="fas fa-award"></i>
+                <h4>10+</h4>
+                <p>Awards Won</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="story-section animate fade-up" role="region" aria-labelledby="story-heading">
+        <h2 id="story-heading"><i class="fas fa-book-open"></i> Our Story</h2>
+        <p>Founded by a group of young tech enthusiasts, Techshop has continuously evolved through every project and product. We’ve overcome challenges to build a trusted brand and deliver real value to our customers.</p>
+        <p>At Techshop, technology is not just about products — it's a bridge that connects people and enhances daily life.</p>
+        <img src="/img/congty.jpg" alt="Founding team of Techshop" class="section-img" loading="lazy">
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="mission-section animate fade-up" role="region" aria-labelledby="mission-heading">
+        <h2 id="mission-heading"><i class="fas fa-rocket"></i> Our Mission</h2>
+        <ul>
+            <li>Deliver authentic tech products at the most competitive prices.</li>
+            <li>Provide fast, caring, and professional customer support.</li>
+            <li>Continuously innovate to create a convenient shopping experience.</li>
+            <li>Build a dynamic and creative young tech community.</li>
+        </ul>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="products-section animate fade-up" role="region" aria-labelledby="products-heading">
+        <h2 id="products-heading"><i class="fas fa-laptop"></i> Featured Products</h2>
+        <div class="products-grid">
+            <div class="product-card card animate zoom-in">
+                <img src="/img/product/laptop/Laptop_Dell_XPS_15.png" alt="Dell XPS 15 Laptop with 4K display" loading="lazy">
+                <h4>Dell XPS 15</h4>
+                <p>Powerful Intel processor, vivid 4K screen — perfect for work and play.</p>
+                <p class="price">Price: 32,000,000 VND</p>
+            </div>
+            <div class="product-card card animate zoom-in">
+                <img src="/img/product/banphim/Ban-phim-co-RK61.png" alt="RK61 Mechanical Keyboard" loading="lazy">
+                <h4>RK61 Mechanical Keyboard</h4>
+                <p>High-performance keys, long-lasting battery — for a superior typing experience.</p>
+                <p class="price">Price: 18,500,000 VND</p>
+            </div>
+            <div class="product-card card animate zoom-in">
+                <img src="/img/product/tainghe/Tai-nghe-Apple-AirPods-Max.png" alt="Sony WH-1000XM5 Wireless Headphones" loading="lazy">
+                <h4>Sony WH-1000XM5</h4>
+                <p>Industry-leading noise cancellation, premium sound, and sleek design.</p>
+                <p class="price">Price: 7,200,000 VND</p>
+            </div>
+            <div class="product-card card animate zoom-in">
+                <img src="/img/product/chuot/Chuot-Gaming-Razer-Viper.png" alt="Razer Viper Gaming Mouse" loading="lazy">
+                <h4>Razer Viper Gaming Mouse</h4>
+                <p>Seamless connectivity and modern design for serious gamers.</p>
+                <p class="price">Price: 12,000,000 VND</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="team-section animate fade-up" role="region" aria-labelledby="team-heading">
+        <h2 id="team-heading"><i class="fas fa-user-friends"></i> Meet the Techshop Team</h2>
+        <div class="team-grid">
+            <div class="member-card card animate zoom-in">
+                <img src="/img/le_van_huy.png" alt="Portrait of Le Van Huy" loading="lazy">
+                <h4>Le Van Huy</h4>
+                <p>Founder & Lead Developer</p>
+                <p>Software expert and technology strategy leader.</p>
+            </div>
+            <div class="member-card card animate zoom-in">
+                <img src="/img/A_vi_trieu.jpg" alt="Portrait of A Vi Trieu" loading="lazy">
+                <h4>A Vi Trieu</h4>
+                <p>Founder & Developer</p>
+                <p>Tech enthusiast and co-leader in platform development.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="values-section animate fade-up" role="region" aria-labelledby="values-heading">
+        <h2 id="values-heading"><i class="fas fa-star"></i> Core Values</h2>
+        <div class="values-grid">
+            <div class="value-item card animate zoom-in">
+                <i class="fas fa-shield-alt"></i>
+                <h4>Integrity</h4>
+                <p>We promise genuine products and reliable service.</p>
+            </div>
+            <div class="value-item card animate zoom-in">
+                <i class="fas fa-heart"></i>
+                <h4>Dedication</h4>
+                <p>Customer-centric service with heartfelt support.</p>
+            </div>
+            <div class="value-item card animate zoom-in">
+                <i class="fas fa-lightbulb"></i>
+                <h4>Innovation</h4>
+                <p>Always evolving to deliver unique tech experiences.</p>
+            </div>
+            <div class="value-item card animate zoom-in">
+                <i class="fas fa-leaf"></i>
+                <h4>Sustainability</h4>
+                <p>We grow with the community through eco-friendly solutions.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="history-section animate fade-up" role="region" aria-labelledby="history-heading">
+        <h2 id="history-heading"><i class="fas fa-history"></i> Our Journey</h2>
+        <div class="timeline">
+            <div class="timeline-item animate fade-left">
+                <strong>2025</strong> – Techshop was founded by 5 passionate creators.
+            </div>
+            <div class="timeline-item animate fade-left">
+                <strong>2026</strong> – Expanded to online retail with a dedicated shopping app.
+            </div>
+            <div class="timeline-item animate fade-left">
+                <strong>2027</strong> – Integrated AI & Cloud for enhanced customer experience.
+            </div>
+            <div class="timeline-item animate fade-left">
+                <strong>2028</strong> – Nationwide support with modern offline stores.
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="philosophy-section animate fade-up" role="region" aria-labelledby="philosophy-heading">
+        <h2 id="philosophy-heading"><i class="fas fa-compass"></i> Our Philosophy</h2>
+        <p>“Always evolving – Always improving.” Techshop strives for excellence in every detail to deliver a premium, convenient shopping experience.</p>
+        <img src="/img/chamngon.png" alt="Techshop's work philosophy illustration" class="section-img" loading="lazy">
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="awards-section animate fade-up" role="region" aria-labelledby="awards-heading">
+        <h2 id="awards-heading"><i class="fas fa-trophy"></i> Awards & Certifications</h2>
+        <div class="awards-grid">
+            <div class="award-card card animate zoom-in">
+                <h4>🏆 Top 10 Creative Enterprises 2024</h4>
+                <p>Awarded by the Ministry of Science & Technology for contributions to digital transformation.</p>
+            </div>
+            <div class="award-card card animate zoom-in">
+                <h4>📜 ISO 9001:2015</h4>
+                <p>Certified international quality system – SGS 2023.</p>
+            </div>
+            <div class="award-card card animate zoom-in">
+                <h4>🥇 Young Tech Startup 2023</h4>
+                <p>First prize at Vietnam TechFest – Youth tech innovation.</p>
+            </div>
+            <div class="award-card card animate zoom-in">
+                <h4>💼 Google Cloud Partner</h4>
+                <p>Leading cloud solutions provider in Vietnam.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="customer-feedback-section animate fade-up" role="region" aria-labelledby="feedback-heading">
+        <h2 id="feedback-heading"><i class="fas fa-comments"></i> What Customers Say</h2>
+        <div class="feedback-grid">
+            <div class="feedback-card card animate zoom-in">
+                <p>“Very friendly support, fast delivery, and great product quality.”</p>
+                <strong>- Nguyen Minh Tam</strong>
+            </div>
+            <div class="feedback-card card animate zoom-in">
+                <p>“Techshop always offers the latest tech at great prices. I’m super satisfied.”</p>
+                <strong>- Tran Thi Hong</strong>
+            </div>
+            <div class="feedback-card card animate zoom-in">
+                <p>“Shopping at Techshop is easy. Their website is clean and product search is smooth.”</p>
+                <strong>- Le Van Hoang</strong>
+            </div>
+            <div class="feedback-card card animate zoom-in">
+                <p>“Wide product range, high quality, and excellent, enthusiastic staff.”</p>
+                <strong>- Pham Thi Lan</strong>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section class="contact-section animate fade-up" role="region" aria-labelledby="contact-heading">
+        <h2 id="contact-heading"><i class="fas fa-envelope"></i> Connect with Us</h2>
+        <p>Always ready to support you on your tech journey. Techshop is here to help, anytime.</p>
+        <a href="https://www.facebook.com/huylv.2k3" class="btn-connect">Contact Techshop</a>
+    </section>
+</main>
+
+
+  <!-- footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="/img/logo.png" alt="Techshop Logo">
+        <h3>TECHSHOP</h3>
+        <p>The World of Technology & Esports</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="/html/home.html">Home</a></li>
+          <li><a href="/html/shop.html">Store</a></li>
+          <li><a href="/html/tournament.html">Tournament</a></li>
+          <li><a href="https://www.facebook.com/huylv.2k3">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact Information</h4>
+        <p><i class="fas fa-phone"></i>(+84) 0896 492 400</p>
+        <p><i class="fas fa-envelope"></i> levanhuy06042003@gmail.com</p>
+        <p><i class="fas fa-map-marker-alt"></i> 99 To Hien Thanh, Son Tra, Da Nang</p>
+      </div>
+      <div class="footer-social">
+        <h4>Follow Us</h4>
+        <a href="https://www.facebook.com/huylv.2k3"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.instagram.com/levanhuy06042003/"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 TECHSHOP. All rights reserved.</p>
+    </div>
+  </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, index * 100);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.animate').forEach((element) => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>

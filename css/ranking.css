@@ -1,0 +1,73 @@
+/* CSS for Team Rankings Section */
+.rankings-section {
+    background-color: #1a1a1d; /* Match your theme's background */
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    color: #f0f0f0;
+}
+
+.rankings-section h2 {
+    margin: 0 0 20px 0;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #444;
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+}
+
+.rankings-section h2 .fa-trophy {
+    margin-right: 10px;
+}
+
+.rankings-section .ranking-list-main {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.rankings-section .ranking-item-main {
+    display: flex;
+    align-items: center;
+    padding: 15px 10px;
+    background-color: #2a2a2e;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.rankings-section .ranking-item-main:hover {
+    background-color: #1dc9cf;
+    transform: translateY(-2px);
+}
+
+.rankings-section .rank {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #c5c5c5;
+    width: 40px;
+    text-align: center;
+}
+
+.rankings-section .team-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    margin: 0 15px;
+}
+
+.rankings-section .team-name {
+    font-size: 1.1em;
+    font-weight: 600;
+    flex-grow: 1; /* Pushes game name to the right */
+}
+
+.rankings-section .team-game {
+    font-size: 0.9em;
+    color: #999;
+    font-style: italic;
+    padding: 4px 8px;
+    background-color: #1a1a1d;
+    border-radius: 4px;
+}

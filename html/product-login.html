@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/css/product.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+      <link rel="stylesheet" href="/css/style.css">
+      <script src="/js/product.js"></script>
+</head>
+<body >
+<header class="techshop-header">
+  <a href="/html/home.html" class="techshop-header__logo">
+    <img src="/img/logo.png" alt="Techshop Logo">
+    <span>TECHSHOP</span>
+  </a>
+
+  <nav class="techshop-header__navbar">
+    <a href="/html/home-login.html" >Home</a>
+    <a href="/html/shop-login.html" class="active">Shop</a>
+    <a href="/html/tournament-login.html">Tournament</a>
+    <a href="/html/about-login.html">About</a>
+    <a href="https://www.facebook.com/huylv.2k3">Contact</a>
+  </nav>
+
+  <div class="techshop-header__right">
+    <div class="techshop-header__search-bar">
+        <input type="text" placeholder="Search products...">
+        <button><i class="fas fa-search"></i></button>
+    </div>
+
+    <a href="/html/cart.html" class="techshop-header__cart-icon"><i class="fas fa-shopping-cart"></i></a>
+
+    <div class="techshop-header__notification">
+        <i class="fas fa-bell"></i>
+        <span class="techshop-header__badge">3</span>
+    </div>
+
+    <div class="techshop-header__user-dropdown">
+        <input type="checkbox" id="toggle-dropdown-techshop">
+        <label for="toggle-dropdown-techshop" class="techshop-header__avatar-wrapper">
+            <img src="/img/le_van_huy.png" alt="User Avatar" class="techshop-header__avatar-img">
+        </label>
+
+        <div class="techshop-header__dropdown-menu">
+            <a href="#">Profile</a>
+            <a href="#">Settings</a>
+            <a href="/html/home.html">Logout</a>
+        </div>
+    </div>
+  </div>
+</header>
+ <div class="container">
+  <div class="sidebar">
+    <div class="search-box">
+      <input type="text" placeholder="Search products...">
+      <button>🔍</button>
+    </div>
+    <h4>Categories</h4>
+    <ul class="category-list">
+      <li class="category-item has-mega">
+        Laptop <i class="fas fa-chevron-right arrow"></i>
+        <div class="mega-menu">
+          <div class="menu-column">
+            <h4>Brand</h4>
+            <ul>
+              <li><a href="/html/product.html">ASUS</a></li>
+              <li>Mac</li>
+              <li>Lenovo</li>
+              <li>Dell</li>
+              <li>HP</li>
+              <li>Acer</li>
+              <li>LG</li>
+              <li>Huawei</li>
+              <li>MSI</li>
+              <li>Gigabyte</li>
+              <li>Vaio</li>
+              <li>Masstel</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4>Price Range</h4>
+            <ul>
+              <li>Under 10 million VND</li>
+              <li>10 - 15 million VND</li>
+              <li>15 - 20 million VND</li>
+              <li>20 - 25 million VND</li>
+              <li>25 - 30 million VND</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4>Usage Needs</h4>
+            <ul>
+              <li>Office</li>
+              <li>Gaming</li>
+              <li>Thin & Light</li>
+              <li>Graphics – Engineering</li>
+              <li>Student</li>
+              <li>Touchscreen</li>
+              <li><span class="badge new">New</span> AI Laptop</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4>Chip Series</h4>
+            <ul>
+              <li>Core i3</li>
+              <li>Core i5</li>
+              <li>Core i7</li>
+              <li>Core i9</li>
+              <li>Apple M1</li>
+              <li><span class="badge new">New</span> Apple M4</li>
+              <li><span class="badge hot">HOT</span> Intel Core Ultra</li>
+              <li>AMD Ryzen</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4>Screen Size</h4>
+            <ul>
+              <li>12″</li>
+              <li>13″</li>
+              <li>14″</li>
+              <li>15.6″</li>
+              <li>16″</li>
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li class="category-item has-mega">
+        PC <i class="fas fa-chevron-right arrow"></i>
+        <div class="mega-menu">
+          <div class="menu-column">
+            <h4>PC Brand</h4>
+            <ul>
+              <li>Dell</li>
+              <li>HP</li>
+              <li>Lenovo</li>
+              <li>Asus</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4>Price Range</h4>
+            <ul>
+              <li>Under 5 million VND</li>
+              <li>5 – 10 million VND</li>
+              <li>Over 10 million VND</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4>Components</h4>
+            <ul>
+              <li>Graphics Card</li>
+              <li>RAM</li>
+              <li>SSD</li>
+              <li>Motherboard</li>
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li class="category-item has-mega">
+        Mouse <i class="fas fa-chevron-right arrow"></i>
+        <div class="mega-menu">
+          <div class="menu-column">
+            <h4>Mouse Type</h4>
+            <ul>
+              <li>Wired</li>
+              <li>Wireless</li>
+              <li>Bluetooth</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4>Brand</h4>
+            <ul>
+              <li>Logitech</li>
+              <li>Razer</li>
+              <li>SteelSeries</li>
+              <li>Microsoft</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4>Price</h4>
+            <ul>
+              <li>Under 500k VND</li>
+              <li>500k – 1 million VND</li>
+              <li>Over 1 million VND</li>
+            </ul>
+          </div>
+        </div>
+      </li>
+
+      <li class="category-item has-mega">
+        Keyboard <i class="fas fa-chevron-right arrow"></i>
+        <div class="mega-menu">
+          <div class="menu-column">
+            <h4>Connection Type</h4>
+            <ul>
+              <li>Wired</li>
+              <li>Wireless</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4>Switch Type</h4>
+            <ul>
+              <li>Cherry MX</li>
+              <li>Romer-G</li>
+              <li>Optical</li>
+              <li>Membrane</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4>Brand</h4>
+            <ul>
+              <li>Logitech</li>
+              <li>Ducky</li>
+              <li>Keychron</li>
+              <li>Razer</li>
+            </ul>
+          </div>
+        </div>
+      </li>
+
+      <li class="category-item has-mega">
+        Headphones <i class="fas fa-chevron-right arrow"></i>
+        <div class="mega-menu">
+          <div class="menu-column">
+            <h4>Style</h4>
+            <ul>
+              <li>Over-ear</li>
+              <li>In-ear</li>
+              <li>Bone-conduction</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4>Technology</h4>
+            <ul>
+              <li>ANC (Noise Cancelling)</li>
+              <li>Bluetooth 5.0</li>
+              <li>Wired</li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4>Brand</h4>
+            <ul>
+              <li>Sony</li>
+              <li>JBL</li>
+              <li>Logitech</li>
+              <li>HyperX</li>
+            </ul>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <h4>Filter by Brand</h4>
+    <label><input type="checkbox"> ASUS</label><br>
+    <label><input type="checkbox"> Acer</label><br>
+    <label><input type="checkbox"> Dell</label><br>
+    <label><input type="checkbox"> Razer</label><br>
+    <div class="brand-logos">
+      <h4>Featured Brands</h4>
+      <div class="logo-list">
+        <a class="brand asus" href="#"><img src="/img/banner/asus.jpg" alt="Asus" /></a>
+        <a class="brand acer" href="#"><img src="/img/banner/acer.jpg" alt="Acer" /></a>
+        <a class="brand dell" href="#"><img src="/img/banner/dell.png" alt="Dell" /></a>
+        <a class="brand razer" href="#"><img src="/img/banner/razer.webp" alt="Razer" /></a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="main">
+    <div class="top-bar">
+      <nav class="breadcrumb">
+  <ul>
+    <li><a href="/html/shop-login.html"><i class="fas fa-home"></i> Shop</a></li>
+    <li class="current"><a href="/html/product-login.html" >Laptop</a></li>
+  </ul>
+</nav>
+      <select>
+        <option>Sort by</option>
+        <option>Price: Low to High</option>
+        <option>Price: High to Low</option>
+        <option>Newest</option>
+      </select>
+    </div>
+    <div class="product-grid">
+     <div class="product-card">
+    <img src="/img/product/laptop/Laptop-ASUS-VivoBook-Go.png" alt="Laptop 1">
+    <h3>ASUS VivoBook Go Laptop</h3>
+    <p>16,990,000 VND</p>
+    <a href="/html/detailproduct-login.html"><button >Add to Cart</button></a>
+</div>
+
+      <div class="product-card">
+        <img src="/img/product/laptop/Laptop-ASUS-Gaming-VivoBook.png" alt="Laptop ASUS Gaming VivoBook">
+        <h3>ASUS Gaming VivoBook Laptop</h3>
+        <p>15,490,000 VND</p>
+        <button>Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="/img/product/laptop/Laptop-ASUS-VivoBook-S-16-OLED.png" alt="Laptop ASUS VivoBook S 16 OLED">
+        <h3>ASUS VivoBook S 16 OLED Laptop</h3>
+        <p>31,990,000 VND</p>
+        <button>Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="/img/product/laptop/Laptop-ASUS-Vivobook-14-OLED.png" alt="Laptop ASUS Vivobook 14 OLED">
+        <h3>ASUS Vivobook 14 OLED Laptop</h3>
+        <p>19,990,000 VND</p>
+        <button>Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="/img/product/laptop/Laptop-ASUS-TUF-Gaming-F15.webp" alt="Laptop ASUS TUF Gaming F15">
+        <h3>ASUS TUF Gaming F15 Laptop</h3>
+        <p>31,990,000 VND</p>
+        <button>Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="/img/product/laptop/Laptop-ASUS-Zenbook-14-Oled.webp" alt="Laptop ASUS Zenbook 14 Oled">
+        <h3>ASUS Zenbook 14 OLED Laptop</h3>
+        <p>31,990,000 VND</p>
+        <button>Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="/img/product/laptop/Laptop-ASUS-Expertbook.webp" alt="Laptop ASUS Expertbook">
+        <h3>ASUS Expertbook Laptop</h3>
+        <p>31,990,000 VND</p>
+        <button>Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="/img/product/laptop/Laptop-ASUS-ROG-Zephyrus-G16.webp" alt="Laptop ASUS ROG Zephyrus G16">
+        <h3>ASUS ROG Zephyrus G16 Laptop</h3>
+        <p>31,990,000 VND</p>
+        <button>Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="/img/product/laptop/Laptop-ASUS-ROG-Strix-G16.webp" alt="Laptop ASUS ROG Strix G16">
+        <h3>ASUS ROG Strix G16 Laptop</h3>
+        <p>31,990,000 VND</p>
+        <button>Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="/img/product/laptop/Laptop-ASUS-VivoBook-S-16-OLED.png" alt="Laptop ASUS TUF Gaming A17">
+        <h3>ASUS TUF Gaming A17 Laptop</h3>
+        <p>31,990,000 VND</p>
+        <button>Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="/img/product/laptop/Laptop-ASUS-VivoBook-S-16-OLED.png" alt="Laptop ASUS VivoBook S 16 OLED">
+        <h3>ASUS VivoBook S 16 OLED Laptop</h3>
+        <p>31,990,000 VND</p>
+        <button>Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="/img/product/laptop/Laptop-ASUS-VivoBook-S-16-OLED.png" alt="Laptop ASUS VivoBook S 16 OLED">
+        <h3>ASUS VivoBook S 16 OLED Laptop</h3>
+        <p>31,990,000 VND</p>
+        <button>Add to Cart</button>
+      </div>
+    </div>
+    <div class="pagination">
+      <button class="page-btn">1</button>
+      <button class="page-btn">2</button>
+      <button class="page-btn">3</button>
+      <button class="page-btn next">&gt;</button>
+    </div>
+
+  </div>
+</div>
+   <!-- footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="/img/logo.png" alt="Techshop Logo">
+        <h3>TECHSHOP</h3>
+        <p>The World of Technology & Esports</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="/html/home.html">Home</a></li>
+          <li><a href="/html/shop.html">Store</a></li>
+          <li><a href="/html/tournament.html">Tournament</a></li>
+          <li><a href="https://www.facebook.com/huylv.2k3">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact Information</h4>
+        <p><i class="fas fa-phone"></i>(+84) 0896 492 400</p>
+        <p><i class="fas fa-envelope"></i> levanhuy06042003@gmail.com</p>
+        <p><i class="fas fa-map-marker-alt"></i> 99 To Hien Thanh, Son Tra, Da Nang</p>
+      </div>
+      <div class="footer-social">
+        <h4>Follow Us</h4>
+        <a href="https://www.facebook.com/huylv.2k3"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.instagram.com/levanhuy06042003/"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 TECHSHOP. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

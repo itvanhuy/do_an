@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <script type="text/javascript">
+function suggest(){
+    alert('Đăng nhập thành công')
+}
+    </script>
+</head>
+<body>
+    <section>
+        <form action="">
+            <h1>Login</h1>
+            <div class="inputbox">
+                <i class="fas fa-envelope"></i>
+                <input type="email" name="email" placeholder=" " required>
+                <label for="">Email</label>
+               
+            </div>
+            <div class="inputbox">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" placeholder=" " required>
+                <label for="">Password</label>
+                
+            </div>
+            <div class="forget">
+                <label for=""><input type="checkbox">Remember Me</label>
+            <a href="/html/resetpassword.html">Foget Password</a>
+            </div>
+            <button><a href="/html/home-login.html" onclick="suggest()">Log in</a></button>
+            <div class="register">
+                <p>Don't have a account ? <a href="/html/register.html">Register</a></p>
+            </div>
+        </form>
+    </section>
+</body>
+</html>
