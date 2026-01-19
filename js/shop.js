@@ -4,10 +4,12 @@ document.addEventListener("DOMContentLoaded", function () {
   var track = document.querySelector(".carousel-track");
   // Tìm tất cả các nút chấm tròn dưới carousel
   var dots = document.querySelectorAll(".dot");
-  // Tìm tất cả các thẻ "card" (mỗi card là 1 slide)
-  var cards = document.querySelectorAll(".card");
+  // Tìm tất cả các slide (nhóm sản phẩm) thay vì thẻ card lẻ
+  var slides = document.querySelectorAll(".carousel-slide");
 
   var currentIndex = 0; // Đánh dấu đang ở slide số mấy (bắt đầu từ 0)
+
+  if (!track || slides.length === 0) return;
 
   // Hàm này dùng để chuyển đến slide số index
   function updateCarousel(index) {
@@ -20,7 +22,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Chỉ làm dot đang chọn sáng lên (chấm active)
-    dots[index].classList.add("active");
+    if (dots[index]) {
+      dots[index].classList.add("active");
+    }
   }
 
   // Khi người dùng bấm vào dot nào thì chuyển đến slide đó
@@ -33,27 +37,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Tự động chuyển slide mỗi 4 giây
   setInterval(function () {
-    currentIndex = (currentIndex + 1) % cards.length; // Tăng số, rồi quay lại 0 khi hết
+    currentIndex = (currentIndex + 1) % slides.length; // Tăng số, rồi quay lại 0 khi hết
     updateCarousel(currentIndex); // Chuyển slide
   }, 4000); // 4000 mili giây = 4 giây
 });
 
 
 
-// Đồng hồ đếm ngược 1 giờ
+// Đồng hồ đếm ngược Flash Sale (Kết thúc vào cuối ngày)
 document.addEventListener("DOMContentLoaded", function () {
-  // Lấy thời gian hiện tại + 1 giờ
-  var countdownDate = new Date().getTime() + 3600 * 1000;
+  // Thiết lập thời gian kết thúc là 23:59:59 của ngày hiện tại
+  var now = new Date();
+  var countdownDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59).getTime();
 
   // Lấy các phần hiển thị giờ, phút, giây trên trang
   var hoursEl = document.getElementById("hours");
   var minutesEl = document.getElementById("minutes");
   var secondsEl = document.getElementById("seconds");
 
+  if (!hoursEl || !minutesEl || !secondsEl) return;
+
   // Hàm cập nhật thời gian còn lại
   function updateCountdown() {
     var now = new Date().getTime(); // Lấy thời gian hiện tại
-    var distance = countdownDate - now; // Còn bao lâu nữa đến mốc 1 giờ
+    var distance = countdownDate - now; // Còn bao lâu nữa đến mốc thời gian
 
     // Nếu đã hết thời gian thì dừng lại
     if (distance < 0) {

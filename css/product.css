@@ -15,6 +15,7 @@
 /* Sidebar */
 .sidebar {
   width: 250px;
+  flex-shrink: 0;
   background-color: #ffffff;
   padding-left: 20px;
   border-radius: 12px;
@@ -25,7 +26,7 @@
 /* Search Box */
 .search-box {
   display: flex;
-   margin-right:13px;
+  margin-right: 13px;
   margin-bottom: 30px;
   border-radius: 10px;
   overflow: hidden;
@@ -38,6 +39,7 @@
   border: none;
   font-size: 15px;
   background-color: #f1f1f1;
+  width: 100%;
 }
 
 .search-box input:focus {
@@ -54,6 +56,7 @@
   justify-content: center;
   border: none;
   transition: 0.3s;
+  cursor: pointer;
 }
 
 .search-box button:hover {
@@ -86,6 +89,7 @@
   font-weight: 500;
   color: #444;
   transition: background-color .2s, color .2s;
+  cursor: pointer;
 }
 
 .category-list li:hover {
@@ -158,7 +162,7 @@ a {
   gap: 30px;
   z-index: 100;
   width: 700px;
-  height: 500px;
+  min-height: 400px;
 }
 .has-mega:hover .mega-menu,
 .has-mega .mega-menu:hover {
@@ -197,14 +201,6 @@ a {
   color: #00aaff;
 }
 /* logobanner */
-.sidebar {
-  width: 280px; /* chỉnh kích thước sidebar nếu cần */
-  padding-top: 16px;
-  background-color: #f9f9f9; /* nền sáng nhẹ */
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  color: #333;
-}
 
 .brand-logos {
   margin-top: 24px;
@@ -259,12 +255,14 @@ a {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px; /* nhỏ hơn */
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 /* Product Grid */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* nhỏ hơn 250px */
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 25px; /* giảm khoảng cách */
   padding: 10px; /* giảm padding */
 }
@@ -279,6 +277,10 @@ a {
   text-align: center;
   font-size: 0.9rem; /* giảm font */
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .product-card:hover {
@@ -288,13 +290,16 @@ a {
 
 .product-card img {
   width: 100%;
-  height: auto;
+  height: 200px;
+  object-fit: contain;
+  padding: 15px;
 }
 
 .product-card h3 {
   font-size: 1rem; /* nhỏ hơn */
   padding: 10px 0 4px;
   color: #333;
+  margin: 0;
 }
 
 .product-card p {
@@ -310,7 +315,7 @@ a {
   color: #fff;
   border: none;
   padding: 8px 18px; /* nhỏ hơn */
-  margin-bottom: 10px;
+  margin: 0 15px 15px;
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.3s ease;
@@ -348,3 +353,21 @@ a {
   padding: 8px 12px;
 }
 
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        padding-left: 0;
+    }
+    
+    .mega-menu {
+        display: none !important; /* Disable mega menu on mobile */
+    }
+    
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+}
