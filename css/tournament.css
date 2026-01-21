@@ -398,6 +398,7 @@
     0% { opacity: 1; }
     50% { opacity: 0.6; }
     100% { opacity: 1; }
+<<<<<<< HEAD
 }
 
 /* Right Sidebar Specifics */
@@ -593,4 +594,6 @@
     font-weight: 700;
     letter-spacing: 1px;
     border: 1px solid rgba(169, 112, 255, 0.2);
+=======
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 }

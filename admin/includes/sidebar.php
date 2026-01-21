@@ -90,6 +90,7 @@ $sb_orders_count = $db->query("SELECT COUNT(*) as total FROM orders WHERE status
             
             <li class="menu-header">TOURNAMENT</li>
             
+<<<<<<< HEAD
             <li class="<?php echo $current_page == 'tournaments.php' ? 'active' : ''; ?>">
                 <a href="tournaments.php">
                     <i class="fas fa-gamepad"></i>
@@ -101,6 +102,12 @@ $sb_orders_count = $db->query("SELECT COUNT(*) as total FROM orders WHERE status
                 <a href="teams.php">
                     <i class="fas fa-users-cog"></i>
                     <span>Teams</span>
+=======
+            <li class="<?php echo $current_page == 'matches.php' ? 'active' : ''; ?>">
+                <a href="matches.php">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Matches</span>
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                 </a>
             </li>
             

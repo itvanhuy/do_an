@@ -15,6 +15,7 @@ $pendingOrdersCount = $stmt->fetch()['count'];
 $stmt = $db->query("SELECT COUNT(*) as count FROM products WHERE stock_quantity < 5");
 $lowStockCount = $stmt->fetch()['count'];
 
+<<<<<<< HEAD
 // Đếm đánh giá chờ duyệt (nếu có bảng reviews)
 $pendingReviewsCount = 0;
 try {
@@ -37,6 +38,9 @@ try {
 } catch (Exception $e) {}
 
 $totalNotifications = $pendingOrdersCount + $lowStockCount + $pendingReviewsCount + $newUsersCount + $pendingCommentsCount;
+=======
+$totalNotifications = $pendingOrdersCount + $lowStockCount;
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 
 // Lấy thông tin admin
 $adminUser = Auth::getUser();
@@ -76,10 +80,18 @@ $adminUser = Auth::getUser();
         <div class="header-icons">
             <div class="icon-item notification">
                 <i class="fas fa-bell"></i>
+<<<<<<< HEAD
                 <span class="badge" id="notification-badge" style="<?php echo $totalNotifications > 0 ? '' : 'display:none;'; ?>"><?php echo $totalNotifications; ?></span>
                 <div class="dropdown-notifications" id="notification-dropdown">
                     <h4>Notifications</h4>
                     <div id="notification-list">
+=======
+                <?php if ($totalNotifications > 0): ?>
+                    <span class="badge"><?php echo $totalNotifications; ?></span>
+                <?php endif; ?>
+                <div class="dropdown-notifications">
+                    <h4>Notifications</h4>
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                     <?php if ($pendingOrdersCount > 0): ?>
                         <div class="notification-item new">
                             <i class="fas fa-shopping-cart"></i>
@@ -98,6 +110,7 @@ $adminUser = Auth::getUser();
                             </div>
                         </div>
                     <?php endif; ?>
+<<<<<<< HEAD
                     <?php if ($pendingReviewsCount > 0): ?>
                         <div class="notification-item">
                             <i class="fas fa-star" style="color: #f1c40f;"></i>
@@ -129,6 +142,11 @@ $adminUser = Auth::getUser();
                         <div class="notification-item"><p>No new notifications</p></div>
                     <?php endif; ?>
                     </div>
+=======
+                    <?php if ($totalNotifications == 0): ?>
+                        <div class="notification-item"><p>No new notifications</p></div>
+                    <?php endif; ?>
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                 </div>
             </div>
             
@@ -151,6 +169,7 @@ $adminUser = Auth::getUser();
             </div>
         </div>
     </div>
+<<<<<<< HEAD
 </div>
 
 <script>
@@ -241,3 +260,6 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(updateNotifications, 10000);
 });
 </script>
+=======
+</div>
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695

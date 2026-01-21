@@ -139,7 +139,11 @@ $_SESSION['cart_count'] = $cart_count;
 document.addEventListener('DOMContentLoaded', function() {
     // Mobile menu toggle
     const menuToggle = document.querySelector('.menu-toggle');
+<<<<<<< HEAD
     const mobileMenu = document.querySelector('.navbar');
+=======
+    const mobileMenu = document.querySelector('.mobile-menu');
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
     
     if (menuToggle) {
         menuToggle.addEventListener('click', function() {

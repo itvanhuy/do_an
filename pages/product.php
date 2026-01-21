@@ -5,11 +5,15 @@ require_once '../includes/database.php';
 
 $db = Database::getInstance();
 
+<<<<<<< HEAD
 // ==========================================================================
 // 1. NHẬN THAM SỐ LỌC (FILTER PARAMETERS)
 // ==========================================================================
 
 // Lấy các tham số từ URL, gán giá trị mặc định nếu không có
+=======
+// Xử lý parameters từ URL
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 $category_id = isset($_GET['category_id']) ? intval($_GET['category_id']) : 1; // Mặc định là Laptop
 $brand = isset($_GET['brand']) ? $_GET['brand'] : '';
 $min_price = isset($_GET['min_price']) ? floatval($_GET['min_price']) : 0;
@@ -19,10 +23,14 @@ $chip = isset($_GET['chip']) ? $_GET['chip'] : '';
 $screen = isset($_GET['screen']) ? $_GET['screen'] : '';
 $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
 
+<<<<<<< HEAD
 // ==========================================================================
 // 2. XÂY DỰNG TRUY VẤN SẢN PHẨM (QUERY BUILDER)
 // ==========================================================================
 
+=======
+// Xây dựng query sản phẩm
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 $query = "SELECT p.*, c.name as category_name, c.parent_id as category_parent_id 
           FROM products p 
           LEFT JOIN categories c ON p.category_id = c.id 
@@ -30,7 +38,11 @@ $query = "SELECT p.*, c.name as category_name, c.parent_id as category_parent_id
 
 $params = [];
 
+<<<<<<< HEAD
 // --- Lọc theo Danh mục (Category) ---
+=======
+// Filter theo category (bao gồm cả sub-categories)
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 if ($category_id > 0) {
     // Lấy tất cả sub-categories của category này
     $subCategoryIds = [$category_id];
@@ -48,13 +60,21 @@ if ($category_id > 0) {
     }
 }
 
+<<<<<<< HEAD
 // --- Lọc theo Thương hiệu (Brand) ---
+=======
+// Filter theo brand
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 if (!empty($brand)) {
     $query .= " AND p.brand = ?";
     $params[] = $brand;
 }
 
+<<<<<<< HEAD
 // --- Lọc theo Khoảng giá (Price Range) ---
+=======
+// Filter theo price range
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 if ($min_price > 0) {
     $query .= " AND p.price >= ?";
     $params[] = $min_price;
@@ -64,28 +84,44 @@ if ($max_price > 0) {
     $params[] = $max_price;
 }
 
+<<<<<<< HEAD
 // --- Lọc theo Từ khóa (Tag/Name) ---
+=======
+// Filter theo tag
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 if (!empty($tag)) {
     $query .= " AND (p.name LIKE ? OR p.description LIKE ?)";
     $params[] = '%' . $tag . '%';
     $params[] = '%' . $tag . '%';
 }
 
+<<<<<<< HEAD
 // --- Lọc theo Chip (CPU) ---
+=======
+// Filter theo chip
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 if (!empty($chip)) {
     $query .= " AND (p.name LIKE ? OR p.description LIKE ?)";
     $params[] = '%' . $chip . '%';
     $params[] = '%' . $chip . '%';
 }
 
+<<<<<<< HEAD
 // --- Lọc theo Màn hình (Screen) ---
+=======
+// Filter theo screen size
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 if (!empty($screen)) {
     $query .= " AND (p.name LIKE ? OR p.description LIKE ?)";
     $params[] = '%' . $screen . '"%';
     $params[] = '%' . $screen . ' inch%';
 }
 
+<<<<<<< HEAD
 // --- Sắp xếp (Sorting) ---
+=======
+// Sắp xếp
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 switch ($sort) {
     case 'price_asc':
         $query .= " ORDER BY p.price ASC";
@@ -104,7 +140,11 @@ switch ($sort) {
         break;
 }
 
+<<<<<<< HEAD
 // --- Thực thi truy vấn ---
+=======
+// Thực thi query
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 $stmt = $db->prepare($query);
 foreach ($params as $index => $value) {
     $stmt->bindValue($index + 1, $value);
@@ -112,11 +152,15 @@ foreach ($params as $index => $value) {
 $stmt->execute();
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+<<<<<<< HEAD
 // ==========================================================================
 // 3. LẤY DỮ LIỆU BỔ TRỢ (SIDEBAR & BREADCRUMB)
 // ==========================================================================
 
 // Lấy thông tin category hiện tại để hiển thị tiêu đề/breadcrumb
+=======
+// Lấy thông tin category hiện tại
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 $category_query = "SELECT * FROM categories WHERE id = ?";
 $stmt = $db->prepare($category_query);
 $stmt->bindValue(1, $category_id);
@@ -132,6 +176,7 @@ if ($current_category && $current_category['parent_id']) {
     $parent_category = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+<<<<<<< HEAD
 // Lấy danh sách Category cha cho Sidebar
 $stmt = $db->query("SELECT * FROM categories WHERE status = 'active' AND (parent_id IS NULL OR parent_id = 0) ORDER BY name");
 $parentCategories = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -141,6 +186,17 @@ $stmt = $db->query("SELECT * FROM brands ORDER BY name ASC");
 $brands = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Lấy danh sách thương hiệu nổi bật (có logo) cho Sidebar
+=======
+// Lấy categories từ database - CHỈ LẤY CATEGORY CHA
+$stmt = $db->query("SELECT * FROM categories WHERE status = 'active' AND (parent_id IS NULL OR parent_id = 0) ORDER BY name");
+$parentCategories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Lấy danh sách tất cả thương hiệu từ bảng brands
+$stmt = $db->query("SELECT * FROM brands ORDER BY name ASC");
+$brands = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Lấy danh sách thương hiệu có logo để hiển thị ở sidebar (Featured Brands)
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 $stmt = $db->query("SELECT * FROM brands WHERE logo IS NOT NULL AND logo != '' ORDER BY RAND() LIMIT 4");
 $featuredBrands = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

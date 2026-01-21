@@ -5,10 +5,13 @@ require_once '../includes/config.php';
 require_once '../includes/auth.php';
 require_once '../includes/database.php';
 
+<<<<<<< HEAD
 // ==========================================================================
 // 1. KHỞI TẠO & AUTH
 // ==========================================================================
 
+=======
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 // Tự động đăng nhập nếu có remember token
 Auth::autoLogin();
 
@@ -16,6 +19,7 @@ Auth::autoLogin();
 $isLoggedIn = Auth::isLoggedIn();
 $username = $isLoggedIn ? $_SESSION['username'] : '';
 
+<<<<<<< HEAD
 $db = Database::getInstance();
 
 // ==========================================================================
@@ -31,6 +35,18 @@ $stmt = $db->query("SELECT * FROM products WHERE status = 'active' ORDER BY view
 $featuredProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // 2.3. Lấy giải đấu sắp tới gần nhất (Upcoming Tournament)
+=======
+// Lấy 3 bài viết mới nhất từ database
+$db = Database::getInstance();
+$stmt = $db->query("SELECT * FROM posts WHERE status = 'published' ORDER BY created_at DESC LIMIT 3");
+$latestNews = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Lấy 3 sản phẩm nổi bật (ví dụ: mới nhất hoặc xem nhiều nhất)
+$stmt = $db->query("SELECT * FROM products WHERE status = 'active' ORDER BY views DESC LIMIT 3");
+$featuredProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Lấy giải đấu sắp tới gần nhất
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 $stmt = $db->query("SELECT * FROM matches WHERE status = 'upcoming' ORDER BY match_time ASC LIMIT 1");
 $upcomingMatch = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
@@ -175,6 +191,7 @@ $upcomingMatch = $stmt->fetch(PDO::FETCH_ASSOC);
                    alt="<?php echo htmlspecialchars($product['name']); ?>"
                    onerror="this.src='../img/product/default.jpg'">
               <h3><?php echo htmlspecialchars(mb_strimwidth($product['name'], 0, 25, '...')); ?></h3>
+<<<<<<< HEAD
               <?php if (($product['discount'] ?? 0) > 0): ?>
                   <p style="margin-bottom: 10px;">
                       <span style="text-decoration: line-through; color: #999; font-size: 0.9em; margin-right: 5px;"><?php echo number_format($product['price'], 0, ',', '.'); ?> VND</span>
@@ -183,6 +200,9 @@ $upcomingMatch = $stmt->fetch(PDO::FETCH_ASSOC);
               <?php else: ?>
                   <p style="color: #e63946; font-weight: bold; margin-bottom: 10px;"><?php echo number_format($product['price'], 0, ',', '.'); ?> VND</p>
               <?php endif; ?>
+=======
+              <p style="color: #e63946; font-weight: bold; margin-bottom: 10px;"><?php echo number_format($product['price'], 0, ',', '.'); ?> VND</p>
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
               <a href="product-detail.php?id=<?php echo $product['id']; ?>"><button>Buy Now</button></a>
             </div>
         <?php endforeach; ?>

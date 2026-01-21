@@ -7,16 +7,24 @@ require_once '../includes/database.php';
 Auth::autoLogin();
 $db = Database::getInstance();
 
+<<<<<<< HEAD
 // ==========================================================================
 // 1. LẤY SẢN PHẨM NỔI BẬT (FEATURED)
 // ==========================================================================
+=======
+// Lấy sản phẩm Featured (giả sử là sản phẩm giá cao hoặc có flag featured)
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 $featuredSql = "SELECT * FROM products WHERE status = 'active' ORDER BY price DESC LIMIT 9";
 $featuredStmt = $db->query($featuredSql);
 $featuredProducts = $featuredStmt->fetchAll(PDO::FETCH_ASSOC);
 
+<<<<<<< HEAD
 // ==========================================================================
 // 2. LẤY SẢN PHẨM FLASH SALE (Có giảm giá)
 // ==========================================================================
+=======
+// Lấy sản phẩm Flash Sale (giảm giá > 0)
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 $fsSql = "SELECT * FROM products WHERE discount > 0 AND status = 'active' ORDER BY discount DESC LIMIT 4";
 $fsStmt = $db->query($fsSql);
 $fsProducts = $fsStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -28,13 +36,18 @@ if (empty($fsProducts)) {
     $fsProducts = $fsStmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+<<<<<<< HEAD
 // ==========================================================================
 // 3. LẤY GỢI Ý HÔM NAY (RECOMMENDATIONS)
 // ==========================================================================
+=======
+// Lấy sản phẩm Recommendation (ngẫu nhiên)
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 $recSql = "SELECT * FROM products WHERE status = 'active' ORDER BY RAND() LIMIT 12";
 $recStmt = $db->query($recSql);
 $recProducts = $recStmt->fetchAll(PDO::FETCH_ASSOC);
 
+<<<<<<< HEAD
 // ==========================================================================
 // 4. LẤY DANH MỤC & THƯƠNG HIỆU (SIDEBAR)
 // ==========================================================================
@@ -44,6 +57,13 @@ $stmt = $db->query("SELECT * FROM categories WHERE status = 'active' AND (parent
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Thương hiệu
+=======
+// Lấy danh mục sản phẩm (Chỉ lấy danh mục cha)
+$stmt = $db->query("SELECT * FROM categories WHERE status = 'active' AND (parent_id IS NULL OR parent_id = 0) ORDER BY name");
+$categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Lấy danh sách Brands từ database
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 $stmt = $db->query("SELECT * FROM brands ORDER BY name ASC");
 $brands = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -112,6 +132,7 @@ $brands = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <a href="product-detail.php?id=<?php echo $p['id']; ?>" style="text-decoration:none;">
                                             <h4><?php echo htmlspecialchars(mb_strimwidth($p['name'], 0, 40, '...')); ?></h4>
                                         </a>
+<<<<<<< HEAD
                                         <?php if (($p['discount'] ?? 0) > 0): ?>
                                             <p class="price">
                                                 <span style="text-decoration: line-through; color: #999; font-size: 0.9em; margin-right: 5px;"><?php echo number_format($p['price'], 0, ',', '.'); ?>₫</span>
@@ -120,6 +141,9 @@ $brands = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <?php else: ?>
                                             <p class="price"><?php echo number_format($p['price'], 0, ',', '.'); ?>₫</p>
                                         <?php endif; ?>
+=======
+                                        <p class="price"><?php echo number_format($p['price'], 0, ',', '.'); ?>₫</p>
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                                         <button class="buy-button" onclick="addToCart(<?php echo $p['id']; ?>)">
                                             <i class="fas fa-cart-plus"></i> Add to Cart
                                         </button>
@@ -162,10 +186,14 @@ $brands = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <img src="../img/product/<?php echo htmlspecialchars($p['image']); ?>" alt="<?php echo htmlspecialchars($p['name']); ?>" onerror="this.src='../img/product/default.jpg'">
                         <div class="fs-card__content">
                             <h4><?php echo htmlspecialchars(mb_strimwidth($p['name'], 0, 30, '...')); ?></h4>
+<<<<<<< HEAD
                             <p class="fs-price">
                                 <span style="text-decoration: line-through; color: #999; font-size: 0.8em; display: block;"><?php echo number_format($p['price'], 0, ',', '.'); ?> VND</span>
                                 <span style="color: #e60023; font-weight: bold;"><?php echo number_format($p['price'] * (1 - ($p['discount'] ?? 0)/100), 0, ',', '.'); ?> VND</span>
                             </p>
+=======
+                            <p class="fs-price"><?php echo number_format($p['price'] * (1 - ($p['discount'] ?? 0)/100), 0, ',', '.'); ?> VND</p>
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                         </div>
                     </div>
                     <?php endforeach; ?>
@@ -188,6 +216,7 @@ $brands = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <div class="item-card" onclick="window.location.href='product-detail.php?id=<?php echo $p['id']; ?>'">
                             <img src="../img/product/<?php echo htmlspecialchars($p['image']); ?>" alt="<?php echo htmlspecialchars($p['name']); ?>" onerror="this.src='../img/product/default.jpg'">
                             <p class="item-name"><?php echo htmlspecialchars(mb_strimwidth($p['name'], 0, 40, '...')); ?></p>
+<<<<<<< HEAD
                             <?php if (($p['discount'] ?? 0) > 0): ?>
                                 <p class="product-price">
                                     <span style="text-decoration: line-through; color: #999; font-size: 0.8em; margin-right: 5px;"><?php echo number_format($p['price'], 0, ',', '.'); ?>₫</span>
@@ -196,6 +225,9 @@ $brands = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <?php else: ?>
                                 <p class="product-price" style="color:#e63946;"><?php echo number_format($p['price'], 0, ',', '.'); ?>₫</p>
                             <?php endif; ?>
+=======
+                            <p class="product-price" style="color:#e63946;"><?php echo number_format($p['price'], 0, ',', '.'); ?>₫</p>
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                         </div>
                         <?php endforeach; ?>
                     </div>
@@ -212,6 +244,7 @@ $brands = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="item-card" onclick="window.location.href='product-detail.php?id=<?php echo $p['id']; ?>'">
                         <img src="../img/product/<?php echo htmlspecialchars($p['image']); ?>" alt="<?php echo htmlspecialchars($p['name']); ?>" onerror="this.src='../img/product/default.jpg'">
                         <p class="item-name"><?php echo htmlspecialchars(mb_strimwidth($p['name'], 0, 40, '...')); ?></p>
+<<<<<<< HEAD
                         <?php if (($p['discount'] ?? 0) > 0): ?>
                             <p class="item-price">
                                 <span style="text-decoration: line-through; color: #999; font-size: 0.8em; margin-right: 5px;"><?php echo number_format($p['price'], 0, ',', '.'); ?>₫</span>
@@ -220,6 +253,9 @@ $brands = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php else: ?>
                             <p class="item-price"><?php echo number_format($p['price'], 0, ',', '.'); ?>₫</p>
                         <?php endif; ?>
+=======
+                        <p class="item-price"><?php echo number_format($p['price'], 0, ',', '.'); ?>₫</p>
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                     </div>
                     <?php endforeach; ?>
                 </div>

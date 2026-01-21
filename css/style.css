@@ -62,6 +62,7 @@ button, .btn {
 .animate {
     animation: fadeIn 0.5s ease-in-out;
 }
+<<<<<<< HEAD
 
 /* ===== RESPONSIVE STYLES (MOBILE) ===== */
 @media (max-width: 768px) {
@@ -160,3 +161,5 @@ button, .btn {
         display: flex !important;
     }
 }
+=======
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695

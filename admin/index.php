@@ -126,7 +126,11 @@ try {
                         <i class="fas fa-money-bill-wave"></i>
                     </div>
                     <div class="card-info">
+<<<<<<< HEAD
                         <h3><?php echo number_format($monthlyRevenue, 0, ',', '.'); ?> VNĐ</h3>
+=======
+                        <h3>$<?php echo number_format($monthlyRevenue, 2); ?></h3>
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                         <p>Monthly Revenue</p>
                     </div>
                 </div>
@@ -157,7 +161,11 @@ try {
                                 <tr>
                                     <td>#<?php echo $order['id']; ?></td>
                                     <td><?php echo htmlspecialchars($order['username']); ?></td>
+<<<<<<< HEAD
                                     <td><?php echo number_format($order['total'], 0, ',', '.'); ?> VNĐ</td>
+=======
+                                    <td>$<?php echo number_format($order['total'], 2); ?></td>
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                                     <td>
                                         <span class="status-badge status-<?php echo $order['status']; ?>">
                                             <?php echo ucfirst($order['status']); ?>
@@ -183,7 +191,11 @@ try {
                             <p><?php echo number_format($product['sold']); ?> sold</p>
                         </div>
                         <div class="product-revenue">
+<<<<<<< HEAD
                             <h4><?php echo number_format($product['price'] * $product['sold'], 0, ',', '.'); ?> VNĐ</h4>
+=======
+                            <h4>$<?php echo number_format($product['price'] * $product['sold'], 2); ?></h4>
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                         </div>
                     </div>
                     <?php endforeach; ?>
@@ -200,7 +212,11 @@ try {
         data: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
             datasets: [{
+<<<<<<< HEAD
                 label: 'Sales (VNĐ)',
+=======
+                label: 'Sales ($)',
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                 data: [12000, 19000, 15000, 25000, 22000, 30000, 28000],
                 borderColor: '#4CAF50',
                 backgroundColor: 'rgba(76, 175, 80, 0.1)',
@@ -221,7 +237,11 @@ try {
                     beginAtZero: true,
                     ticks: {
                         callback: function(value) {
+<<<<<<< HEAD
                             return value.toLocaleString() + ' VNĐ';
+=======
+                            return '$' + value.toLocaleString();
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                         }
                     }
                 }

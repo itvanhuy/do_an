@@ -53,7 +53,11 @@ Auth::autoLogin();
         <h2 id="story-heading"><i class="fas fa-book-open"></i> Our Story</h2>
         <p>Founded by a group of young tech enthusiasts, Techshop has continuously evolved through every project and product. We’ve overcome challenges to build a trusted brand and deliver real value to our customers.</p>
         <p>At Techshop, technology is not just about products — it's a bridge that connects people and enhances daily life.</p>
+<<<<<<< HEAD
         <img src="../img/congty.jpg" alt="Founding team of Techshop" class="section-img" loading="lazy" style="display: block; margin: 0 auto;">
+=======
+        <img src="../img/congty.jpg" alt="Founding team of Techshop" class="section-img" loading="lazy">
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
     </section>
 
     <div class="section-divider"></div>
@@ -106,13 +110,21 @@ Auth::autoLogin();
         <h2 id="team-heading"><i class="fas fa-user-friends"></i> Meet the Techshop Team</h2>
         <div class="team-grid">
             <div class="member-card card animate zoom-in">
+<<<<<<< HEAD
                 <img src="../img/le_van_huy.png" alt="Portrait of Le Van Huy" loading="lazy" style="display: block; margin: 0 auto;">
+=======
+                <img src="../img/le_van_huy.png" alt="Portrait of Le Van Huy" loading="lazy">
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                 <h4>Le Van Huy</h4>
                 <p>CEO & Founder & Lead Developer</p>
                 <p>Software expert and technology strategy leader.</p>
             </div>
             <div class="member-card card animate zoom-in">
+<<<<<<< HEAD
                 <img src="../img/A_vi_trieu.jpg" alt="Portrait of A Vi Trieu" loading="lazy" style="display: block; margin: 0 auto;">
+=======
+                <img src="../img/A_vi_trieu.jpg" alt="Portrait of A Vi Trieu" loading="lazy">
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                 <h4>A Vi Trieu</h4>
                 <p>Founder & Developer</p>
                 <p>Tech enthusiast and co-leader in platform development.</p>
@@ -185,7 +197,11 @@ Auth::autoLogin();
     <section class="philosophy-section animate fade-up" role="region" aria-labelledby="philosophy-heading">
         <h2 id="philosophy-heading"><i class="fas fa-compass"></i> Our Philosophy</h2>
         <p>“Always evolving – Always improving.” Techshop strives for excellence in every detail to deliver a premium, convenient shopping experience.</p>
+<<<<<<< HEAD
         <img src="../img/chamngon.png" alt="Techshop's work philosophy illustration" class="section-img" loading="lazy" style="display: block; margin: 0 auto;">
+=======
+        <img src="../img/chamngon.png" alt="Techshop's work philosophy illustration" class="section-img" loading="lazy">
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
     </section>
 
     <div class="section-divider"></div>

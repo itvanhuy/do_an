@@ -11,11 +11,14 @@ $db = Database::getInstance();
 $action = $_GET['action'] ?? 'list';
 $message = '';
 
+<<<<<<< HEAD
 // Cập nhật thêm cột post_type cho bảng posts nếu chưa có
 try {
     $db->exec("ALTER TABLE posts ADD COLUMN post_type ENUM('news', 'tournament') DEFAULT 'news' AFTER status");
 } catch (Exception $e) {}
 
+=======
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 // Hàm upload ảnh bài viết
 function uploadPostImage($fileInputName) {
     if (!isset($_FILES[$fileInputName]) || $_FILES[$fileInputName]['error'] === UPLOAD_ERR_NO_FILE) {
@@ -54,18 +57,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['excerpt'],
                 $_POST['content'],
                 $image,
+<<<<<<< HEAD
                 $_POST['status'],
                 $_POST['post_type'] ?? 'news'
+=======
+                $_POST['status']
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
             ];
 
             if ($action == 'add') {
                 $data[] = $_SESSION['user_id'] ?? 1; // Author ID
+<<<<<<< HEAD
                 $stmt = $db->prepare("INSERT INTO posts (title, excerpt, content, image, status, post_type, author_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+=======
+                $stmt = $db->prepare("INSERT INTO posts (title, excerpt, content, image, status, author_id) VALUES (?, ?, ?, ?, ?, ?)");
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                 $stmt->execute($data);
                 $message = '<div class="alert success">Post created successfully!</div>';
             } else {
                 $data[] = $_GET['id'];
+<<<<<<< HEAD
                 $stmt = $db->prepare("UPDATE posts SET title=?, excerpt=?, content=?, image=?, status=?, post_type=? WHERE id=?");
+=======
+                $stmt = $db->prepare("UPDATE posts SET title=?, excerpt=?, content=?, image=?, status=? WHERE id=?");
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                 $stmt->execute($data);
                 $message = '<div class="alert success">Post updated successfully!</div>';
             }
@@ -152,6 +167,7 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
 
                         <div class="form-group">
+<<<<<<< HEAD
                             <label>Post Type</label>
                             <select name="post_type">
                                 <option value="news" <?php echo ($post['post_type'] ?? '') == 'news' ? 'selected' : ''; ?>>General / Product News</option>
@@ -160,6 +176,8 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
 
                         <div class="form-group">
+=======
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                             <label>Featured Image</label>
                             <input type="file" name="image">
                             <?php if (!empty($post['image'])): ?>
@@ -194,7 +212,10 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <th>ID</th>
                             <th>Image</th>
                             <th>Title</th>
+<<<<<<< HEAD
                             <th>Type</th>
+=======
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                             <th>Status</th>
                             <th>Views</th>
                             <th>Date</th>
@@ -216,6 +237,7 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <strong><?php echo htmlspecialchars($p['title']); ?></strong>
                             </td>
                             <td>
+<<<<<<< HEAD
                                 <?php if (($p['post_type'] ?? 'news') == 'tournament'): ?>
                                     <span class="badge" style="background: #a970ff;">Tournament</span>
                                 <?php else: ?>
@@ -223,6 +245,8 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <?php endif; ?>
                             </td>
                             <td>
+=======
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                                 <span class="status-badge status-<?php echo $p['status'] == 'published' ? 'active' : 'inactive'; ?>">
                                     <?php echo ucfirst($p['status']); ?>
                                 </span>

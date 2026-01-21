@@ -170,7 +170,11 @@ $stats = $stmt->fetch(PDO::FETCH_ASSOC);
                                 <?php echo $order['items_count']; ?> items
                                 <p class="small"><?php echo $order['total_quantity']; ?> units</p>
                             </td>
+<<<<<<< HEAD
                             <td class="price"><?php echo number_format($order['total'], 0, ',', '.'); ?> VNĐ</td>
+=======
+                            <td class="price">$<?php echo number_format($order['total'], 2); ?></td>
+>>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                             <td>
                                 <form method="POST" action="?action=update_status" class="status-form">
                                     <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
