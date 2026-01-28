@@ -5,7 +5,6 @@ require_once '../includes/config.php';
 require_once '../includes/auth.php';
 require_once '../includes/database.php';
 
-<<<<<<< HEAD
 // ==========================================================================
 // 1. KHỞI TẠO & KIỂM TRA ĐĂNG NHẬP
 // ==========================================================================
@@ -14,12 +13,6 @@ require_once '../includes/database.php';
 Auth::autoLogin();
 
 // Bắt buộc đăng nhập để thanh toán
-=======
-// Tự động đăng nhập nếu có remember token
-Auth::autoLogin();
-
-// Kiểm tra đăng nhập
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 if (!Auth::isLoggedIn()) {
     $_SESSION['redirect_url'] = $_SERVER['REQUEST_URI'];
     header('Location: ../login.php');
@@ -30,15 +23,11 @@ $userId = $_SESSION['user_id'];
 $db = Database::getInstance();
 $user = Auth::getUser();
 
-<<<<<<< HEAD
 // ==========================================================================
 // 2. LẤY DỮ LIỆU NGƯỜI DÙNG & GIỎ HÀNG
 // ==========================================================================
 
 // Lấy thông tin địa chỉ/sđt user để điền sẵn vào form
-=======
-// Lấy thông tin địa chỉ user để điền sẵn
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 $stmt = $db->prepare("SELECT address, phone, full_name FROM users WHERE id = ?");
 $stmt->execute([$userId]);
 $userInfo = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -50,11 +39,7 @@ $shippingFee = 30000; // Phí ship cố định
 $discountAmount = 0;
 $isBuyNow = false;
 
-<<<<<<< HEAD
 // --- TRƯỜNG HỢP 1: MUA NGAY (BUY NOW) ---
-=======
-// Kiểm tra xem là "Mua ngay" (Buy Now) hay "Thanh toán giỏ hàng"
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 if (isset($_GET['product_id']) && isset($_GET['quantity'])) {
     // --- TRƯỜNG HỢP MUA NGAY ---
     $isBuyNow = true;
@@ -78,14 +63,9 @@ if (isset($_GET['product_id']) && isset($_GET['quantity'])) {
             'total' => $itemTotal
         ];
     }
-<<<<<<< HEAD
 } 
 // --- TRƯỜNG HỢP 2: THANH TOÁN TỪ GIỎ HÀNG (CART) ---
 else {
-=======
-} else {
-    // --- TRƯỜNG HỢP THANH TOÁN GIỎ HÀNG ---
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
     $stmt = $db->prepare("
         SELECT c.product_id as id, p.name, p.price, p.image, c.quantity 
         FROM cart c 
@@ -115,13 +95,9 @@ if (empty($cartItems)) {
 
 $total = $subtotal + $shippingFee - $discountAmount;
 
-<<<<<<< HEAD
 // ==========================================================================
 // 3. XỬ LÝ ĐẶT HÀNG (POST REQUEST)
 // ==========================================================================
-=======
-// Xử lý đặt hàng (POST Request)
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $shippingAddress = trim($_POST['shipping_address'] ?? '');
     $phone = trim($_POST['phone'] ?? '');
@@ -134,23 +110,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $conn = $db->getConnection();
             $conn->beginTransaction();
             
-<<<<<<< HEAD
             // BƯỚC 1: Tạo đơn hàng trong bảng orders
             $stmt = $conn->prepare("INSERT INTO orders (user_id, total, shipping_address, payment_method, status, created_at) VALUES (?, ?, ?, ?, 'pending', NOW())");
-=======
-            // 1. Tạo đơn hàng
-            $stmt = $conn->prepare("INSERT INTO orders (user_id, total, shipping_address, payment_method, status, created_at) VALUES (?, ?, ?, ?, 'pending', NOW())");
-            // Lưu ý: Có thể lưu thêm phone vào bảng orders nếu cần, ở đây gộp vào address hoặc cần alter table
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
             $fullAddress = $shippingAddress . " (Phone: " . $phone . ")";
             $stmt->execute([$userId, $total, $fullAddress, $paymentMethod]);
             $orderId = $conn->lastInsertId();
             
-<<<<<<< HEAD
             // BƯỚC 2: Thêm chi tiết sản phẩm (order_items) & Trừ tồn kho
-=======
-            // 2. Thêm chi tiết đơn hàng & Trừ tồn kho
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
             $stmtItem = $conn->prepare("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)");
             $stmtStock = $conn->prepare("UPDATE products SET stock_quantity = stock_quantity - ? WHERE id = ?");
             
@@ -159,20 +125,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmtStock->execute([$item['quantity'], $item['id']]);
             }
             
-<<<<<<< HEAD
             // BƯỚC 3: Xóa giỏ hàng (nếu không phải mua ngay)
-=======
-            // 3. Xóa giỏ hàng (nếu không phải mua ngay)
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
             if (!$isBuyNow) {
                 $stmt = $conn->prepare("DELETE FROM cart WHERE user_id = ?");
                 $stmt->execute([$userId]);
                 
-<<<<<<< HEAD
                 // Xóa mã giảm giá đã dùng
-=======
-                // Xóa session giảm giá
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                 unset($_SESSION['discount_code']);
                 unset($_SESSION['discount_percent']);
                 unset($_SESSION['discount_amount']);
@@ -180,7 +138,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             $conn->commit();
             
-<<<<<<< HEAD
             // ==================================================================
             // BƯỚC 4: XỬ LÝ THANH TOÁN (VNPAY / COD)
             // ==================================================================
@@ -200,74 +157,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Chuyển hướng đến trang thành công
             header('Location: success.php?order_id=' . $orderId);
             exit();
-=======
-            // --- XỬ LÝ THANH TOÁN VNPAY ---
-            if ($paymentMethod == 'vnpay') {
-                require_once '../includes/vnpay_config.php';
-                
-                $vnp_TxnRef = $orderId; // Mã đơn hàng
-                $vnp_OrderInfo = 'Thanh toan don hang #' . $orderId;
-                $vnp_OrderType = 'billpayment';
-                $vnp_Amount = $total * 100; // VNPAY tính bằng đồng (nhân 100)
-                $vnp_Locale = 'vn';
-                $vnp_BankCode = ''; // Để trống để người dùng chọn ngân hàng
-                $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-                
-                $inputData = array(
-                    "vnp_Version" => "2.1.0",
-                    "vnp_TmnCode" => $vnp_TmnCode,
-                    "vnp_Amount" => $vnp_Amount,
-                    "vnp_Command" => "pay",
-                    "vnp_CreateDate" => date('YmdHis'),
-                    "vnp_CurrCode" => "VND",
-                    "vnp_IpAddr" => $vnp_IpAddr,
-                    "vnp_Locale" => $vnp_Locale,
-                    "vnp_OrderInfo" => $vnp_OrderInfo,
-                    "vnp_OrderType" => $vnp_OrderType,
-                    "vnp_ReturnUrl" => $vnp_Returnurl,
-                    "vnp_TxnRef" => $vnp_TxnRef,
-                    "vnp_ExpireDate" => $expire
-                );
-                
-                if (isset($vnp_BankCode) && $vnp_BankCode != "") {
-                    $inputData['vnp_BankCode'] = $vnp_BankCode;
-                }
-                
-                ksort($inputData);
-                $query = "";
-                $i = 0;
-                $hashdata = "";
-                foreach ($inputData as $key => $value) {
-                    if ($i == 1) {
-                        $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
-                    } else {
-                        $hashdata .= urlencode($key) . "=" . urlencode($value);
-                        $i = 1;
-                    }
-                    $query .= urlencode($key) . "=" . urlencode($value) . '&';
-                }
-                
-                $vnp_Url = $vnp_Url . "?" . $query;
-                if (isset($vnp_HashSecret)) {
-                    $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
-                    $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
-                }
-                
-                header('Location: ' . $vnp_Url);
-                exit();
-            } 
-            // --- KẾT THÚC VNPAY ---
-            else {
-                // Gửi email xác nhận đơn hàng (cho COD/Bank Transfer)
-                require_once '../includes/email_helper.php';
-                $userEmail = $user['email'];
-                $userName = $userInfo['full_name'] ?? $user['username'];
-                sendOrderConfirmationEmail($orderId, $userEmail, $userName, $total, $fullAddress, $cartItems);
-                
-                header('Location: success.php?order_id=' . $orderId);
-                exit();
-            }
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
             
         } catch (Exception $e) {
             $conn->rollBack();

@@ -15,7 +15,6 @@ $pendingOrdersCount = $stmt->fetch()['count'];
 $stmt = $db->query("SELECT COUNT(*) as count FROM products WHERE stock_quantity < 5");
 $lowStockCount = $stmt->fetch()['count'];
 
-<<<<<<< HEAD
 // Đếm đánh giá chờ duyệt (nếu có bảng reviews)
 $pendingReviewsCount = 0;
 try {
@@ -38,9 +37,6 @@ try {
 } catch (Exception $e) {}
 
 $totalNotifications = $pendingOrdersCount + $lowStockCount + $pendingReviewsCount + $newUsersCount + $pendingCommentsCount;
-=======
-$totalNotifications = $pendingOrdersCount + $lowStockCount;
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 
 // Lấy thông tin admin
 $adminUser = Auth::getUser();

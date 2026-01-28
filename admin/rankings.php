@@ -47,30 +47,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['team_name'],
                 $team_logo,
                 $_POST['game_type'],
-<<<<<<< HEAD
                 $_POST['tournament_name'] ?? 'General',
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                 $_POST['rank_position'],
                 $_POST['wins'] ?? 0,
                 $_POST['losses'] ?? 0
             ];
 
             if ($action == 'add') {
-<<<<<<< HEAD
                 $stmt = $db->prepare("INSERT INTO team_rankings (team_name, team_logo, game_type, tournament_name, rank_position, wins, losses) VALUES (?, ?, ?, ?, ?, ?, ?)");
-=======
-                $stmt = $db->prepare("INSERT INTO team_rankings (team_name, team_logo, game_type, rank_position, wins, losses) VALUES (?, ?, ?, ?, ?, ?)");
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                 $stmt->execute($data);
                 $message = '<div class="alert success">Ranking added successfully!</div>';
             } else {
                 $data[] = $_GET['id'];
-<<<<<<< HEAD
                 $stmt = $db->prepare("UPDATE team_rankings SET team_name=?, team_logo=?, game_type=?, tournament_name=?, rank_position=?, wins=?, losses=? WHERE id=?");
-=======
-                $stmt = $db->prepare("UPDATE team_rankings SET team_name=?, team_logo=?, game_type=?, rank_position=?, wins=?, losses=? WHERE id=?");
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                 $stmt->execute($data);
                 $message = '<div class="alert success">Ranking updated successfully!</div>';
             }
@@ -96,7 +85,6 @@ if ($action == 'edit' && isset($_GET['id'])) {
 }
 
 // Lấy danh sách rankings
-<<<<<<< HEAD
 try {
     $stmt = $db->query("SELECT * FROM team_rankings ORDER BY game_type ASC, tournament_name DESC, rank_position ASC");
     $rankings = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -104,10 +92,6 @@ try {
     $stmt = $db->query("SELECT * FROM team_rankings ORDER BY game_type ASC, rank_position ASC");
     $rankings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-=======
-$stmt = $db->query("SELECT * FROM team_rankings ORDER BY game_type ASC, rank_position ASC");
-$rankings = $stmt->fetchAll(PDO::FETCH_ASSOC);
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 ?>
 
 <!DOCTYPE html>
@@ -150,13 +134,10 @@ $rankings = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </select>
                         </div>
                         <div class="form-group">
-<<<<<<< HEAD
                             <label>Tournament Name</label>
                             <input type="text" name="tournament_name" value="<?php echo $ranking['tournament_name'] ?? 'General'; ?>" required placeholder="e.g. VCS Summer 2023">
                         </div>
                         <div class="form-group">
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                             <label>Rank Position</label>
                             <input type="number" name="rank_position" value="<?php echo $ranking['rank_position'] ?? ''; ?>" required>
                         </div>
@@ -193,10 +174,7 @@ $rankings = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <thead>
                         <tr>
                             <th>Game</th>
-<<<<<<< HEAD
                             <th>Tournament</th>
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                             <th>Rank</th>
                             <th>Team</th>
                             <th>Record (W-L)</th>
@@ -207,10 +185,7 @@ $rankings = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php foreach ($rankings as $r): ?>
                         <tr>
                             <td><span class="badge"><?php echo strtoupper($r['game_type']); ?></span></td>
-<<<<<<< HEAD
                             <td><?php echo htmlspecialchars($r['tournament_name'] ?? 'General'); ?></td>
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                             <td>#<?php echo $r['rank_position']; ?></td>
                             <td>
                                 <div style="display:flex; align-items:center; gap:10px;">

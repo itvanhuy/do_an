@@ -5,13 +5,10 @@ require_once '../includes/config.php';
 require_once '../includes/auth.php';
 require_once '../includes/database.php';
 
-<<<<<<< HEAD
 // ==========================================================================
 // 1. KHỞI TẠO & AUTH
 // ==========================================================================
 
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 // Tự động đăng nhập nếu có remember token
 Auth::autoLogin();
 
@@ -31,36 +28,24 @@ if (isset($_GET['id'])) {
     try {
         $db = Database::getInstance();
         
-<<<<<<< HEAD
         // ==================================================================
         // 2. LẤY THÔNG TIN SẢN PHẨM CHÍNH
         // ==================================================================
-=======
-        // Lấy thông tin sản phẩm
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
         $stmt = $db->prepare("SELECT p.*, c.name as category_name FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE p.id = ? AND p.status = 'active'");
         $stmt->execute([$productId]);
         $product = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if ($product) {
-<<<<<<< HEAD
             // ==============================================================
             // 3. LẤY SẢN PHẨM LIÊN QUAN (RELATED)
             // ==============================================================
-=======
-            // Lấy sản phẩm liên quan (cùng category)
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
             $stmt = $db->prepare("SELECT * FROM products WHERE category_id = ? AND id != ? AND status = 'active' LIMIT 4");
             $stmt->execute([$product['category_id'], $productId]);
             $relatedProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-<<<<<<< HEAD
             // ==============================================================
             // 4. LẤY ĐÁNH GIÁ (REVIEWS)
             // ==============================================================
-=======
-            // Lấy reviews đã được duyệt
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
             $stmt = $db->prepare("
                 SELECT r.*, u.full_name, u.username 
                 FROM reviews r 
@@ -71,24 +56,16 @@ if (isset($_GET['id'])) {
             $stmt->execute([$productId]);
             $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-<<<<<<< HEAD
             // Kiểm tra trạng thái Wishlist
-=======
-            // Check wishlist status if logged in
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
             if ($isLoggedIn) {
                 $stmt = $db->prepare("SELECT id FROM wishlist WHERE user_id = ? AND product_id = ?");
                 $stmt->execute([$_SESSION['user_id'], $productId]);
                 $isInWishlist = $stmt->fetch() ? true : false;
             }
 
-<<<<<<< HEAD
             // ==============================================================
             // 5. XỬ LÝ SẢN PHẨM ĐÃ XEM (RECENTLY VIEWED)
             // ==============================================================
-=======
-            // --- LOGIC SẢN PHẨM ĐÃ XEM (RECENTLY VIEWED) ---
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
             if (!isset($_SESSION['recently_viewed'])) {
                 $_SESSION['recently_viewed'] = [];
             }
@@ -129,10 +106,6 @@ if (isset($_GET['id'])) {
                     }
                 }
             }
-<<<<<<< HEAD
-=======
-            // --- KẾT THÚC LOGIC ---
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
         }
     } catch (Exception $e) {
         // Handle error
@@ -419,21 +392,16 @@ if (!$product) {
         <h2 class="section-title">🕒 Recently Viewed Products</h2>
         <div class="product-grid">
             <?php foreach ($recentProducts as $recent): ?>
-<<<<<<< HEAD
             <div class="product-card product-clickable" onclick="window.location.href='product-detail.php?id=<?php echo $recent['id']; ?>'" style="position: relative;">
                 <?php if (($recent['discount'] ?? 0) > 0): ?>
                     <div style="position: absolute; top: 10px; left: 10px; background: #e60023; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; z-index: 2;">-<?php echo $recent['discount']; ?>%</div>
                 <?php endif; ?>
                 
-=======
-            <div class="product-card product-clickable" onclick="window.location.href='product-detail.php?id=<?php echo $recent['id']; ?>'">
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                 <img src="../img/product/<?php echo htmlspecialchars($recent['image']); ?>" 
                      alt="<?php echo htmlspecialchars($recent['name']); ?>"
                      onerror="this.src='../img/product/default.jpg'">
                 <div class="product-info">
                     <h3><?php echo htmlspecialchars(mb_strimwidth($recent['name'], 0, 30, '...')); ?></h3>
-<<<<<<< HEAD
                     <div style="margin: 10px 0;">
                         <?php if (($recent['discount'] ?? 0) > 0): ?>
                             <span style="text-decoration: line-through; color: #999; font-size: 0.9em; margin-right: 5px;">
@@ -447,10 +415,6 @@ if (!$product) {
                         <?php endif; ?>
                     </div>
                     <button class="btn-primary" onclick="event.stopPropagation(); addToCart(<?php echo $recent['id']; ?>, 1)"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-=======
-                    <p class="price"><?php echo number_format($recent['price'], 0, ',', '.'); ?> VND</p>
-                    <button class="btn-primary" onclick="event.stopPropagation(); window.location.href='product-detail.php?id=<?php echo $recent['id']; ?>'">View Details</button>
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                 </div>
             </div>
             <?php endforeach; ?>
@@ -504,16 +468,11 @@ if (!$product) {
             document.getElementById('mainImage').src = img.src;
         }
 
-<<<<<<< HEAD
         function addToCart(productId, qty = null) {
             let quantity = qty;
             if (quantity === null) {
                 quantity = document.getElementById('quantity').value;
             }
-=======
-        function addToCart(productId) {
-            const quantity = document.getElementById('quantity').value;
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
             
             <?php if (!$isLoggedIn): ?>
                 alert('Please login to add items to cart.');

@@ -230,11 +230,7 @@ try {
                     beginAtZero: true,
                     ticks: {
                         callback: function(value) {
-<<<<<<< HEAD
                             return value.toLocaleString() + ' VNĐ';
-=======
-                            return '$' + value.toLocaleString();
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                         }
                     }
                 }

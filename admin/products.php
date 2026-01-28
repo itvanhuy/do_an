@@ -5,24 +5,17 @@ require_once '../includes/config.php';
 require_once '../includes/auth.php';
 require_once '../includes/database.php';
 
-<<<<<<< HEAD
 // ==========================================================================
 // 1. KHỞI TẠO & CẤU HÌNH DATABASE
 // ==========================================================================
 
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 Auth::requireAdmin();
 
 $db = Database::getInstance();
 $action = $_GET['action'] ?? 'list';
 $message = '';
 
-<<<<<<< HEAD
 // Tạo bảng product_images nếu chưa có (cho tính năng Gallery)
-=======
-// Tự động tạo bảng product_images nếu chưa tồn tại
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 try {
     $db->exec("CREATE TABLE IF NOT EXISTS product_images (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -33,7 +26,6 @@ try {
     )");
 } catch (PDOException $e) {}
 
-<<<<<<< HEAD
 // Cập nhật bảng products (thêm cột discount)
 try {
     $db->exec("ALTER TABLE products ADD COLUMN discount INT DEFAULT 0 AFTER price");
@@ -44,9 +36,6 @@ try {
 // ==========================================================================
 
 // Hàm upload ảnh đại diện sản phẩm
-=======
-// Hàm xử lý upload ảnh
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 function uploadImage($fileInputName)
 {
     // Kiểm tra có file được upload không
@@ -97,47 +86,31 @@ function uploadImage($fileInputName)
     return 'default.jpg';
 }
 
-<<<<<<< HEAD
 // ==========================================================================
 // 3. XỬ LÝ CÁC ACTION (THÊM, SỬA, XÓA)
 // ==========================================================================
 
 switch ($action) {
     // --- ACTION: THÊM SẢN PHẨM ---
-=======
-// Xử lý các action
-switch ($action) {
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
     case 'add':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $stmt = $db->prepare("
                     INSERT INTO products 
-<<<<<<< HEAD
                     (name, description, price, discount, category_id, brand, stock_quantity, image, created_at) 
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
-=======
-                    (name, description, price, category_id, brand, stock_quantity, image, created_at) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                 ");
 
                 // Upload ảnh
                 $image = uploadImage('image');
                 $stock_quantity = $_POST['stock_quantity'] ?? 0;
-<<<<<<< HEAD
                 $discount = $_POST['discount'] ?? 0;
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 
                 $stmt->execute([
                     $_POST['name'] ?? '',
                     $_POST['description'] ?? '',
                     $_POST['price'] ?? 0,
-<<<<<<< HEAD
                     $discount,
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                     $_POST['category_id'] ?? 0,
                     $_POST['brand'] ?? '',
                     $stock_quantity,
@@ -170,10 +143,7 @@ switch ($action) {
         }
         break;
 
-<<<<<<< HEAD
     // --- ACTION: SỬA SẢN PHẨM ---
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
     case 'edit':
         $id = $_GET['id'] ?? 0;
 
@@ -181,11 +151,7 @@ switch ($action) {
             try {
                 $stmt = $db->prepare("
                     UPDATE products SET 
-<<<<<<< HEAD
                     name = ?, description = ?, price = ?, discount = ?,
-=======
-                    name = ?, description = ?, price = ?, 
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                     category_id = ?, brand = ?, stock_quantity = ?, image = ?
                     WHERE id = ?
                 ");
@@ -199,19 +165,13 @@ switch ($action) {
                 }
 
                 $stock_quantity = $_POST['stock_quantity'] ?? 0;
-<<<<<<< HEAD
                 $discount = $_POST['discount'] ?? 0;
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 
                 $stmt->execute([
                     $_POST['name'] ?? '',
                     $_POST['description'] ?? '',
                     $_POST['price'] ?? 0,
-<<<<<<< HEAD
                     $discount,
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                     $_POST['category_id'] ?? 0,
                     $_POST['brand'] ?? '',
                     $stock_quantity,
@@ -252,10 +212,7 @@ switch ($action) {
         $galleryImages = $stmtImg->fetchAll(PDO::FETCH_ASSOC);
         break;
 
-<<<<<<< HEAD
     // --- ACTION: XÓA ẢNH GALLERY ---
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
     case 'delete_image':
         $imgId = $_GET['img_id'] ?? 0;
         $productId = $_GET['product_id'] ?? 0;
@@ -272,10 +229,7 @@ switch ($action) {
         exit;
         break;
 
-<<<<<<< HEAD
     // --- ACTION: XÓA SẢN PHẨM ---
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
     case 'delete':
         $id = $_GET['id'] ?? 0;
 
@@ -289,15 +243,11 @@ switch ($action) {
         break;
 }
 
-<<<<<<< HEAD
 // ==========================================================================
 // 4. LẤY DỮ LIỆU HIỂN THỊ (LIST VIEW)
 // ==========================================================================
 
 // Xử lý tìm kiếm và phân trang
-=======
-// Lấy danh sách sản phẩm
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 $search = $_GET['search'] ?? '';
 $category_id = $_GET['category'] ?? 0;
 $page = $_GET['page'] ?? 1;
@@ -327,11 +277,7 @@ $stmt = $db->prepare($query);
 $stmt->execute($params);
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-<<<<<<< HEAD
 // Tính tổng số trang
-=======
-// Lấy tổng số sản phẩm cho phân trang
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 $countQuery = "SELECT COUNT(*) as total FROM products WHERE 1=1";
 if ($search) {
     $countQuery .= " AND (name LIKE ? OR description LIKE ?)";
@@ -345,19 +291,11 @@ $stmt->execute($params);
 $totalProducts = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
 $totalPages = ceil($totalProducts / $limit);
 
-<<<<<<< HEAD
 // Lấy danh sách danh mục (cho dropdown filter)
 $stmt = $db->query("SELECT * FROM categories ORDER BY name");
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Lấy danh sách thương hiệu (cho dropdown filter)
-=======
-// Lấy danh mục
-$stmt = $db->query("SELECT * FROM categories ORDER BY name");
-$categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Lấy danh sách brands
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 $stmt = $db->query("SELECT * FROM brands ORDER BY name ASC");
 $brands = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>

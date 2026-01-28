@@ -5,13 +5,10 @@ require_once '../includes/config.php';
 require_once '../includes/auth.php';
 require_once '../includes/database.php';
 
-<<<<<<< HEAD
 // ==========================================================================
 // 1. KHỞI TẠO & AUTH
 // ==========================================================================
 
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 // Tự động đăng nhập nếu có remember token
 Auth::autoLogin();
 
@@ -39,13 +36,10 @@ if (isset($_SESSION['discount_error'])) {
     unset($_SESSION['discount_error']);
 }
 
-<<<<<<< HEAD
 // ==========================================================================
 // 2. LẤY DỮ LIỆU GIỎ HÀNG (DATABASE)
 // ==========================================================================
 
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 try {
     $db = Database::getInstance();
     
@@ -90,13 +84,9 @@ try {
     $subtotal = 0;
 }
 
-<<<<<<< HEAD
 // ==========================================================================
 // 3. FALLBACK: LẤY TỪ SESSION (Nếu DB trống)
 // ==========================================================================
-=======
-// Fallback: Nếu DB cart trống, kiểm tra session cart (đề phòng trường hợp add_to_cart dùng session)
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 if (empty($cartItems) && isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
     foreach ($_SESSION['cart'] as $pId => $sessItem) {
         $itemTotal = $sessItem['price'] * $sessItem['quantity'];
@@ -114,13 +104,9 @@ if (empty($cartItems) && isset($_SESSION['cart']) && !empty($_SESSION['cart'])) 
     }
 }
 
-<<<<<<< HEAD
 // ==========================================================================
 // 4. TÍNH TOÁN MÃ GIẢM GIÁ
 // ==========================================================================
-=======
-// Áp dụng mã giảm giá nếu có
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 if (isset($_SESSION['discount_code']) && $subtotal > 0) {
     if (isset($_SESSION['discount_type']) && $_SESSION['discount_type'] == 'fixed') {
         $discountAmount = $_SESSION['discount_value'];

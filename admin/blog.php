@@ -11,14 +11,11 @@ $db = Database::getInstance();
 $action = $_GET['action'] ?? 'list';
 $message = '';
 
-<<<<<<< HEAD
 // Cập nhật thêm cột post_type cho bảng posts nếu chưa có
 try {
     $db->exec("ALTER TABLE posts ADD COLUMN post_type ENUM('news', 'tournament') DEFAULT 'news' AFTER status");
 } catch (Exception $e) {}
 
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 // Hàm upload ảnh bài viết
 function uploadPostImage($fileInputName) {
     if (!isset($_FILES[$fileInputName]) || $_FILES[$fileInputName]['error'] === UPLOAD_ERR_NO_FILE) {
@@ -57,30 +54,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['excerpt'],
                 $_POST['content'],
                 $image,
-<<<<<<< HEAD
                 $_POST['status'],
                 $_POST['post_type'] ?? 'news'
-=======
-                $_POST['status']
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
             ];
 
             if ($action == 'add') {
                 $data[] = $_SESSION['user_id'] ?? 1; // Author ID
-<<<<<<< HEAD
                 $stmt = $db->prepare("INSERT INTO posts (title, excerpt, content, image, status, post_type, author_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
-=======
-                $stmt = $db->prepare("INSERT INTO posts (title, excerpt, content, image, status, author_id) VALUES (?, ?, ?, ?, ?, ?)");
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                 $stmt->execute($data);
                 $message = '<div class="alert success">Post created successfully!</div>';
             } else {
                 $data[] = $_GET['id'];
-<<<<<<< HEAD
                 $stmt = $db->prepare("UPDATE posts SET title=?, excerpt=?, content=?, image=?, status=?, post_type=? WHERE id=?");
-=======
-                $stmt = $db->prepare("UPDATE posts SET title=?, excerpt=?, content=?, image=?, status=? WHERE id=?");
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                 $stmt->execute($data);
                 $message = '<div class="alert success">Post updated successfully!</div>';
             }

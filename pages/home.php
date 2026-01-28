@@ -5,13 +5,10 @@ require_once '../includes/config.php';
 require_once '../includes/auth.php';
 require_once '../includes/database.php';
 
-<<<<<<< HEAD
 // ==========================================================================
 // 1. KHỞI TẠO & AUTH
 // ==========================================================================
 
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 // Tự động đăng nhập nếu có remember token
 Auth::autoLogin();
 
@@ -19,7 +16,6 @@ Auth::autoLogin();
 $isLoggedIn = Auth::isLoggedIn();
 $username = $isLoggedIn ? $_SESSION['username'] : '';
 
-<<<<<<< HEAD
 $db = Database::getInstance();
 
 // ==========================================================================
@@ -35,18 +31,6 @@ $stmt = $db->query("SELECT * FROM products WHERE status = 'active' ORDER BY view
 $featuredProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // 2.3. Lấy giải đấu sắp tới gần nhất (Upcoming Tournament)
-=======
-// Lấy 3 bài viết mới nhất từ database
-$db = Database::getInstance();
-$stmt = $db->query("SELECT * FROM posts WHERE status = 'published' ORDER BY created_at DESC LIMIT 3");
-$latestNews = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Lấy 3 sản phẩm nổi bật (ví dụ: mới nhất hoặc xem nhiều nhất)
-$stmt = $db->query("SELECT * FROM products WHERE status = 'active' ORDER BY views DESC LIMIT 3");
-$featuredProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Lấy giải đấu sắp tới gần nhất
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
 $stmt = $db->query("SELECT * FROM matches WHERE status = 'upcoming' ORDER BY match_time ASC LIMIT 1");
 $upcomingMatch = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
