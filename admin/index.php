@@ -191,11 +191,8 @@ try {
                             <p><?php echo number_format($product['sold']); ?> sold</p>
                         </div>
                         <div class="product-revenue">
-<<<<<<< HEAD
                             <h4><?php echo number_format($product['price'] * $product['sold'], 0, ',', '.'); ?> VNĐ</h4>
-=======
                             <h4>$<?php echo number_format($product['price'] * $product['sold'], 2); ?></h4>
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                         </div>
                     </div>
                     <?php endforeach; ?>
@@ -212,11 +209,7 @@ try {
         data: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
             datasets: [{
-<<<<<<< HEAD
                 label: 'Sales (VNĐ)',
-=======
-                label: 'Sales ($)',
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695
                 data: [12000, 19000, 15000, 25000, 22000, 30000, 28000],
                 borderColor: '#4CAF50',
                 backgroundColor: 'rgba(76, 175, 80, 0.1)',
