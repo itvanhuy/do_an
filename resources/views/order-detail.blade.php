@@ -58,14 +58,14 @@
                     <h5>{{ $item->name }}</h5>
                     <p style="color: #666; margin:0;">Qty: {{ $item->quantity }}</p>
                 </div>
-                <p style="font-weight:bold; margin:0;">{{ number_format($item->price * $item->quantity, 0, ',', '.') }}₫</p>
+                <p style="font-weight:bold; margin:0;">${{ number_format(($item->price * $item->quantity) / 25000, 2) }}</p>
             </div>
         @endforeach
 
         <div class="order-summary-box">
             <div class="summary-row">
                 <span>Subtotal</span>
-                <strong>{{ number_format($order->total, 0, ',', '.') }}₫</strong>
+                <strong>${{ number_format($order->total / 25000, 2) }}</strong>
             </div>
             <div class="summary-row">
                 <span>Shipping</span>
@@ -73,7 +73,7 @@
             </div>
             <div class="summary-row total-row">
                 <span>Total Amount</span>
-                <span>{{ number_format($order->total, 0, ',', '.') }}₫</span>
+                <span>${{ number_format($order->total / 25000, 2) }}</span>
             </div>
         </div>
     </div>

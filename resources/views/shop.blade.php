@@ -64,11 +64,11 @@
                                 </a>
                                 @if (($p->discount ?? 0) > 0)
                                     <p class="price">
-                                        <span style="text-decoration: line-through; color: #999; font-size: 0.9em; margin-right: 5px;">{{ number_format($p->price, 0, ',', '.') }}₫</span>
-                                        <span style="color: #e60023; font-weight: bold;">{{ number_format($p->price * (1 - $p->discount/100), 0, ',', '.') }}₫</span>
+                                        <span style="text-decoration: line-through; color: #999; font-size: 0.9em; margin-right: 5px;">${{ number_format($p->price / 25000, 2) }}</span>
+                                        <span style="color: #e60023; font-weight: bold;">${{ number_format(($p->price * (1 - $p->discount/100)) / 25000, 2) }}</span>
                                     </p>
                                 @else
-                                    <p class="price">{{ number_format($p->price, 0, ',', '.') }}₫</p>
+                                    <p class="price">${{ number_format($p->price / 25000, 2) }}</p>
                                 @endif
                                 <button class="buy-button" onclick="addToCart({{ $p->id }})">
                                     <i class="fas fa-cart-plus"></i> Add to Cart
@@ -100,11 +100,11 @@
                                         </a>
                                         @if (($p->discount ?? 0) > 0)
                                             <p class="price">
-                                                <span style="text-decoration: line-through; color: #999; font-size: 0.9em; margin-right: 5px;">{{ number_format($p->price, 0, ',', '.') }}₫</span>
-                                                <span style="color: #e60023; font-weight: bold;">{{ number_format($p->price * (1 - $p->discount/100), 0, ',', '.') }}₫</span>
+                                                <span style="text-decoration: line-through; color: #999; font-size: 0.9em; margin-right: 5px;">${{ number_format($p->price / 25000, 2) }}</span>
+                                                <span style="color: #e60023; font-weight: bold;">${{ number_format(($p->price * (1 - $p->discount/100)) / 25000, 2) }}</span>
                                             </p>
                                         @else
-                                            <p class="price">{{ number_format($p->price, 0, ',', '.') }}₫</p>
+                                            <p class="price">${{ number_format($p->price / 25000, 2) }}</p>
                                         @endif
                                         <button class="buy-button" onclick="addToCart({{ $p->id }})">
                                             <i class="fas fa-cart-plus"></i> Add to Cart
@@ -150,8 +150,8 @@
                         <div class="fs-card__content">
                             <h4>{{ Str::limit($p->name, 30) }}</h4>
                             <p class="fs-price">
-                                <span style="text-decoration: line-through; color: #999; font-size: 0.8em; display: block;">{{ number_format($p->price, 0, ',', '.') }}₫</span>
-                                <span style="color: #e60023; font-weight: bold;">{{ number_format($p->price * (1 - ($p->discount ?? 0)/100), 0, ',', '.') }}₫</span>
+                                <span style="text-decoration: line-through; color: #999; font-size: 0.8em; display: block;">${{ number_format($p->price / 25000, 2) }}</span>
+                                <span style="color: #e60023; font-weight: bold;">${{ number_format(($p->price * (1 - ($p->discount ?? 0)/100)) / 25000, 2) }}</span>
                             </p>
                         </div>
                     </div>
@@ -171,11 +171,11 @@
                         <p class="item-name">{{ Str::limit($p->name, 40) }}</p>
                         @if (($p->discount ?? 0) > 0)
                             <p class="item-price">
-                                <span style="text-decoration: line-through; color: #999; font-size: 0.8em; margin-right: 5px;">{{ number_format($p->price, 0, ',', '.') }}₫</span>
-                                <span style="color: #e63946; font-weight: bold;">{{ number_format($p->price * (1 - $p->discount/100), 0, ',', '.') }}₫</span>
+                                <span style="text-decoration: line-through; color: #999; font-size: 0.8em; margin-right: 5px;">${{ number_format($p->price / 25000, 2) }}</span>
+                                <span style="color: #e63946; font-weight: bold;">${{ number_format(($p->price * (1 - $p->discount/100)) / 25000, 2) }}</span>
                             </p>
                         @else
-                            <p class="item-price">{{ number_format($p->price, 0, ',', '.') }}₫</p>
+                            <p class="item-price">${{ number_format($p->price / 25000, 2) }}</p>
                         @endif
                     </div>
                     @endforeach

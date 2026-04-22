@@ -39,6 +39,9 @@
             <li><a href="{{ route('admin.comments') }}" class="{{ request()->is('admin/comments*') ? 'active' : '' }}"><i class="fas fa-comments"></i> Comments</a></li>
             <li><a href="{{ route('admin.reviews') }}" class="{{ request()->is('admin/reviews*') ? 'active' : '' }}"><i class="fas fa-star"></i> Reviews</a></li>
             <li><a href="{{ route('admin.orders') }}" class="{{ request()->is('admin/orders*') ? 'active' : '' }}"><i class="fas fa-shopping-cart"></i> Orders</a></li>
+            <li><a href="{{ route('admin.contacts') }}" class="{{ request()->is('admin/contacts*') ? 'active' : '' }}"><i class="fas fa-envelope"></i> Contacts</a></li>
+            <li><a href="{{ route('admin.coupons') }}" class="{{ request()->is('admin/coupons*') ? 'active' : '' }}"><i class="fas fa-ticket-alt"></i> Coupons</a></li>
+            <li><a href="{{ route('admin.slides') }}" class="{{ request()->is('admin/slides*') ? 'active' : '' }}"><i class="fas fa-images"></i> Slides</a></li>
             <li><a href="{{ route('admin.users') }}" class="{{ request()->is('admin/users*') ? 'active' : '' }}"><i class="fas fa-users"></i> Users</a></li>
             <li><a href="{{ route('admin.settings') }}" class="{{ request()->is('admin/settings*') ? 'active' : '' }}"><i class="fas fa-cog"></i> Settings</a></li>
             <li><a href="{{ route('admin.newsletters') }}" class="{{ request()->is('admin/newsletters*') ? 'active' : '' }}"><i class="fas fa-envelope-open-text"></i> Newsletters</a></li>

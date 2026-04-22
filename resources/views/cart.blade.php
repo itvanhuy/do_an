@@ -36,7 +36,7 @@
              alt="{{ $item->product_name }}" onerror="this.src='{{ asset('img/product/default.jpg') }}'">
         <div class="item-info">
           <h2>{{ $item->product_name }}</h2>
-          <p class="price" style="font-weight: bold; color: var(--accent-color);">{{ number_format($item->current_price, 0, ',', '.') }}₫</p>
+          <p class="price" style="font-weight: bold; color: var(--accent-color);">${{ number_format($item->current_price / 25000, 2) }}</p>
           <div class="quantity-remove-wrapper">
             <span class="quantity-label">Quantity:</span>
             <input 
@@ -62,7 +62,7 @@
       
       <div class="summary-row" style="display: flex; justify-content: space-between; margin: 15px 0;">
         <span>Subtotal:</span>
-        <span id="subtotal" style="font-weight: bold;">{{ number_format($subtotal, 0, ',', '.') }}₫</span>
+        <span id="subtotal" style="font-weight: bold;">${{ number_format($subtotal / 25000, 2) }}</span>
       </div>
       
       <div class="summary-row" style="display: flex; justify-content: space-between; margin: 15px 0;">
@@ -74,7 +74,7 @@
 
       <div class="summary-total" style="display: flex; justify-content: space-between; font-size: 1.2rem; margin-bottom: 25px;">
         <span style="font-weight: bold;">Total:</span>
-        <span id="total" style="font-weight: bold; color: var(--accent-color);">{{ number_format($subtotal, 0, ',', '.') }}₫</span>
+        <span id="total" style="font-weight: bold; color: var(--accent-color);">${{ number_format($subtotal / 25000, 2) }}</span>
       </div>
 
       <a href="{{ url('checkout') }}" style="display: block; width: 100%; text-decoration: none;">
@@ -105,7 +105,7 @@
             body: JSON.stringify({ cart_id: cartId, quantity: newQuantity })
         }).then(r => r.json()).then(res => {
             if(res.success) location.reload();
-            else alert(res.message || 'Lỗi hệ thống');
+            else alert(res.message || 'System error');
         });
     }
 
@@ -117,7 +117,7 @@
                 body: JSON.stringify({ cart_id: cartId })
             }).then(r => r.json()).then(res => {
                 if(res.success) location.reload();
-                else alert(res.message || 'Lỗi');
+                else alert(res.message || 'Error');
             });
         }
     }

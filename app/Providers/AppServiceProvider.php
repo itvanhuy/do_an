@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // View composer to share categories across all views that need it
+        \Illuminate\Support\Facades\View::composer('*', function ($view) {
+            $globalCategories = \Illuminate\Support\Facades\DB::table('categories')->orderBy('name', 'asc')->get();
+            $view->with('globalCategories', $globalCategories);
+        });
     }
 }

@@ -21,9 +21,17 @@ class ContactController extends Controller
             'message' => 'required'
         ]);
 
-        // Simulating message storage (or you can use a real DB table)
-        // For now, redirect with success.
-        
-        return back()->with('success', 'Your message has been sent successfully. We will get back to you soon!');
+        // Save to contacts table
+        DB::table('contacts')->insert([
+            'name' => $request->name,
+            'email' => $request->email,
+            'subject' => $request->subject,
+            'message' => $request->message,
+            'status' => 'unread',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return back()->with('success', 'Tin nhắn của bạn đã được gửi! Chúng tôi sẽ phản hồi sớm nhất có thể.');
     }
 }

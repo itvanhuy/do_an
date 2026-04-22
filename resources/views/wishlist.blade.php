@@ -44,7 +44,7 @@
                         <img src="{{ asset('img/product/' . $product->image) }}" alt="{{ $product->name }}" onerror="this.src='{{ asset('img/product/default.jpg') }}'">
                         <div class="product-info">
                             <h3>{{ Str::limit($product->name, 40) }}</h3>
-                            <p class="price">{{ number_format($product->price, 0, ',', '.') }}₫</p>
+                            <p class="price">${{ number_format($product->price / 25000, 2) }}</p>
                         </div>
                     </a>
                     <div class="card-actions">

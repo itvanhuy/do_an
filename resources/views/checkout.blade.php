@@ -66,6 +66,12 @@
                     <textarea name="shipping_address" required rows="3" placeholder="Enter your detailed delivery address">{{ old('shipping_address', $user->address) }}</textarea>
                 </div>
                 
+                <div class="form-group">
+                    <label>Coupon Code</label>
+                    <input type="text" name="coupon_code" value="{{ old('coupon_code') }}" placeholder="Enter coupon code (if any)" style="text-transform:uppercase;">
+                    <small style="color: #666;">(Discount will be automatically calculated when you place the order)</small>
+                </div>
+                
                 <h2>Payment Method</h2>
                 <div class="payment-methods">
                     <label class="payment-option">
@@ -92,16 +98,16 @@
                     <img src="{{ asset('img/product/' . $item->image) }}" alt="{{ $item->name }}" onerror="this.src='{{ asset('img/product/default.jpg') }}'">
                     <div class="item-details">
                         <h4>{{ $item->name }}</h4>
-                        <p style="color: #666; margin:0;">{{ $item->quantity }} x {{ number_format($item->current_price ?? $item->price, 0, ',', '.') }}₫</p>
+                        <p style="color: #666; margin:0;">{{ $item->quantity }} x ${{ number_format(($item->current_price ?? $item->price) / 25000, 2) }}</p>
                     </div>
-                    <div style="font-weight:bold;">{{ number_format($item->total, 0, ',', '.') }}₫</div>
+                    <div style="font-weight:bold;">${{ number_format($item->total / 25000, 2) }}</div>
                 </div>
                 @endforeach
             </div>
             <div class="order-totals" style="margin-top:20px;">
-                <div class="total-row"><span>Subtotal</span> <span>{{ number_format($subtotal, 0, ',', '.') }}₫</span></div>
-                <div class="total-row"><span>Shipping Fee</span> <span>{{ number_format($shippingFee, 0, ',', '.') }}₫</span></div>
-                <div class="total-row grand-total"><span>Total</span> <span>{{ number_format($total, 0, ',', '.') }}₫</span></div>
+                <div class="total-row"><span>Subtotal</span> <span>${{ number_format($subtotal / 25000, 2) }}</span></div>
+                <div class="total-row"><span>Shipping Fee</span> <span>${{ number_format($shippingFee / 25000, 2) }}</span></div>
+                <div class="total-row grand-total"><span>Total</span> <span>${{ number_format($total / 25000, 2) }}</span></div>
             </div>
         </div>
     </div>

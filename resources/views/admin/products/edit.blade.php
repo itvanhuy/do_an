@@ -41,13 +41,69 @@
             </div>
         </div>
 
-        <div style="display:grid; grid-template-columns: 100px 1fr; gap: 20px; align-items: center; margin-bottom: 20px;">
-            <img src="{{ asset('img/product/'.$product->image) }}" style="width:100px; height:100px; object-fit:contain; border-radius:10px; background:#f9f9f9;" onerror="this.src='{{ asset('img/product/default.jpg') }}'">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 20px;">
             <div>
-                <label style="display:block; margin-bottom:5px;">Update Image (Optional)</label>
-                <input type="file" name="image" style="width:100%;">
+                <label style="display:block; margin-bottom:10px; font-weight:600;">Main Image</label>
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <img id="mainPreview" src="{{ asset('img/product/'.$product->image) }}" style="width:120px; height:120px; object-fit:contain; border-radius:10px; background:#f9f9f9; border:1px solid #eee;" onerror="this.src='{{ asset('img/product/default.jpg') }}'">
+                    <div style="flex-grow:1;">
+                        <input type="file" name="image" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:5px;" onchange="previewMain(this)">
+                        <small style="color:#888; display:block; margin-top:5px;">Change product cover image</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <label style="display:block; margin-bottom:10px; font-weight:600;">Add to Gallery</label>
+                <input type="file" name="images[]" multiple style="width:100%; padding:8px; border:1px solid #ddd; border-radius:5px;" onchange="previewGallery(this)">
+                <div id="newGalleryPreview" style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;"></div>
             </div>
         </div>
+
+        <div style="margin-bottom:20px;">
+            <label style="display:block; margin-bottom:10px; font-weight:600;">Existing Gallery</label>
+            <div style="display:flex; gap:15px; flex-wrap:wrap; background:#f8f9fa; padding:15px; border-radius:10px;">
+                @forelse($gallery as $img)
+                    <div style="position:relative; width:80px; height:80px;">
+                        <img src="{{ asset('img/product/'.$img->image) }}" style="width:100%; height:100%; object-fit:cover; border-radius:5px; border:1px solid #ddd;">
+                    </div>
+                @empty
+                    <p style="color:#888; margin:0; font-size:0.9rem; font-style:italic;">No extra images in gallery.</p>
+                @endforelse
+            </div>
+        </div>
+
+        <script>
+            function previewMain(input) {
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.querySelector('#mainPreview').src = e.target.result;
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            function previewGallery(input) {
+                const preview = document.querySelector('#newGalleryPreview');
+                preview.innerHTML = '';
+                if (input.files) {
+                    Array.from(input.files).forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.style.width = '60px';
+                            img.style.height = '60px';
+                            img.style.objectFit = 'cover';
+                            img.style.borderRadius = '5px';
+                            preview.appendChild(img);
+                        }
+                        reader.readAsDataURL(file);
+                    });
+                }
+            }
+        </script>
 
         <div style="margin-bottom: 20px;">
             <label style="display:block; margin-bottom:5px;">Description</label>

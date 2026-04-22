@@ -59,15 +59,20 @@
                                 <img src="{{ asset('img/product/' . $item->image) }}" alt="{{ $item->name }}" onerror="this.src='{{ asset('img/product/default.jpg') }}'">
                                 <div class="item-info">
                                     <h4>{{ $item->name }}</h4>
-                                    <p>{{ $item->quantity }} x {{ number_format($item->price, 0, ',', '.') }}₫</p>
+                                    <p>{{ $item->quantity }} x ${{ number_format($item->price / 25000, 2) }}</p>
                                 </div>
                             </div>
                         @endforeach
                     </div>
                     
                     <div class="order-footer">
-                        <div class="order-total">
-                            Total: <span>{{ number_format($order['details']->total, 0, ',', '.') }}₫</span>
+                        <div class="order-total" style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="font-size:0.9rem; color:#2e7d32; text-align:left;">
+                                Estimated Delivery: <span style="font-weight:600; color:#2e7d32; font-size:0.9rem;">{{ date('M d, Y', strtotime($order['details']->created_at . ' + 3 days')) }}</span>
+                            </div>
+                            <div>
+                                Total: <span>${{ number_format($order['details']->total / 25000, 2) }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

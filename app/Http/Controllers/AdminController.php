@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderStatusChanged;
+use App\Mail\ContactReply;
 
 class AdminController extends Controller
 {
@@ -62,15 +65,31 @@ class AdminController extends Controller
         return view('admin.products', compact('products'));
     }
 
-    public function orders()
+    public function orders(Request $request)
     {
-        $orders = DB::table('orders')
+        $statusFilter = $request->get('status', 'all');
+        
+        $query = DB::table('orders')
             ->leftJoin('users', 'orders.user_id', '=', 'users.id')
-            ->select('orders.*', 'users.username')
-            ->orderBy('orders.created_at', 'desc')
-            ->paginate(15);
+            ->select('orders.*', 'users.username');
 
-        return view('admin.orders', compact('orders'));
+        if ($statusFilter !== 'all') {
+            $query->where('orders.status', $statusFilter);
+        }
+
+        $orders = $query->orderBy('orders.created_at', 'desc')->paginate(15);
+        
+        // Count by status for tabs
+        $statusCounts = [
+            'all'        => DB::table('orders')->count(),
+            'pending'    => DB::table('orders')->where('status', 'pending')->count(),
+            'processing' => DB::table('orders')->where('status', 'processing')->count(),
+            'shipped'    => DB::table('orders')->where('status', 'shipped')->count(),
+            'delivered'  => DB::table('orders')->where('status', 'delivered')->count(),
+            'cancelled'  => DB::table('orders')->where('status', 'cancelled')->count(),
+        ];
+
+        return view('admin.orders', compact('orders', 'statusFilter', 'statusCounts'));
     }
 
     public function productsCreate()
@@ -94,7 +113,7 @@ class AdminController extends Controller
             $request->image->move(public_path('img/product'), $imageName);
         }
 
-        DB::table('products')->insert([
+        $productId = DB::table('products')->insertGetId([
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
@@ -103,10 +122,26 @@ class AdminController extends Controller
             'brand' => $request->brand,
             'stock_quantity' => $request->stock_quantity ?? 0,
             'image' => $imageName,
+            'is_active' => $request->is_active ?? 1,
+            'is_new' => $request->is_new ?? 0,
+            'is_featured' => $request->is_featured ?? 0,
             'created_at' => now(),
         ]);
 
-        return redirect()->route('admin.products')->with('success', 'Product created successfully.');
+        // Handle gallery images
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $name = time().'_'.uniqid().'.'.$file->extension();
+                $file->move(public_path('img/product'), $name);
+                DB::table('product_images')->insert([
+                    'product_id' => $productId,
+                    'image' => $name,
+                    'created_at' => now()
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.products')->with('success', 'Thêm sản phẩm thành công.');
     }
 
     public function productsEdit($id)
@@ -117,7 +152,9 @@ class AdminController extends Controller
         $categories = DB::table('categories')->orderBy('name')->get();
         $brands = DB::table('brands')->orderBy('name')->get();
         
-        return view('admin.products.edit', compact('product', 'categories', 'brands'));
+        $gallery = DB::table('product_images')->where('product_id', $id)->get();
+        
+        return view('admin.products.edit', compact('product', 'categories', 'brands', 'gallery'));
     }
 
     public function productsUpdate(Request $request, $id)
@@ -136,6 +173,9 @@ class AdminController extends Controller
             'category_id' => $request->category_id,
             'brand' => $request->brand,
             'stock_quantity' => $request->stock_quantity ?? 0,
+            'is_active' => $request->is_active ?? 1,
+            'is_new' => $request->is_new ?? 0,
+            'is_featured' => $request->is_featured ?? 0,
         ];
 
         if ($request->hasFile('image')) {
@@ -146,13 +186,26 @@ class AdminController extends Controller
 
         DB::table('products')->where('id', $id)->update($updateData);
 
-        return redirect()->route('admin.products')->with('success', 'Product updated successfully.');
+        // Handle gallery images
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $name = time().'_'.uniqid().'.'.$file->extension();
+                $file->move(public_path('img/product'), $name);
+                DB::table('product_images')->insert([
+                    'product_id' => $id,
+                    'image' => $name,
+                    'created_at' => now()
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.products')->with('success', 'Cập nhật sản phẩm thành công.');
     }
 
     public function productsDestroy($id)
     {
         DB::table('products')->where('id', $id)->delete();
-        return redirect()->route('admin.products')->with('success', 'Product deleted successfully.');
+        return redirect()->route('admin.products')->with('success', 'Xóa sản phẩm thành công.');
     }
 
     public function users()
@@ -164,10 +217,21 @@ class AdminController extends Controller
     public function usersDestroy($id)
     {
         if ($id == Auth::id()) {
-            return back()->with('error', 'You cannot delete yourself.');
+            return back()->with('error', 'Không thể xóa chính mình.');
         }
         DB::table('users')->where('id', $id)->delete();
-        return back()->with('success', 'User deleted successfully.');
+        return back()->with('success', 'Xóa người dùng thành công.');
+    }
+
+    public function updateUserRole(Request $request, $id)
+    {
+        if ($id == Auth::id()) {
+            return back()->with('error', 'Không thể tự thay đổi quyền của chính mình.');
+        }
+        
+        $request->validate(['role' => 'required|in:admin,user']);
+        DB::table('users')->where('id', $id)->update(['role' => $request->role, 'updated_at' => now()]);
+        return back()->with('success', 'Cập nhật quyền người dùng thành công.');
     }
 
     // Brands Management
@@ -191,13 +255,13 @@ class AdminController extends Controller
             'created_at' => now(),
             'updated_at' => now()
         ]);
-        return back()->with('success', 'Brand added successfully.');
+        return back()->with('success', 'Thêm thương hiệu thành công.');
     }
 
     public function brandsDestroy($id)
     {
         DB::table('brands')->where('id', $id)->delete();
-        return back()->with('success', 'Brand deleted successfully.');
+        return back()->with('success', 'Xóa thương hiệu thành công.');
     }
 
     // Categories Management
@@ -210,14 +274,36 @@ class AdminController extends Controller
     public function categoriesStore(Request $request)
     {
         $request->validate(['name' => 'required']);
-        DB::table('categories')->insert(['name' => $request->name, 'slug' => \Illuminate\Support\Str::slug($request->name), 'description' => $request->description]);
-        return back()->with('success', 'Category added successfully.');
+        DB::table('categories')->insert([
+            'name' => $request->name, 
+            'slug' => \Illuminate\Support\Str::slug($request->name), 
+            'description' => $request->description
+        ]);
+        return back()->with('success', 'Thêm loại sản phẩm thành công.');
+    }
+
+    public function categoriesEdit($id)
+    {
+        $category = DB::table('categories')->where('id', $id)->first();
+        if (!$category) abort(404);
+        return view('admin.categories_edit', compact('category'));
+    }
+
+    public function categoriesUpdate(Request $request, $id)
+    {
+        $request->validate(['name' => 'required']);
+        DB::table('categories')->where('id', $id)->update([
+            'name' => $request->name, 
+            'slug' => \Illuminate\Support\Str::slug($request->name), 
+            'description' => $request->description
+        ]);
+        return redirect()->route('admin.categories')->with('success', 'Cập nhật loại sản phẩm thành công.');
     }
 
     public function categoriesDestroy($id)
     {
         DB::table('categories')->where('id', $id)->delete();
-        return back()->with('success', 'Category deleted successfully.');
+        return back()->with('success', 'Xóa loại sản phẩm thành công.');
     }
 
     // Blog Management
@@ -250,7 +336,7 @@ class AdminController extends Controller
             'author_id' => Auth::id(),
             'created_at' => now(),
         ]);
-        return redirect()->route('admin.blog')->with('success', 'Post created successfully.');
+        return redirect()->route('admin.blog')->with('success', 'Tạo bài viết thành công.');
     }
 
     public function blogEdit($id)
@@ -276,13 +362,13 @@ class AdminController extends Controller
             $updateData['image'] = $imageName;
         }
         DB::table('posts')->where('id', $id)->update($updateData);
-        return redirect()->route('admin.blog')->with('success', 'Post updated successfully.');
+        return redirect()->route('admin.blog')->with('success', 'Cập nhật bài viết thành công.');
     }
 
     public function blogDestroy($id)
     {
         DB::table('posts')->where('id', $id)->delete();
-        return redirect()->route('admin.blog')->with('success', 'Post deleted successfully.');
+        return redirect()->route('admin.blog')->with('success', 'Xóa bài viết thành công.');
     }
 
     // Matches Management
@@ -324,7 +410,7 @@ class AdminController extends Controller
             'stream_link' => $request->stream_link,
             'created_at' => now(),
         ]);
-        return redirect()->route('admin.matches')->with('success', 'Match added successfully.');
+        return redirect()->route('admin.matches')->with('success', 'Thêm trận đấu thành công.');
     }
 
     public function matchesEdit($id)
@@ -359,13 +445,13 @@ class AdminController extends Controller
             $updateData['team2_logo'] = $team2Logo;
         }
         DB::table('matches')->where('id', $id)->update($updateData);
-        return redirect()->route('admin.matches')->with('success', 'Match updated successfully.');
+        return redirect()->route('admin.matches')->with('success', 'Cập nhật trận đấu thành công.');
     }
 
     public function matchesDestroy($id)
     {
         DB::table('matches')->where('id', $id)->delete();
-        return redirect()->route('admin.matches')->with('success', 'Match deleted successfully.');
+        return redirect()->route('admin.matches')->with('success', 'Xóa trận đấu thành công.');
     }
 
     // Rankings Management
@@ -392,20 +478,38 @@ class AdminController extends Controller
             'wins' => $request->wins ?? 0,
             'losses' => $request->losses ?? 0,
         ]);
-        return back()->with('success', 'Ranking added successfully.');
+        return back()->with('success', 'Thêm xếp hạng thành công.');
     }
 
     public function rankingsDestroy($id)
     {
         DB::table('team_rankings')->where('id', $id)->delete();
-        return back()->with('success', 'Ranking deleted successfully.');
+        return back()->with('success', 'Xóa xếp hạng thành công.');
     }
 
     public function updateOrderStatus(Request $request, $id)
     {
         $request->validate(['status' => 'required']);
-        DB::table('orders')->where('id', $id)->update(['status' => $request->status]);
-        return back()->with('success', 'Order status updated successfully.');
+        
+        $order = DB::table('orders')->where('id', $id)->first();
+        $oldStatus = $order ? $order->status : null;
+        $newStatus = $request->status;
+
+        DB::table('orders')->where('id', $id)->update(['status' => $newStatus, 'updated_at' => now()]);
+
+        // Send email to customer about status change
+        if ($order && $oldStatus !== $newStatus) {
+            try {
+                $customer = DB::table('users')->where('id', $order->user_id)->first();
+                if ($customer && $customer->email) {
+                    Mail::to($customer->email)->send(new OrderStatusChanged($order, $customer, $oldStatus, $newStatus));
+                }
+            } catch (\Exception $e) {
+                \Log::warning('Order status email failed: ' . $e->getMessage());
+            }
+        }
+
+        return back()->with('success', 'Cập nhật trạng thái đơn hàng thành công.');
     }
 
     // Teams Management
@@ -430,13 +534,13 @@ class AdminController extends Controller
             'tournament_name' => $request->tournament_name,
             'created_at' => now()
         ]);
-        return back()->with('success', 'Team added successfully.');
+        return back()->with('success', 'Thêm đội thành công.');
     }
 
     public function teamsDestroy($id)
     {
         DB::table('teams')->where('id', $id)->delete();
-        return back()->with('success', 'Team deleted successfully.');
+        return back()->with('success', 'Xóa đội thành công.');
     }
 
     // Comments Management
@@ -454,7 +558,7 @@ class AdminController extends Controller
     public function commentsDestroy($id)
     {
         DB::table('comments')->where('id', $id)->delete();
-        return back()->with('success', 'Comment deleted successfully.');
+        return back()->with('success', 'Xóa bình luận thành công.');
     }
 
     // Reviews Management
@@ -472,13 +576,13 @@ class AdminController extends Controller
     public function reviewsApprove($id)
     {
         DB::table('reviews')->where('id', $id)->update(['status' => 'approved']);
-        return back()->with('success', 'Review approved successfully.');
+        return back()->with('success', 'Duyệt đánh giá thành công.');
     }
 
     public function reviewsDestroy($id)
     {
         DB::table('reviews')->where('id', $id)->delete();
-        return back()->with('success', 'Review deleted successfully.');
+        return back()->with('success', 'Xóa đánh giá thành công.');
     }
 
     // Settings
@@ -489,8 +593,7 @@ class AdminController extends Controller
 
     public function settingsUpdate(Request $request)
     {
-        // For now, just simulate saving settings
-        return back()->with('success', 'Settings updated successfully.');
+        return back()->with('success', 'Cập nhật cài đặt thành công.');
     }
 
     // Newsletter Subscribers
@@ -503,6 +606,138 @@ class AdminController extends Controller
     public function newsletterDestroy($id)
     {
         DB::table('newsletters')->where('id', $id)->delete();
-        return back()->with('success', 'Subscriber removed successfully.');
+        return back()->with('success', 'Xóa người đăng ký thành công.');
+    }
+
+    // ==================== CONTACTS MANAGEMENT ====================
+    public function contacts()
+    {
+        $contacts = DB::table('contacts')->orderBy('created_at', 'desc')->paginate(20);
+        $unreadCount = DB::table('contacts')->where('status', 'unread')->count();
+        return view('admin.contacts', compact('contacts', 'unreadCount'));
+    }
+
+    public function contactsShow($id)
+    {
+        $contact = DB::table('contacts')->where('id', $id)->first();
+        if (!$contact) abort(404);
+        // Mark as read
+        if ($contact->status === 'unread') {
+            DB::table('contacts')->where('id', $id)->update(['status' => 'read']);
+        }
+        return view('admin.contacts_show', compact('contact'));
+    }
+
+    public function contactsReply(Request $request, $id)
+    {
+        $request->validate(['reply_content' => 'required']);
+        
+        $contact = DB::table('contacts')->where('id', $id)->first();
+        if (!$contact) abort(404);
+
+        // Send reply email
+        try {
+            Mail::to($contact->email)->send(new \App\Mail\ContactReplyMail($contact, $request->reply_content));
+        } catch (\Exception $e) {
+            \Log::warning('Contact reply email failed: ' . $e->getMessage());
+        }
+
+        DB::table('contacts')->where('id', $id)->update([
+            'status' => 'replied',
+            'reply_content' => $request->reply_content,
+            'replied_at' => now(),
+        ]);
+
+        return back()->with('success', 'Đã gửi phản hồi cho khách hàng.');
+    }
+
+    public function contactsDestroy($id)
+    {
+        DB::table('contacts')->where('id', $id)->delete();
+        return back()->with('success', 'Xóa liên hệ thành công.');
+    }
+
+    // ==================== SLIDES MANAGEMENT ====================
+    public function slides()
+    {
+        $slides = DB::table('slides')->orderBy('sort_order')->get();
+        return view('admin.slides', compact('slides'));
+    }
+
+    public function slidesStore(Request $request)
+    {
+        $request->validate(['image' => 'required|image']);
+        
+        $imageName = 'slide_'.time().'.'.$request->image->extension();
+        $request->image->move(public_path('img/slides'), $imageName);
+
+        DB::table('slides')->insert([
+            'title' => $request->title,
+            'subtitle' => $request->subtitle,
+            'image' => $imageName,
+            'link' => $request->link,
+            'button_text' => $request->button_text,
+            'sort_order' => $request->sort_order ?? 0,
+            'is_active' => $request->has('is_active') ? 1 : 0,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return back()->with('success', 'Thêm slide thành công.');
+    }
+
+    public function slidesDestroy($id)
+    {
+        $slide = DB::table('slides')->where('id', $id)->first();
+        if ($slide && $slide->image) {
+            @unlink(public_path('img/slides/' . $slide->image));
+        }
+        DB::table('slides')->where('id', $id)->delete();
+        return back()->with('success', 'Xóa slide thành công.');
+    }
+
+    public function slidesToggle($id)
+    {
+        $slide = DB::table('slides')->where('id', $id)->first();
+        if ($slide) {
+            DB::table('slides')->where('id', $id)->update(['is_active' => !$slide->is_active]);
+        }
+        return back()->with('success', 'Cập nhật slide thành công.');
+    }
+
+    // ==================== COUPONS MANAGEMENT ====================
+    public function coupons()
+    {
+        $coupons = DB::table('coupons')->orderBy('created_at', 'desc')->paginate(20);
+        return view('admin.coupons', compact('coupons'));
+    }
+
+    public function couponsStore(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|unique:coupons,code',
+            'discount_type' => 'required|in:percent,fixed',
+            'discount_value' => 'required|numeric|min:0',
+        ]);
+
+        DB::table('coupons')->insert([
+            'code' => strtoupper($request->code),
+            'discount_type' => $request->discount_type,
+            'discount_value' => $request->discount_value,
+            'min_order' => $request->min_order ?? 0,
+            'max_uses' => $request->max_uses ?: null,
+            'expires_at' => $request->expires_at ?: null,
+            'is_active' => $request->has('is_active') ? 1 : 0,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return back()->with('success', 'Thêm mã giảm giá thành công.');
+    }
+
+    public function couponsDestroy($id)
+    {
+        DB::table('coupons')->where('id', $id)->delete();
+        return back()->with('success', 'Xóa mã giảm giá thành công.');
     }
 }

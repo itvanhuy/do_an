@@ -124,7 +124,7 @@ class AuthController extends Controller
     protected function handleSocialCallback($provider)
     {
         try {
-            $socialUser = Socialite::driver($provider)->user();
+            $socialUser = Socialite::driver($provider)->stateless()->user();
         } catch (\Exception $e) {
             return redirect()->route('login')->withErrors(['login' => "Không thể đăng nhập bằng $provider. Vui lòng thử lại."]);
         }
@@ -142,7 +142,7 @@ class AuthController extends Controller
             $user = User::create([
                 'full_name' => $socialUser->getName(),
                 'email' => $socialUser->getEmail(),
-                'username' => Str::slug($socialUser->getName()) . '_' . Str::random(5),
+                'username' => Str::slug($socialUser->getName(), '_') . '_' . Str::random(5),
                 'password' => Hash::make(Str::random(16)), // Mật khẩu ngẫu nhiên
                 $provider . '_id' => $socialUser->getId(),
                 'role' => 'user',

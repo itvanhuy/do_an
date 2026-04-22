@@ -15,6 +15,33 @@
   @yield('styles')
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+      .nav-dropdown {
+          position: relative;
+          display: inline-block;
+      }
+      .nav-dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: #f9f9f9;
+          min-width: 200px;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          z-index: 1000;
+          border-radius: 5px;
+      }
+      .nav-dropdown-content a {
+          color: black;
+          padding: 12px 16px;
+          text-decoration: none;
+          display: block;
+      }
+      .nav-dropdown-content a:hover {
+          background-color: #f1f1f1;
+      }
+      .nav-dropdown:hover .nav-dropdown-content {
+          display: block;
+      }
+  </style>
 </head>
 <body>
   <header class="header">
@@ -26,7 +53,19 @@
       
       <nav class="navbar">
           <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">HOME</a>
-          <a href="{{ url('shop') }}" class="{{ request()->is('shop*') ? 'active' : '' }}">SHOP</a>
+          
+          <div class="nav-dropdown">
+              <a href="{{ url('shop') }}" class="dropbtn {{ request()->is('shop*') || request()->is('category*') ? 'active' : '' }}">SHOP <i class="fas fa-caret-down"></i></a>
+              <div class="nav-dropdown-content">
+                  <a href="{{ url('shop') }}">All Products</a>
+                  @if(isset($globalCategories))
+                      @foreach($globalCategories as $cat)
+                          <a href="{{ route('category', $cat->slug ?? $cat->id) }}">{{ $cat->name }}</a>
+                      @endforeach
+                  @endif
+              </div>
+          </div>
+          
           <a href="{{ url('tournament') }}" class="{{ request()->is('tournament*') ? 'active' : '' }}">TOURNAMENT</a>
           <a href="{{ url('about') }}" class="{{ request()->is('about*') ? 'active' : '' }}">ABOUT</a>
           <a href="{{ url('news') }}" class="{{ request()->is('news*') ? 'active' : '' }}">NEWS</a>
@@ -211,6 +250,35 @@
           });
       });
   </script>
+  
+  <!-- Add Facebook Messenger Chat plugin -->
+  <!-- Messenger Chat plugin Code -->
+    <div id="fb-root"></div>
+    <div id="fb-customer-chat" class="fb-customerchat">
+    </div>
+
+    <script>
+      var chatbox = document.getElementById('fb-customer-chat');
+      chatbox.setAttribute("page_id", "TEST_PAGE_ID_REPLACE_ME");
+      chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          xfbml            : true,
+          version          : 'v18.0'
+        });
+      };
+
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+
   @yield('scripts')
 </body>
 </html>

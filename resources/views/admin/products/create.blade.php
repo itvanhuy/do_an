@@ -41,10 +41,55 @@
             </div>
         </div>
 
-        <div style="margin-bottom: 20px;">
-            <label style="display:block; margin-bottom:5px;">Product Image</label>
-            <input type="file" name="image" style="width:100%;">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+            <div>
+                <label style="display:block; margin-bottom:5px; font-weight:600;">Main Image</label>
+                <input type="file" name="image" id="mainImageInput" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;" onchange="previewMainImage(this)">
+                <div id="mainImagePreview" style="margin-top:10px; display:none;">
+                    <img src="" style="max-width:150px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+                </div>
+            </div>
+            <div>
+                <label style="display:block; margin-bottom:5px; font-weight:600;">Gallery Images</label>
+                <input type="file" name="images[]" multiple style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;" onchange="previewGalleryImages(this)">
+                <div id="galleryPreview" style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;"></div>
+            </div>
         </div>
+
+        <script>
+            function previewMainImage(input) {
+                const preview = document.querySelector('#mainImagePreview');
+                const img = preview.querySelector('img');
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        img.src = e.target.result;
+                        preview.style.display = 'block';
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            function previewGalleryImages(input) {
+                const preview = document.querySelector('#galleryPreview');
+                preview.innerHTML = '';
+                if (input.files) {
+                    Array.from(input.files).forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.style.maxWidth = '80px';
+                            img.style.maxHeight = '80px';
+                            img.style.borderRadius = '5px';
+                            img.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+                            preview.appendChild(img);
+                        }
+                        reader.readAsDataURL(file);
+                    });
+                }
+            }
+        </script>
 
         <div style="margin-bottom: 20px;">
             <label style="display:block; margin-bottom:5px;">Description</label>

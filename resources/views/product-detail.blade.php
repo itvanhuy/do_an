@@ -71,14 +71,14 @@
             <p class="product-price">
                 @if ($product->discount > 0)
                 <span style="text-decoration: line-through; color: #999; font-size: 16px; display: block;">
-                    {{ number_format($product->price, 0, ',', '.') }} VND
+                    ${{ number_format($product->price / 25000, 2) }}
                 </span>
                 <span style="color: #e60023; font-weight: bold; font-size: 24px;">
-                    {{ number_format($product->price * (1 - $product->discount/100), 0, ',', '.') }} VND
+                    ${{ number_format(($product->price * (1 - $product->discount/100)) / 25000, 2) }}
                 </span>
                 @else
                 <span style="color: #333; font-weight: bold; font-size: 24px;">
-                    {{ number_format($product->price, 0, ',', '.') }} VND
+                    ${{ number_format($product->price / 25000, 2) }}
                 </span>
                 @endif
             </p>
@@ -216,13 +216,13 @@
                     <div style="margin: 10px 0;">
                         @if (($related->discount ?? 0) > 0)
                             <span style="text-decoration: line-through; color: #999; font-size: 0.9em; margin-right: 5px;">
-                                {{ number_format($related->price, 0, ',', '.') }} VND
+                                ${{ number_format($related->price / 25000, 2) }}
                             </span>
                             <span style="color: #e60023; font-weight: bold;">
-                                {{ number_format($related->price * (1 - $related->discount/100), 0, ',', '.') }} VND
+                                ${{ number_format(($related->price * (1 - $related->discount/100)) / 25000, 2) }}
                             </span>
                         @else
-                            <span style="color: #333; font-weight: bold;">{{ number_format($related->price, 0, ',', '.') }} VND</span>
+                            <span style="color: #333; font-weight: bold;">${{ number_format($related->price / 25000, 2) }}</span>
                         @endif
                     </div>
                 </div>
@@ -254,13 +254,13 @@
                     <div style="margin: 10px 0;">
                         @if (($recent->discount ?? 0) > 0)
                             <span style="text-decoration: line-through; color: #999; font-size: 0.9em; margin-right: 5px;">
-                                {{ number_format($recent->price, 0, ',', '.') }} VND
+                                ${{ number_format($recent->price / 25000, 2) }}
                             </span>
                             <span style="color: #e60023; font-weight: bold;">
-                                {{ number_format($recent->price * (1 - $recent->discount/100), 0, ',', '.') }} VND
+                                ${{ number_format(($recent->price * (1 - $recent->discount/100)) / 25000, 2) }}
                             </span>
                         @else
-                            <span style="color: #333; font-weight: bold;">{{ number_format($recent->price, 0, ',', '.') }} VND</span>
+                            <span style="color: #333; font-weight: bold;">${{ number_format($recent->price / 25000, 2) }}</span>
                         @endif
                     </div>
                 </div>

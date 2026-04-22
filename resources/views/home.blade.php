@@ -41,8 +41,11 @@
   <section class="hero">
     <div class="hero-slider">
       <img src="{{ asset('img/slide1.png') }}" class="active" alt="Esports Slide 1" />
-      <img src="{{ asset('img/anh_login.png') }}" alt="Esports Slide 2" />
-      <img src="{{ asset('img/slide3.png') }}" alt="Esports Slide 3" />
+      @if(isset($slides) && $slides->count() > 0)
+          @foreach($slides as $index => $slide)
+              <img src="{{ asset('img/slides/' . $slide->image) }}" class="{{ $index == 0 ? 'active' : '' }}" alt="{{ $slide->title }}" />
+          @endforeach
+      @endif
       <button class="prev-btn">&#10094;</button>
       <button class="next-btn">&#10095;</button>
     </div>
@@ -57,26 +60,50 @@
   </section>
 
   <section class="main-content">
+
+
+    <!-- New Products -->
     <section class="featured-products enhanced">
-      <h2>Featured Products</h2>
+      <h2>New Products</h2>
       <div class="grid grid-3">
-        @foreach ($featuredProducts as $product)
-            <div class="card">
-              <img src="{{ asset('img/product/' . $product->image) }}" 
-                   alt="{{ $product->name }}"
-                   onerror="this.src='{{ asset('img/product/default.jpg') }}'">
-              <h3>{{ Str::limit($product->name, 25) }}</h3>
-              @if (($product->discount ?? 0) > 0)
-                  <p style="margin-bottom: 10px;">
-                      <span style="text-decoration: line-through; color: #999; font-size: 0.9em; margin-right: 5px;">{{ number_format($product->price, 0, ',', '.') }} VND</span>
-                      <span style="color: #e63946; font-weight: bold;">{{ number_format($product->price * (1 - $product->discount/100), 0, ',', '.') }} VND</span>
-                  </p>
-              @else
-                  <p style="color: #e63946; font-weight: bold; margin-bottom: 10px;">{{ number_format($product->price, 0, ',', '.') }} VND</p>
-              @endif
-              <a href="{{ url('products/' . $product->id) }}"><button>Buy Now</button></a>
-            </div>
+        @foreach ($newProducts as $product)
+            @include('components.product_card', ['product' => $product])
         @endforeach
+      </div>
+    </section>
+  
+    <!-- Flash Sale Products -->
+    @if($promoProducts->count() > 0)
+    <section class="featured-products enhanced">
+      <h2>Flash Sale</h2>
+      <div class="grid grid-3">
+        @foreach ($promoProducts as $product)
+            @include('components.product_card', ['product' => $product])
+        @endforeach
+      </div>
+    </section>
+    @endif
+  
+    <!-- Recommended Products -->
+    <section class="featured-products enhanced">
+      <h2>Recommended For You</h2>
+      <div class="grid grid-3">
+        @foreach ($recommendedProducts as $product)
+            @include('components.product_card', ['product' => $product])
+        @endforeach
+      </div>
+    </section>
+  
+    <!-- All Products -->
+    <section class="featured-products enhanced">
+      <h2>All Products</h2>
+      <div class="grid grid-3">
+        @foreach ($allProducts as $product)
+            @include('components.product_card', ['product' => $product])
+        @endforeach
+      </div>
+      <div style="text-align:center; margin-top:30px;">
+        <a href="{{ url('shop') }}" style="display:inline-block; padding:12px 30px; background:#333; color:white; text-decoration:none; border-radius:5px; font-weight:bold;">View Full Store →</a>
       </div>
     </section>
 

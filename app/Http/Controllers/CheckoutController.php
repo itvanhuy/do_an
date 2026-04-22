@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Product;
+use App\Mail\OrderPlaced;
 
 class CheckoutController extends Controller
 {
@@ -133,7 +135,28 @@ class CheckoutController extends Controller
 
         if (empty($cartItems)) return back()->withErrors(['cart' => 'Giỏ hàng trống!']);
 
-        $total = $subtotal + $shippingFee;
+        // Apply coupon if provided
+        $discountAmount = 0;
+        $couponCode = $request->coupon_code;
+        if ($couponCode) {
+            $coupon = DB::table('coupons')
+                ->where('code', $couponCode)
+                ->where('is_active', 1)
+                ->where(function($q) { $q->whereNull('expires_at')->orWhere('expires_at', '>', now()); })
+                ->where(function($q) { $q->whereNull('max_uses')->orWhereRaw('used_count < max_uses'); })
+                ->where('min_order', '<=', $subtotal)
+                ->first();
+            
+            if ($coupon) {
+                if ($coupon->discount_type === 'percent') {
+                    $discountAmount = $subtotal * ($coupon->discount_value / 100);
+                } else {
+                    $discountAmount = $coupon->discount_value;
+                }
+            }
+        }
+
+        $total = $subtotal + $shippingFee - $discountAmount;
         $fullAddress = $request->name . ' | ' . $request->phone . ' | ' . $request->shipping_address;
 
         DB::beginTransaction();
@@ -164,7 +187,27 @@ class CheckoutController extends Controller
                 DB::table('cart')->where('user_id', $userId)->delete();
             }
 
+            // Update coupon used_count if a coupon was applied
+            if ($request->coupon_code) {
+                DB::table('coupons')->where('code', $request->coupon_code)->increment('used_count');
+            }
+
             DB::commit();
+
+            // Send order confirmation email
+            try {
+                $order = DB::table('orders')->where('id', $orderId)->first();
+                $orderItems = DB::table('order_items')
+                    ->join('products', 'order_items.product_id', '=', 'products.id')
+                    ->where('order_items.order_id', $orderId)
+                    ->select('order_items.*', 'products.name')
+                    ->get();
+                $customer = Auth::user();
+                Mail::to($customer->email)->send(new OrderPlaced($order, $orderItems, $customer));
+            } catch (\Exception $mailEx) {
+                // Don't fail the order if email fails
+                \Log::warning('Order email failed: ' . $mailEx->getMessage());
+            }
 
             if ($request->payment_method === 'vnpay') {
                 return $this->createVnpayPayment($orderId, $total);

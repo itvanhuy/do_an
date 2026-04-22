@@ -24,7 +24,15 @@
                 <td style="padding:15px; color:#888;">{{ $user->id }}</td>
                 <td style="padding:15px; font-weight:600;">{{ $user->username }}</td>
                 <td style="padding:15px;">{{ $user->email }}</td>
-                <td style="padding:15px;"><span class="status-badge" style="background: {{ $user->role === 'admin' ? '#ffebee; color:#c62828' : '#e8f5e9; color:#2e7d32'}};">{{ $user->role }}</span></td>
+                <td style="padding:15px;">
+                    <form action="{{ route('admin.users.update_role', $user->id) }}" method="POST" onchange="this.submit()">
+                        @csrf
+                        <select name="role" style="padding:5px 10px; border-radius:5px; border:1px solid #ddd; background: {{ $user->role === 'admin' ? '#ffebee' : '#e8f5e9' }}; color: {{ $user->role === 'admin' ? '#c62828' : '#2e7d32' }};">
+                            <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>User</option>
+                            <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
+                        </select>
+                    </form>
+                </td>
                 <td style="padding:15px; color:#888;">{{ date('M d, Y', strtotime($user->created_at)) }}</td>
                 <td style="padding:15px;">
                     <a href="{{ route('admin.users.destroy', $user->id) }}" onclick="return confirm('Delete user?')" style="color:#e74c3c; text-decoration:none;"><i class="fas fa-trash"></i> Delete</a>

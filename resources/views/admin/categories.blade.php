@@ -21,6 +21,7 @@
                     <td style="padding:15px; color:#999;">{{ $category->slug }}</td>
                     <td style="padding:15px; color:#666;">{{ $category->description ?? 'N/A' }}</td>
                     <td style="padding:15px;">
+                        <a href="{{ route('admin.categories.edit', $category->id) }}" style="color:#e67e22; margin-right: 10px;"><i class="fas fa-edit"></i></a>
                         <a href="{{ route('admin.categories.destroy', $category->id) }}" onclick="return confirm('Delete this category?')" style="color:#e74c3c;"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
