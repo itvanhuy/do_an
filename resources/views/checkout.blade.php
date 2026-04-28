@@ -18,7 +18,7 @@
         .payment-option { display: block; padding: 15px; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 15px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; }
         .payment-option:hover { border-color: var(--accent-color); }
         .payment-option input { margin-right: 15px; }
-        .place-order-btn { width: 100%; padding: 15px; background: var(--accent-color); color: white; border: none; border-radius: 5px; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
+        .place-order-btn { width: 100%; padding: 15px; background: #4361ee; color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; display: block; margin-top: 20px; }
         .order-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
         .order-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 5px; margin-right: 15px; }
         .item-details { flex: 1; }
@@ -80,9 +80,9 @@
                     </label>
                     
                     <label class="payment-option">
-                        <input type="radio" name="payment_method" value="vnpay" {{ old('payment_method') === 'vnpay' ? 'checked' : '' }}> 
-                        <span>Pay via VNPAY / VNPAY-QR </span>
-                        <img src="https://sandbox.vnpayment.vn/paymentv2/images/assets/merchant-logo.png" alt="VNPAY" style="height: 24px; margin-left: 10px;">
+                        <input type="radio" name="payment_method" value="momo" {{ old('payment_method') === 'momo' ? 'checked' : '' }}> 
+                        <span>Pay via MoMo E-Wallet</span>
+                        <img src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png" alt="MoMo" style="height: 28px; margin-left: 10px;">
                     </label>
                 </div>
                 

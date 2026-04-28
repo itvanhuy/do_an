@@ -303,10 +303,9 @@
             .then(data => {
                 if (data.success) {
                     alert('Product added to cart!');
-                    const cartCount = document.querySelector('.cart-count');
-                    if (cartCount && data.cart_count !== undefined) {
-                        cartCount.textContent = data.cart_count;
-                    }
+                    document.querySelectorAll('.cart-count, .mobile-cart-count').forEach(el => {
+                        el.textContent = data.cart_count;
+                    });
                 } else {
                     alert(data.message || 'Could not add to cart.');
                 }

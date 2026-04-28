@@ -91,7 +91,7 @@ class CheckoutController extends Controller
             'name' => 'required',
             'phone' => 'required',
             'shipping_address' => 'required',
-            'payment_method' => 'required|in:cod,vnpay'
+            'payment_method' => 'required|in:cod,momo'
         ]);
 
         $userId = Auth::id();
@@ -209,8 +209,8 @@ class CheckoutController extends Controller
                 \Log::warning('Order email failed: ' . $mailEx->getMessage());
             }
 
-            if ($request->payment_method === 'vnpay') {
-                return $this->createVnpayPayment($orderId, $total);
+            if ($request->payment_method === 'momo') {
+                return $this->createMomoPayment($orderId, $total);
             }
 
             return redirect('checkout/success?order_id=' . $orderId);
@@ -221,106 +221,97 @@ class CheckoutController extends Controller
         }
     }
 
-    private function createVnpayPayment($orderId, $amount)
+    private function createMomoPayment($orderId, $amount)
     {
-        $vnp_TmnCode = env('VNPAY_TMN_CODE', 'CGXZLS0Z'); // Lấy từ .env hoặc mặc định
-        $vnp_HashSecret = env('VNPAY_HASH_SECRET', 'XNBCJFAKRN2'); // Lấy từ .env hoặc mặc định
-        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = url('/checkout/vnpay_return');
+        $endpoint   = 'https://test-payment.momo.vn/v2/gateway/api/create';
+        $partnerCode = env('MOMO_PARTNER_CODE', 'MOMO');
+        $accessKey   = env('MOMO_ACCESS_KEY', 'F8BBA842ECF85');
+        $secretKey   = env('MOMO_SECRET_KEY', 'K951B6PE1waDMi640xX08PD3vg6EkVlz');
+        $returnUrl   = url('/checkout/momo_return');
+        $notifyUrl   = url('/checkout/momo_notify');
+        $requestId   = $partnerCode . time();
+        $requestType = 'payWithMethod';
+        $orderInfo   = 'TechShop - Order #' . $orderId;
+        $extraData   = base64_encode(json_encode(['order_id' => $orderId]));
+        $autoCapture = true;
+        $lang        = 'vi';
 
-        $vnp_TxnRef = $orderId . '_' . time(); 
-        $vnp_OrderInfo = 'Thanh toan don hang #' . $orderId;
-        $vnp_OrderType = 'billpayment';
-        $vnp_Amount = $amount * 100;
-        $vnp_Locale = 'vn';
-        $vnp_BankCode = '';
-        $vnp_IpAddr = request()->ip();
+        $rawHash = "accessKey=$accessKey&amount=$amount&extraData=$extraData&ipnUrl=$notifyUrl&orderId=$requestId&orderInfo=$orderInfo&partnerCode=$partnerCode&redirectUrl=$returnUrl&requestId=$requestId&requestType=$requestType";
+        $signature = hash_hmac('sha256', $rawHash, $secretKey);
 
-        $inputData = array(
-            "vnp_Version" => "2.1.0",
-            "vnp_TmnCode" => $vnp_TmnCode,
-            "vnp_Amount" => $vnp_Amount,
-            "vnp_Command" => "pay",
-            "vnp_CreateDate" => date('YmdHis'),
-            "vnp_CurrCode" => "VND",
-            "vnp_IpAddr" => $vnp_IpAddr,
-            "vnp_Locale" => $vnp_Locale,
-            "vnp_OrderInfo" => $vnp_OrderInfo,
-            "vnp_OrderType" => $vnp_OrderType,
-            "vnp_ReturnUrl" => $vnp_Returnurl,
-            "vnp_TxnRef" => $vnp_TxnRef,
-        );
+        $data = [
+            'partnerCode' => $partnerCode,
+            'accessKey'   => $accessKey,
+            'requestId'   => $requestId,
+            'amount'      => (int) $amount,
+            'orderId'     => $requestId,
+            'orderInfo'   => $orderInfo,
+            'redirectUrl' => $returnUrl,
+            'ipnUrl'      => $notifyUrl,
+            'extraData'   => $extraData,
+            'requestType' => $requestType,
+            'signature'   => $signature,
+            'lang'        => $lang,
+            'autoCapture' => $autoCapture,
+        ];
 
-        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
-            $inputData['vnp_BankCode'] = $vnp_BankCode;
+        $ch = curl_init($endpoint);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        $response = json_decode($result, true);
+
+        if (isset($response['payUrl'])) {
+            // Lưu requestId để đối chiếu khi callback
+            DB::table('orders')->where('id', $orderId)->update(['payment_ref' => $requestId]);
+            return redirect($response['payUrl']);
         }
 
-        ksort($inputData);
-        $query = "";
-        $i = 0;
-        $hashdata = "";
-
-        foreach ($inputData as $key => $value) {
-            if ($i == 1) {
-                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
-            } else {
-                $hashdata .= urlencode($key) . "=" . urlencode($value);
-                $i = 1;
-            }
-            $query .= urlencode($key) . "=" . urlencode($value) . '&';
-        }
-
-        $vnp_Url = $vnp_Url . "?" . $query;
-        if (isset($vnp_HashSecret)) {
-            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
-            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
-        }
-
-        return redirect($vnp_Url);
+        return back()->withErrors(['checkout' => 'Không thể kết nối MoMo. Vui lòng thử lại.']);
     }
 
-    public function vnpayReturn(Request $request)
+    public function momoReturn(Request $request)
     {
-        $vnp_SecureHash = $request->vnp_SecureHash;
-        $inputData = array();
-        foreach ($request->all() as $key => $value) {
-            if (substr($key, 0, 4) == "vnp_") {
-                $inputData[$key] = $value;
-            }
-        }
-        
-        unset($inputData['vnp_SecureHash']);
-        ksort($inputData);
-        $i = 0;
-        $hashData = "";
-        foreach ($inputData as $key => $value) {
-            if ($i == 1) {
-                $hashData = $hashData . '&' . urlencode($key) . "=" . urlencode($value);
-            } else {
-                $hashData = $hashData . urlencode($key) . "=" . urlencode($value);
-                $i = 1;
-            }
+        $resultCode = $request->resultCode;
+        $extraData  = json_decode(base64_decode($request->extraData), true);
+        $orderId    = $extraData['order_id'] ?? null;
+
+        if ($resultCode == 0) {
+            DB::table('orders')->where('id', $orderId)->update(['status' => 'confirmed']);
+            return redirect('checkout/success?order_id=' . $orderId);
         }
 
-        $secureHash = hash_hmac('sha512', $hashData, env('VNPAY_HASH_SECRET', 'XNBCJFAKRN2'));
+        DB::table('orders')->where('id', $orderId)->update(['status' => 'cancelled']);
+        return redirect('checkout/success?order_id=' . $orderId . '&momo_error=1');
+    }
 
-        $orderId = explode('_', $request->vnp_TxnRef)[0];
+    public function momoNotify(Request $request)
+    {
+        // IPN callback từ MoMo server
+        $secretKey  = env('MOMO_SECRET_KEY', 'K951B6PE1waDMi640xX08PD3vg6EkVlz');
+        $rawHash    = "accessKey=" . env('MOMO_ACCESS_KEY', 'F8BBA842ECF85') .
+                      "&amount={$request->amount}&extraData={$request->extraData}" .
+                      "&message={$request->message}&orderId={$request->orderId}" .
+                      "&orderInfo={$request->orderInfo}&orderType={$request->orderType}" .
+                      "&partnerCode={$request->partnerCode}&payType={$request->payType}" .
+                      "&requestId={$request->requestId}&responseTime={$request->responseTime}" .
+                      "&resultCode={$request->resultCode}&transId={$request->transId}";
 
-        if ($secureHash == $vnp_SecureHash) {
-            if ($request->vnp_ResponseCode == '00') {
-                // Thanh cong
+        $signature = hash_hmac('sha256', $rawHash, $secretKey);
+
+        if ($signature === $request->signature && $request->resultCode == 0) {
+            $extraData = json_decode(base64_decode($request->extraData), true);
+            $orderId   = $extraData['order_id'] ?? null;
+            if ($orderId) {
                 DB::table('orders')->where('id', $orderId)->update(['status' => 'confirmed']);
-                return view('checkout_success', ['orderId' => $orderId, 'message' => 'Thanh toán VNPAY thành công!']);
-            } else {
-                // That bai
-                DB::table('orders')->where('id', $orderId)->update(['status' => 'cancelled']);
-                return view('checkout_success', ['orderId' => $orderId, 'message' => 'Thanh toán VNPAY thất bại hoặc bị hủy.']);
             }
-        } else {
-             // Sai chu ky
-            DB::table('orders')->where('id', $orderId)->update(['status' => 'cancelled']);
-            return view('checkout_success', ['orderId' => $orderId, 'message' => 'Lỗi bảo mật dữ liệu VNPAY (Sai chữ ký).']);
         }
+
+        return response()->json(['status' => 'ok']);
     }
     
     public function success(Request $request)

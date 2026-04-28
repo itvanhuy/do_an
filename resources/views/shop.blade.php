@@ -220,6 +220,12 @@
 
     // Add to Cart Function (AJAX - expects standard JSON response)
     function addToCart(productId) {
+        @guest
+            showToast('Please log in to add products to cart!', 'error');
+            setTimeout(() => window.location.href = '{{ route("login") }}', 1500);
+            return;
+        @endguest
+
         fetch('{{ url("cart/add") }}', {
             method: 'POST',
             headers: { 
@@ -229,8 +235,15 @@
             body: JSON.stringify({ product_id: productId, quantity: 1 })
         })
         .then(res => res.json())
-        .then(data => showToast(data.message || 'Added to cart!', data.success ? 'success' : 'error'))
-        .catch(() => showToast('Log in to continue!', 'error'));
+        .then(data => {
+            showToast(data.message || 'Added to cart!', data.success ? 'success' : 'error');
+            if (data.success && data.cart_count !== undefined) {
+                document.querySelectorAll('.cart-count, .mobile-cart-count').forEach(el => {
+                    el.textContent = data.cart_count;
+                });
+            }
+        })
+        .catch(() => showToast('An error occurred. Please try again.', 'error'));
     }
 </script>
 @endsection

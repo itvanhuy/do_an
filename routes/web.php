@@ -28,6 +28,15 @@ Route::get('/register', [AuthController::class, 'showRegister'])->name('register
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// Email Verification
+Route::get('/email/verify/{token}', [AuthController::class, 'verifyEmail'])->name('email.verify');
+
+// Forgot & Reset Password
+Route::get('/password/forgot', [AuthController::class, 'showForgotPassword'])->name('password.forgot.form');
+Route::post('/password/forgot', [AuthController::class, 'sendResetLink'])->name('password.forgot');
+Route::get('/password/reset/{token}', [AuthController::class, 'showResetPassword'])->name('password.reset.form');
+Route::post('/password/reset', [AuthController::class, 'resetPassword'])->name('password.reset');
+
 // Social Login Routes
 Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('login.google');
 Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
@@ -54,7 +63,8 @@ Route::post('/coupon/apply', [CheckoutController::class, 'applyCoupon'])->name('
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
 Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
-Route::get('/checkout/vnpay_return', [CheckoutController::class, 'vnpayReturn'])->name('checkout.vnpay_return');
+Route::get('/checkout/momo_return', [CheckoutController::class, 'momoReturn'])->name('checkout.momo_return');
+Route::post('/checkout/momo_notify', [CheckoutController::class, 'momoNotify'])->name('checkout.momo_notify');
 
 // Tournament & News
 Route::get('/tournament', [TournamentController::class, 'index'])->name('tournament');
