@@ -533,3 +533,17 @@
     color: #a970ff;
     font-weight: bold;
 }
+
+/* ===== RESPONSIVE FOOTER ===== */
+@media (max-width: 768px) {
+    .footer-content { flex-direction: column; gap: 30px; padding: 30px 20px; }
+    .footer-logo, .footer-links, .footer-contact, .footer-social { width: 100%; }
+    .footer-bottom-content { flex-direction: column; gap: 15px; text-align: center; }
+    .footer-legal { justify-content: center; }
+    .payment-methods { justify-content: center; }
+}
+
+@media (max-width: 480px) {
+    .footer-content { padding: 20px 15px; }
+    .social-icons { justify-content: flex-start; }
+}

@@ -13,7 +13,7 @@ class ProductController extends Controller
     public function show(Request $request, $id)
     {
         // Chỉ lấy các cột cần thiết để tiết kiệm RAM server
-        $product = Product::select('products.id', 'products.name', 'products.description', 'products.price', 'products.discount', 'products.image', 'products.stock_quantity', 'products.category_id', 'categories.name as category_name')
+        $product = Product::select('products.id', 'products.name', 'products.description', 'products.price', 'products.discount', 'products.image', 'products.stock_quantity', 'products.category_id', 'categories.name as category_name', 'categories.slug as category_slug')
             ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
             ->where('products.id', $id)
             ->where('products.is_active', 1)

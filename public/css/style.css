@@ -62,104 +62,18 @@ button, .btn {
 .animate {
     animation: fadeIn 0.5s ease-in-out;
 }
-<<<<<<< HEAD
 
-/* ===== RESPONSIVE STYLES (MOBILE) ===== */
+/* ===== RESPONSIVE GLOBAL ===== */
 @media (max-width: 768px) {
-    /* Header Responsive */
-    .header {
-        padding: 10px 15px;
-        flex-wrap: wrap;
-        position: relative;
-    }
-
-    .logo img {
-        height: 50px !important;
-    }
-
-    .navbar {
-        display: none; /* Ẩn menu mặc định trên mobile */
-        width: 100%;
-        flex-direction: column;
-        background: #fff;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        z-index: 1000;
-        padding: 10px 0;
-    }
-
-    .navbar.active {
-        display: flex !important; /* Hiện menu khi bấm nút */
-    }
-
-    .navbar a {
-        padding: 12px 20px;
-        border-bottom: 1px solid #f0f0f0;
-        width: 100%;
-        display: block;
-        text-align: left;
-    }
-
-    .menu-toggle {
-        display: block !important;
-        background: none;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        color: #333;
-        margin-left: 15px;
-    }
-
-    .header-right {
-        margin-left: auto;
-        gap: 10px;
-    }
-
-    .search-bar input {
-        width: 120px;
-        padding: 5px 10px;
-    }
-
-    /* Checkout Responsive */
-    .checkout-content {
-        flex-direction: column;
-    }
-
-    .checkout-form, .order-summary {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    /* Cart Responsive */
-    .cart-content {
-        flex-direction: column;
-    }
-
-    .cart-items, .cart-summary {
-        width: 100%;
-    }
-    
-    .cart-item {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .cart-item img {
-        width: 80px;
-        height: 80px;
-        margin-bottom: 15px;
-    }
+    .checkout-content { flex-direction: column; }
+    .checkout-form, .order-summary { width: 100%; margin-bottom: 20px; }
+    .cart-content { flex-direction: column; }
+    .cart-items, .cart-summary { width: 100%; }
+    .cart-item { flex-direction: column; align-items: flex-start; }
+    .cart-item img { width: 80px; height: 80px; margin-bottom: 15px; }
 }
 
 @media (min-width: 769px) {
-    .menu-toggle {
-        display: none !important;
-    }
-    .navbar {
-        display: flex !important;
-    }
+    .menu-toggle { display: none !important; }
+    .navbar { display: flex !important; }
 }
-=======
->>>>>>> 3be3e54cf790d1b58872b3ae93f5796e18941695

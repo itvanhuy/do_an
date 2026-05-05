@@ -14,6 +14,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
         ]);
+        // Exempt webhook từ CSRF
+        $middleware->validateCsrfTokens(except: [
+            'webhook/sepay',
+            'checkout/momo_notify',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

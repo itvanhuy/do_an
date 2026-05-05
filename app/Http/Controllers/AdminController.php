@@ -15,18 +15,24 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        $totalUsers = DB::table('users')->count();
+        // Gộp 3 count queries thành 1
+        $stats = DB::table('users')->selectRaw('COUNT(*) as total_users')->first();
+        $totalUsers = $stats->total_users;
         $totalProducts = DB::table('products')->count();
         $totalOrders = DB::table('orders')->count();
         
         $today = date('Y-m-d');
-        $dailyOrders = DB::table('orders')->whereDate('created_at', $today)->count();
-        
         $currentMonth = date('Y-m');
-        $monthlyRevenue = DB::table('orders')
-            ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = ?", [$currentMonth])
-            ->whereIn('status', ['delivered', 'shipped'])
-            ->sum('total');
+
+        $dailyAndRevenue = DB::table('orders')
+            ->selectRaw("
+                SUM(DATE(created_at) = ?) as daily_orders,
+                SUM(CASE WHEN DATE_FORMAT(created_at, '%Y-%m') = ? AND status IN ('delivered','shipped') THEN total ELSE 0 END) as monthly_revenue
+            ", [$today, $currentMonth])
+            ->first();
+
+        $dailyOrders = $dailyAndRevenue->daily_orders ?? 0;
+        $monthlyRevenue = $dailyAndRevenue->monthly_revenue ?? 0;
 
         $recentOrders = DB::table('orders')
             ->leftJoin('users', 'orders.user_id', '=', 'users.id')
@@ -79,14 +85,25 @@ class AdminController extends Controller
 
         $orders = $query->orderBy('orders.created_at', 'desc')->paginate(15);
         
-        // Count by status for tabs
+        // Count by status for tabs - 1 query thay vì 6
+        $counts = DB::table('orders')
+            ->selectRaw("
+                COUNT(*) as `all`,
+                SUM(status = 'pending') as pending,
+                SUM(status = 'processing') as processing,
+                SUM(status = 'shipped') as shipped,
+                SUM(status = 'delivered') as delivered,
+                SUM(status = 'cancelled') as cancelled
+            ")
+            ->first();
+
         $statusCounts = [
-            'all'        => DB::table('orders')->count(),
-            'pending'    => DB::table('orders')->where('status', 'pending')->count(),
-            'processing' => DB::table('orders')->where('status', 'processing')->count(),
-            'shipped'    => DB::table('orders')->where('status', 'shipped')->count(),
-            'delivered'  => DB::table('orders')->where('status', 'delivered')->count(),
-            'cancelled'  => DB::table('orders')->where('status', 'cancelled')->count(),
+            'all'        => $counts->all,
+            'pending'    => $counts->pending,
+            'processing' => $counts->processing,
+            'shipped'    => $counts->shipped,
+            'delivered'  => $counts->delivered,
+            'cancelled'  => $counts->cancelled,
         ];
 
         return view('admin.orders', compact('orders', 'statusFilter', 'statusCounts'));

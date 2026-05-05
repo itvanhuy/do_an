@@ -34,9 +34,9 @@ class HomeController extends Controller
                                 ->orderBy('discount', 'desc')
                                 ->take(3)->get();
         
-        // 3. Sản phẩm đề nghị (ví dụ: inRandomOrder hoặc nổi bật)
+        // 3. Sản phẩm đề nghị
         $recommendedProducts = Product::where('is_active', 1)
-                                      ->inRandomOrder()
+                                      ->orderBy('sold', 'desc')
                                       ->take(3)->get();
 
         // 4. Lấy 3 bài viết mới nhất

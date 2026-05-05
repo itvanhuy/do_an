@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
                 'role' => 'admin',
                 'phone' => '0896492400',
                 'address' => 'TechShop Headquarters, HCM City',
+                'email_verified_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -36,6 +37,7 @@ class DatabaseSeeder extends Seeder
                 'role' => 'user',
                 'phone' => '0987654321',
                 'address' => '123 Street No. 1, District 1, HCM City',
+                'email_verified_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -47,6 +49,7 @@ class DatabaseSeeder extends Seeder
                 'role' => 'user',
                 'phone' => '0123456789',
                 'address' => 'Da Nang City',
+                'email_verified_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]
@@ -254,7 +257,7 @@ class DatabaseSeeder extends Seeder
             [
                 'id' => 2, 'user_id' => 3, 'total' => 29530000, 
                 'shipping_address' => 'Lê Văn Huy | 0123456789 | Da Nang City',
-                'payment_method' => 'vnpay', 'status' => 'pending', 'created_at' => now()
+                'payment_method' => 'cod', 'status' => 'pending', 'created_at' => now()
             ],
             [
                 'id' => 3, 'user_id' => 2, 'total' => 2990000, 

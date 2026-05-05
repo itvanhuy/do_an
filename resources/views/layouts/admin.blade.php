@@ -40,6 +40,12 @@
             <li><a href="{{ route('admin.reviews') }}" class="{{ request()->is('admin/reviews*') ? 'active' : '' }}"><i class="fas fa-star"></i> Reviews</a></li>
             <li><a href="{{ route('admin.orders') }}" class="{{ request()->is('admin/orders*') ? 'active' : '' }}"><i class="fas fa-shopping-cart"></i> Orders</a></li>
             <li><a href="{{ route('admin.contacts') }}" class="{{ request()->is('admin/contacts*') ? 'active' : '' }}"><i class="fas fa-envelope"></i> Contacts</a></li>
+            <li>
+                <a href="{{ route('admin.chat') }}" class="{{ request()->is('admin/chat*') ? 'active' : '' }}">
+                    <i class="fas fa-comment-dots"></i> Live Chat
+                    <span id="sidebar-chat-badge" style="background:#ff3b3b; color:white; border-radius:10px; padding:1px 7px; font-size:11px; margin-left:5px; display:none;"></span>
+                </a>
+            </li>
             <li><a href="{{ route('admin.coupons') }}" class="{{ request()->is('admin/coupons*') ? 'active' : '' }}"><i class="fas fa-ticket-alt"></i> Coupons</a></li>
             <li><a href="{{ route('admin.slides') }}" class="{{ request()->is('admin/slides*') ? 'active' : '' }}"><i class="fas fa-images"></i> Slides</a></li>
             <li><a href="{{ route('admin.users') }}" class="{{ request()->is('admin/users*') ? 'active' : '' }}"><i class="fas fa-users"></i> Users</a></li>
@@ -67,5 +73,25 @@
         @yield('content')
     </main>
     @yield('scripts')
+<script>
+// Poll unread chat badge in sidebar
+function pollChatBadge() {
+    fetch('{{ route("admin.chat.unread") }}')
+        .then(r => r.json())
+        .then(data => {
+            const badge = document.getElementById('sidebar-chat-badge');
+            if (badge) {
+                if (data.count > 0) {
+                    badge.style.display = 'inline';
+                    badge.textContent = data.count;
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        }).catch(() => {});
+}
+pollChatBadge();
+setInterval(pollChatBadge, 5000);
+</script>
 </body>
 </html>

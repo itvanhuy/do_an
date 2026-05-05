@@ -173,3 +173,13 @@
         flex-direction: column;
     }
 }
+
+/* ===== RESPONSIVE ORDERS ===== */
+@media (max-width: 768px) {
+    .orders-container { padding: 15px; }
+    .order-card { padding: 15px; }
+    .order-header { flex-direction: column; gap: 10px; }
+    .order-items-list { flex-direction: column; }
+    .order-item-row { flex-direction: column; }
+    .order-item-row img { width: 60px; height: 60px; }
+}

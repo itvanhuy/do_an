@@ -814,3 +814,20 @@ body {
 .additional-info li i {
     color: #28a745;
 }
+
+/* ===== RESPONSIVE PRODUCT DETAIL ===== */
+@media (max-width: 768px) {
+    .product-container { flex-direction: column !important; padding: 15px; }
+    .product-image { width: 100% !important; margin-bottom: 20px; }
+    .product-info { width: 100% !important; }
+    .thumbnail-gallery { display: flex; gap: 8px; flex-wrap: wrap; }
+    .thumbnail-gallery img { width: 60px; height: 60px; }
+    .product-actions { flex-wrap: wrap; gap: 10px; }
+    .product-actions input { width: 60px; }
+    .related-products .product-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+@media (max-width: 480px) {
+    .product-title { font-size: 1.2rem; }
+    .related-products .product-grid { grid-template-columns: 1fr !important; }
+}

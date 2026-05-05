@@ -46,17 +46,18 @@ class ShopController extends Controller
             ->get();
 
         if ($fsProducts->isEmpty()) {
-            $fsProducts = Product::where('is_active', 1)->inRandomOrder()->take(4)->get();
+            $fsProducts = Product::where('is_active', 1)->orderBy('sold', 'desc')->take(4)->get();
         }
 
         // Recommendations
-        $recProducts = Product::where('is_active', 1)->inRandomOrder()->take(12)->get();
+        $recProducts = Product::where('is_active', 1)->orderBy('sold', 'desc')->take(12)->get();
 
         // Sidebar Categories
         $categories = Category::orderBy('name')->get();
         $brands = DB::table('brands')->orderBy('name')->get();
+        $isCategory = false;
 
-        return view('shop', compact('featuredProducts', 'fsProducts', 'recProducts', 'categories', 'brands', 'search', 'sort'));
+        return view('shop', compact('featuredProducts', 'fsProducts', 'recProducts', 'categories', 'brands', 'search', 'sort', 'isCategory'));
     }
 
     /**
@@ -84,6 +85,7 @@ class ShopController extends Controller
             'currentCategory' => $category,
             'search' => null,
             'sort' => 'newest',
+            'isCategory' => true,
         ]);
     }
 }

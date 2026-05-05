@@ -38,7 +38,7 @@
         <ul>
             <li><a href="{{ route('home') }}"><i class="fas fa-home"></i> Home</a></li>
             <li><a href="{{ url('shop') }}">Shop</a></li>
-            <li><a href="{{ url('products?category_id=' . $product->category_id) }}">{{ $product->category_name }}</a></li>
+            <li><a href="{{ route('category', ['slug' => $product->category_slug]) }}">{{ $product->category_name }}</a></li>
             <li class="current">{{ $product->name }}</li>
         </ul>
     </nav>
@@ -230,7 +230,7 @@
             @endforeach
         </div>
         <div class="see-more-container">
-            <a href="{{ url('products?category_id=' . $product->category_id) }}" class="btn-see-more">🔍 See More Products</a>
+            <a href="{{ route('category', ['slug' => $product->category_slug]) }}" class="btn-see-more">🔍 See More Products</a>
         </div>
     </section>
     @endif

@@ -56,7 +56,9 @@
                     <label style="display:block; margin-bottom:5px; font-weight:600;">Message</label>
                     <textarea name="message" required rows="5" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;"></textarea>
                 </div>
-                <button type="submit" style="background:var(--accent-color); color:white; border:none; padding:12px 30px; border-radius:5px; font-weight:bold; cursor:pointer; width:100%;">Send Message</button>
+                <button type="submit" style="background:#e63946; color:white; border:none; padding:14px 30px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%; font-size:15px; transition: background 0.3s;">
+                    <i class="fas fa-paper-plane" style="margin-right:8px;"></i> Send Message
+                </button>
             </form>
         </div>
     </div>

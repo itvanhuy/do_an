@@ -16,7 +16,7 @@
         <form action="{{ route('password.forgot') }}" method="POST">
             @csrf
             <h1>Forgot Password</h1>
-            <p style="color:#aaa; font-size:14px; margin-bottom:20px;">Enter your email and we'll send you a password reset link.</p>
+            <p style="color:#aaa; font-size:14px; margin-bottom:20px; text-align:center;">Enter your email and we'll send you a reset link.</p>
 
             @if ($errors->any())
                 <div class="error-message"><i class="fas fa-exclamation-circle"></i> {{ $errors->first() }}</div>

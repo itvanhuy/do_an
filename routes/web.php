@@ -16,7 +16,8 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\CouponController;
+use App\Http\Controllers\SepayController;
+use App\Http\Controllers\ChatController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/newsletter', [HomeController::class, 'newsletter'])->name('newsletter');
@@ -63,8 +64,27 @@ Route::post('/coupon/apply', [CheckoutController::class, 'applyCoupon'])->name('
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
 Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
-Route::get('/checkout/momo_return', [CheckoutController::class, 'momoReturn'])->name('checkout.momo_return');
-Route::post('/checkout/momo_notify', [CheckoutController::class, 'momoNotify'])->name('checkout.momo_notify');
+Route::get('/checkout/vnpay_return', [CheckoutController::class, 'vnpayReturn'])->name('checkout.vnpay_return');
+
+// Sepay Webhook
+Route::post('/webhook/sepay', [SepayController::class, 'webhook'])->name('sepay.webhook');
+Route::get('/api/order-status/{orderId}', [SepayController::class, 'checkOrderStatus'])->middleware('auth')->name('order.status');
+
+// Chat Routes
+Route::middleware('auth')->group(function () {
+    Route::post('/chat/send', [ChatController::class, 'send'])->name('chat.send');
+    Route::get('/chat/messages', [ChatController::class, 'messages'])->name('chat.messages');
+});
+
+// Admin Chat Routes
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    // Chat
+    Route::get('/chat', function() { return view('admin.chat'); })->name('admin.chat');
+    Route::get('/chat/users', [ChatController::class, 'adminUsers'])->name('admin.chat.users');
+    Route::get('/chat/messages/{userId}', [ChatController::class, 'adminMessages'])->name('admin.chat.messages');
+    Route::post('/chat/send/{userId}', [ChatController::class, 'adminSend'])->name('admin.chat.send');
+    Route::get('/chat/unread', [ChatController::class, 'adminUnread'])->name('admin.chat.unread');
+});
 
 // Tournament & News
 Route::get('/tournament', [TournamentController::class, 'index'])->name('tournament');

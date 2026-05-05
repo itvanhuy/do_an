@@ -19,7 +19,7 @@
         <ul class="category-list">
             @foreach ($categories as $cat)
             <li class="category-item">
-                <a href="{{ url('products?category_id=' . $cat->id) }}" style="color: inherit; text-decoration: none; flex: 1;">
+                <a href="{{ route('category', ['slug' => $cat->slug]) }}" style="color: inherit; text-decoration: none; flex: 1;">
                     {{ $cat->name }}
                 </a>
             </li>
@@ -124,6 +124,7 @@
             </section>
 
             <!-- Flash Sale -->
+            @if(!isset($isCategory) || !$isCategory)
             <section class="fs-section">
                 <div class="fs-header">
                     <h2 class="fs-title"><i class="fas fa-bolt"></i> Flash Sale</h2>
@@ -158,8 +159,10 @@
                     @endforeach
                 </div>
             </section>
+            @endif
 
             <!-- Recommendations -->
+            @if(!isset($isCategory) || !$isCategory)
             <div class="recommendation-section" style="margin-top: 50px;">
                 <div class="header-bar" style="margin-bottom:20px;">
                     <h3>Today's Recommendations</h3>
@@ -181,6 +184,7 @@
                     @endforeach
                 </div>
             </div>
+            @endif
         @endif
     </div>
 </div>

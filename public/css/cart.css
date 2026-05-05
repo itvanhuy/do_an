@@ -468,3 +468,14 @@
     border-color: #4361ee;
     transform: scale(1.1);
 }
+
+/* ===== RESPONSIVE CART ===== */
+@media (max-width: 768px) {
+    .cart-container { flex-direction: column; padding: 15px; }
+    .cart-items { width: 100% !important; margin-bottom: 20px; }
+    .cart-summary { width: 100% !important; position: static !important; }
+    .cart-item { flex-direction: column; align-items: flex-start; padding: 15px; }
+    .cart-item img { width: 80px; height: 80px; margin-bottom: 10px; }
+    .item-details { width: 100%; }
+    .item-actions { width: 100%; justify-content: space-between; margin-top: 10px; }
+}

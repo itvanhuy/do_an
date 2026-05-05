@@ -8,9 +8,14 @@
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <style>
         .error-message { background: rgba(255,0,0,0.1); color: #ff6b6b; padding: 10px 15px; border-radius: 5px; margin: 15px 0; text-align: center; border: 1px solid rgba(255,0,0,0.2); }
-        .toggle-password { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #aaa; font-size: 14px; z-index: 10; }
-        .toggle-password:hover { color: #e94560; }
-        .inputbox { position: relative; }
+        .inputbox { position: relative; margin: 30px 0; width: 100%; border-bottom: 2px solid #fff; }
+        .inputbox input { width: 100%; height: 30px; background: transparent; border: none; outline: none; font-size: 1rem; color: #fff; padding-right: 30px; }
+        .inputbox label { position: absolute; top: 50%; left: 5px; transform: translateY(-50%); color: #fff; font-size: 1rem; pointer-events: none; transition: all 0.3s; }
+        .inputbox input:focus ~ label,
+        .inputbox input:valid ~ label,
+        .inputbox input:not(:placeholder-shown) ~ label { top: -10px; font-size: 0.85rem; }
+        .toggle-eye { position: absolute; right: 8px; top: 5px; cursor: pointer; color: #fff; font-size: 1rem; z-index: 10; }
+        .toggle-eye:hover { color: #e94560; }
     </style>
 </head>
 <body>
@@ -26,17 +31,15 @@
             @endif
 
             <div class="inputbox">
-                <i class="fas fa-lock"></i>
                 <input type="password" name="password" id="password" placeholder=" " required minlength="6">
                 <label>New Password</label>
-                <span class="toggle-password" onclick="togglePassword('password', this)"><i class="fas fa-eye"></i></span>
+                <span class="toggle-eye" onclick="togglePass('password', this)"><i class="fas fa-eye"></i></span>
             </div>
 
             <div class="inputbox">
-                <i class="fas fa-lock"></i>
                 <input type="password" name="password_confirmation" id="password_confirmation" placeholder=" " required minlength="6">
                 <label>Confirm Password</label>
-                <span class="toggle-password" onclick="togglePassword('password_confirmation', this)"><i class="fas fa-eye"></i></span>
+                <span class="toggle-eye" onclick="togglePass('password_confirmation', this)"><i class="fas fa-eye"></i></span>
             </div>
 
             <button type="submit">Reset Password</button>
@@ -48,7 +51,7 @@
     </section>
 
     <script>
-        function togglePassword(id, el) {
+        function togglePass(id, el) {
             const input = document.getElementById(id);
             const icon = el.querySelector('i');
             if (input.type === 'password') {
