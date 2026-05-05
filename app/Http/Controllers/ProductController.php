@@ -7,9 +7,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
+use App\Contracts\WishlistServiceInterface;
 
 class ProductController extends Controller
 {
+    public function __construct(private WishlistServiceInterface $wishlistService) {}
     public function show(Request $request, $id)
     {
         // Chỉ lấy các cột cần thiết để tiết kiệm RAM server

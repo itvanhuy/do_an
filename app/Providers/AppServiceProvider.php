@@ -3,20 +3,19 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Contracts\CartServiceInterface;
+use App\Contracts\WishlistServiceInterface;
+use App\Services\CartService;
+use App\Services\WishlistService;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        //
+        $this->app->bind(CartServiceInterface::class, CartService::class);
+        $this->app->bind(WishlistServiceInterface::class, WishlistService::class);
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         // Force HTTPS trên production

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Product;
 use App\Mail\OrderPlaced;
+use App\Contracts\PaymentServiceInterface;
 
 class CheckoutController extends Controller
 {
