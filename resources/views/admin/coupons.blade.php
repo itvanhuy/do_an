@@ -22,7 +22,7 @@
                     <label style="display:block; margin-bottom:5px; font-weight:600;">Loại giảm giá <span style="color:red">*</span></label>
                     <select name="discount_type" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
                         <option value="percent">Phần trăm (%)</option>
-                        <option value="fixed">Số tiền cố định (₫)</option>
+                        <option value="fixed">Fixed Amount ($)</option>
                     </select>
                 </div>
                 <div>
@@ -30,7 +30,7 @@
                     <input type="number" name="discount_value" required min="0" step="0.01" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;" placeholder="10">
                 </div>
                 <div>
-                    <label style="display:block; margin-bottom:5px; font-weight:600;">Đơn hàng tối thiểu (₫)</label>
+                    <label style="display:block; margin-bottom:5px; font-weight:600;">Minimum Order ($)</label>
                     <input type="number" name="min_order" min="0" value="0" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
                 </div>
                 <div>
@@ -69,9 +69,9 @@
                 <td style="padding:12px;"><code style="background:#f1f3f4; padding:4px 8px; border-radius:4px; font-weight:bold; font-size:0.95rem;">{{ $coupon->code }}</code></td>
                 <td style="padding:12px;">{{ $coupon->discount_type === 'percent' ? 'Phần trăm' : 'Cố định' }}</td>
                 <td style="padding:12px; font-weight:bold; color:#e63946;">
-                    {{ $coupon->discount_type === 'percent' ? $coupon->discount_value . '%' : number_format($coupon->discount_value, 0, ',', '.') . '₫' }}
+                    {{ $coupon->discount_type === 'percent' ? $coupon->discount_value . '%' : '$' . number_format($coupon->discount_value / 25000, 2) }}
                 </td>
-                <td style="padding:12px;">{{ number_format($coupon->min_order, 0, ',', '.') }}₫</td>
+                <td style="padding:12px;">${{ number_format($coupon->min_order / 25000, 2) }}</td>
                 <td style="padding:12px;">{{ $coupon->used_count }}{{ $coupon->max_uses ? '/' . $coupon->max_uses : '' }}</td>
                 <td style="padding:12px; color:#888; font-size:0.85rem;">{{ $coupon->expires_at ? date('d/m/Y', strtotime($coupon->expires_at)) : '∞' }}</td>
                 <td style="padding:12px;">

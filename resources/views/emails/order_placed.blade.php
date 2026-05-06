@@ -81,13 +81,13 @@
                 <tr>
                     <td>{{ $item->name ?? 'Sản phẩm' }}</td>
                     <td style="text-align:center">{{ $item->quantity }}</td>
-                    <td style="text-align:right">{{ number_format($item->price, 0, ',', '.') }}₫</td>
-                    <td style="text-align:right">{{ number_format($item->price * $item->quantity, 0, ',', '.') }}₫</td>
+                    <td style="text-align:right">$\{\{ number_format($item->price / 25000, 2) \}\}</td>
+                    <td style="text-align:right">$\{\{ number_format(($item->price * $item->quantity) / 25000, 2) \}\}</td>
                 </tr>
                 @endforeach
                 <tr class="total-row">
                     <td colspan="3" style="text-align:right">Tổng cộng:</td>
-                    <td style="text-align:right; color: #e63946;">{{ number_format($order->total, 0, ',', '.') }}₫</td>
+                    <td style="text-align:right; color: #e63946;">${{ number_format($order->total / 25000, 2) }}</td>
                 </tr>
             </tbody>
         </table>

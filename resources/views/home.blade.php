@@ -40,11 +40,12 @@
 @section('content')
   <section class="hero">
     <div class="hero-slider">
-      <img src="{{ asset('img/slide1.png') }}" class="active" alt="Esports Slide 1" />
       @if(isset($slides) && $slides->count() > 0)
           @foreach($slides as $index => $slide)
               <img src="{{ asset('img/slides/' . $slide->image) }}" class="{{ $index == 0 ? 'active' : '' }}" alt="{{ $slide->title }}" />
           @endforeach
+      @else
+          <img src="{{ asset('img/slide1.png') }}" class="active" alt="TechShop" />
       @endif
       <button class="prev-btn">&#10094;</button>
       <button class="next-btn">&#10095;</button>

@@ -66,7 +66,7 @@
     <div class="stat-card">
         <div class="stat-icon revenue"><i class="fas fa-money-bill-wave"></i></div>
         <div>
-            <p class="stat-val">{{ number_format($monthlyRevenue, 0, ',', '.') }}₫</p>
+            <p class="stat-val">${{ number_format($monthlyRevenue / 25000, 2) }}</p>
             <p class="stat-label">Monthly Revenue</p>
         </div>
     </div>
@@ -90,7 +90,7 @@
                 <tr>
                     <td style="font-weight:bold;">#{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</td>
                     <td>{{ $order->username }}</td>
-                    <td style="font-weight:bold;">{{ number_format($order->total, 0, ',', '.') }}₫</td>
+                    <td style="font-weight:bold;">${{ number_format($order->total / 25000, 2) }}</td>
                     <td>
                         <span class="status-badge status-{{ $order->status }}">{{ $order->status }}</span>
                     </td>
@@ -111,7 +111,7 @@
                     <p class="product-meta">{{ number_format($product->sold) }} units sold</p>
                 </div>
                 <div style="text-align: right;">
-                    <p style="font-weight:bold; margin:0;">{{ number_format($product->price * $product->sold, 0, ',', '.') }}₫</p>
+                    <p style="font-weight:bold; margin:0;">${{ number_format(($product->price * $product->sold) / 25000, 2) }}</p>
                 </div>
             </div>
             @endforeach

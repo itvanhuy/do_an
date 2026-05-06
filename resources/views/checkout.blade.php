@@ -70,8 +70,11 @@
                 </div>
                 <div class="form-group">
                     <label>Coupon Code</label>
-                    <input type="text" name="coupon_code" value="{{ old('coupon_code') }}" placeholder="Enter coupon code (if any)" style="text-transform:uppercase;">
-                    <small style="color:#888;">Discount will be applied automatically.</small>
+                    <div style="display:flex; gap:8px;">
+                        <input type="text" name="coupon_code" id="coupon_input" value="{{ old('coupon_code') }}" placeholder="Enter coupon code" style="text-transform:uppercase; flex:1;">
+                        <button type="button" onclick="applyCoupon()" style="padding:12px 18px; background:#4361ee; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:600; white-space:nowrap;">Apply</button>
+                    </div>
+                    <div id="coupon-result" style="margin-top:8px; font-size:13px;"></div>
                 </div>
 
                 <h2 style="margin: 25px 0 15px;">Payment Method</h2>
@@ -120,19 +123,23 @@
                 <div class="item-details">
                     <h4>{{ $item->name }}</h4>
                     <p style="color:#888; margin:0; font-size:13px;">
-                        {{ $item->quantity }} x {{ number_format(($item->current_price ?? $item->price) / 1000, 0, ',', '.') }}đ
+                        {{ $item->quantity }} x ${{ number_format(($item->current_price ?? $item->price) / 25000, 2) }}
                     </p>
                 </div>
                 <div style="font-weight:bold; font-size:14px;">
-                    {{ number_format($item->total / 1000, 0, ',', '.') }}đ
+                    ${{ number_format($item->total / 25000, 2) }}
                 </div>
             </div>
             @endforeach
 
             <div style="margin-top:15px;">
-                <div class="total-row"><span>Subtotal</span><span>{{ number_format($subtotal / 1000, 0, ',', '.') }}đ</span></div>
-                <div class="total-row"><span>Shipping</span><span>{{ number_format($shippingFee / 1000, 0, ',', '.') }}đ</span></div>
-                <div class="total-row grand-total"><span>Total</span><span>{{ number_format($total / 1000, 0, ',', '.') }}đ</span></div>
+                <div class="total-row"><span>Subtotal</span><span id="summary-subtotal">${{ number_format($subtotal / 25000, 2) }}</span></div>
+                <div class="total-row"><span>Shipping</span><span>${{ number_format($shippingFee / 25000, 2) }}</span></div>
+                <div class="total-row" id="discount-row" style="display:none; color:#27ae60;">
+                    <span>Discount <span id="discount-label"></span></span>
+                    <span id="discount-amount">-$0.00</span>
+                </div>
+                <div class="total-row grand-total"><span>Total</span><span id="summary-total">${{ number_format($total / 25000, 2) }}</span></div>
             </div>
         </div>
     </div>
@@ -141,13 +148,68 @@
 
 @section('scripts')
 <script>
+    const subtotal = {{ $subtotal }};
+    const shippingFee = {{ $shippingFee }};
+
+    function formatVND(amount) {
+        return '$' + (amount / 25000).toFixed(2);
+    }
+
+    function applyCoupon() {
+        const code = document.getElementById('coupon_input').value.trim().toUpperCase();
+        const resultEl = document.getElementById('coupon-result');
+
+        if (!code) {
+            resultEl.innerHTML = '<span style="color:#e74c3c;">Please enter a coupon code.</span>';
+            return;
+        }
+
+        resultEl.innerHTML = '<span style="color:#888;">Checking...</span>';
+
+        fetch('{{ route("coupon.apply") }}', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            body: JSON.stringify({ coupon_code: code, subtotal: subtotal })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                const discount = data.discount_amount;
+                const newTotal = subtotal + shippingFee - discount;
+
+                document.getElementById('discount-row').style.display = 'flex';
+                document.getElementById('discount-label').textContent = '(' + code + ')';
+                document.getElementById('discount-amount').textContent = '-' + formatVND(discount);
+                document.getElementById('summary-total').textContent = formatVND(newTotal);
+
+                resultEl.innerHTML = '<span style="color:#27ae60;">✅ ' + data.message + '</span>';
+            } else {
+                document.getElementById('discount-row').style.display = 'none';
+                document.getElementById('summary-total').textContent = formatVND(subtotal + shippingFee);
+                resultEl.innerHTML = '<span style="color:#e74c3c;">❌ ' + data.message + '</span>';
+            }
+        })
+        .catch(() => {
+            resultEl.innerHTML = '<span style="color:#e74c3c;">Error checking coupon.</span>';
+        });
+    }
+
+    // Apply on Enter key
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('coupon_input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') { e.preventDefault(); applyCoupon(); }
+        });
+
+        // Auto-apply if old value exists
+        if (document.getElementById('coupon_input').value) applyCoupon();
+
+        const checked = document.querySelector('input[name="payment_method"]:checked');
+        if (checked) selectPayment(checked.value);
+    });
+
     function selectPayment(method) {
         document.getElementById('label-cod').classList.toggle('selected', method === 'cod');
         document.getElementById('label-momo').classList.toggle('selected', method === 'momo');
     }
-    document.addEventListener('DOMContentLoaded', function() {
-        const checked = document.querySelector('input[name="payment_method"]:checked');
-        if (checked) selectPayment(checked.value);
-    });
 </script>
 @endsection

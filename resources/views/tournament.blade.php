@@ -6,173 +6,220 @@
     <link rel="stylesheet" href="{{ asset('css/tournament.css') }}">
     <link rel="stylesheet" href="{{ asset('css/ranking.css') }}">
     <style>
-        .main-tournament-schedule { display: grid; grid-template-columns: 220px 1fr 300px; gap: 30px; margin: 30px auto; max-width: 1400px; padding: 0 20px; }
+        .tournament-page { background: #f0f2f5; min-height: 100vh; padding: 30px 20px; }
+        .main-tournament-schedule { display: grid; grid-template-columns: 220px 1fr 300px; gap: 24px; max-width: 1400px; margin: 0 auto; }
         @media (max-width: 1200px) { .main-tournament-schedule { grid-template-columns: 200px 1fr; } .right-sidebar { display: none; } }
         @media (max-width: 768px) { .main-tournament-schedule { grid-template-columns: 1fr; } .left-sidebar { display: none; } }
-        .sidebar h3 { font-size: 1.1rem; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; text-transform: uppercase; }
-        .sidebar ul { list-style: none; padding: 0; }
-        .sidebar ul li { margin-bottom: 10px; }
-        .sidebar ul li a { text-decoration: none; color: #666; display: flex; align-items: center; gap: 10px; transition: 0.3s; padding: 8px 15px; border-radius: 5px; }
-        .sidebar ul li a:hover, .sidebar ul li a.active { background: #f0f0f5; color: var(--accent-color); font-weight: 600; }
-        .schedule-content { min-width: 0; }
-        .tournament-section { background: white; padding: 30px; border-radius: 10px; margin-bottom: 40px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .tournament-section h2 { margin-top: 0; margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-        .match-day { margin-bottom: 30px; }
-        .match-day h3 { font-size: 1rem; color: #333; background: #f8f9fa; padding: 8px 15px; border-radius: 5px; margin-bottom: 15px; }
-        .matches { list-style: none; padding: 0; }
-        .match-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid #f5f5f5; transition: 0.2s; border-radius: 8px; }
-        .match-item:hover { background: #fcfcff; }
-        .match-item.live { background: #fff5f5; border-left: 4px solid #ff4757; }
-        .team { flex: 1; display: flex; align-items: center; gap: 15px; font-weight: 500; }
-        .team img { width: 35px; height: 35px; object-fit: contain; }
+
+        /* Sidebar */
+        .sidebar-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .sidebar-card h3 { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; margin: 0 0 15px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; }
+        .sidebar-card ul { list-style: none; padding: 0; margin: 0; }
+        .sidebar-card ul li a { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; text-decoration: none; color: #444; font-size: 0.9rem; font-weight: 500; transition: all 0.2s; }
+        .sidebar-card ul li a:hover { background: #f5f0ff; color: #7c3aed; }
+        .sidebar-card ul li a.active { background: #7c3aed; color: white; }
+        .sidebar-card ul li a i { width: 18px; text-align: center; }
+
+        /* Section card */
+        .section-card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 24px; }
+        .section-card h2 { font-size: 1.1rem; font-weight: 700; color: #1a1a2e; margin: 0 0 20px; display: flex; align-items: center; gap: 10px; }
+        .section-card h2 i { color: #7c3aed; }
+
+        /* Filter */
+        .filter-select { padding: 10px 16px; border-radius: 8px; border: 1px solid #e0e0e0; font-size: 0.9rem; background: #f8f9fa; color: #333; width: 100%; max-width: 280px; cursor: pointer; }
+        .filter-select:focus { outline: none; border-color: #7c3aed; }
+
+        /* Match day */
+        .match-day { margin-bottom: 24px; }
+        .match-day-header { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; padding: 6px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 12px; display: inline-block; }
+
+        /* Match item */
+        .match-item { display: flex; align-items: center; background: #fafafa; border: 1px solid #f0f0f0; border-radius: 10px; padding: 16px 20px; margin-bottom: 10px; transition: all 0.2s; }
+        .match-item:hover { border-color: #7c3aed; box-shadow: 0 2px 12px rgba(124,58,237,0.08); background: white; }
+        .match-item.live { border-left: 3px solid #ef4444; background: #fff5f5; }
+        .match-item.finished { opacity: 0.8; }
+
+        .team { flex: 1; display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 0.95rem; color: #1a1a2e; }
+        .team img { width: 36px; height: 36px; object-fit: contain; border-radius: 50%; background: #f0f0f0; padding: 4px; }
         .team1 { justify-content: flex-end; text-align: right; }
-        .match-details { flex: 0 0 160px; text-align: center; display: flex; flex-direction: column; }
-        .match-status { font-size: 0.75rem; font-weight: bold; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-bottom: 5px; }
-        .status-live { color: #ff4757; background: rgba(255, 71, 87, 0.1); }
-        .status-upcoming { color: #555; background: #eee; }
-        .status-finished { color: #4CAF50; background: rgba(76, 175, 80, 0.1); }
-        .score { font-size: 1.2rem; font-weight: bold; }
-        .teams-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 20px; }
-        .team-card { text-align: center; border: 1px solid #eee; padding: 15px; border-radius: 10px; }
-        .team-card img { width: 60px; height: 60px; object-fit: contain; margin-bottom: 10px; }
-        .ranking-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        .ranking-table th { text-align: left; background: #f8f9fa; padding: 10px; color: #555; border-bottom: 2px solid #eee; }
-        .ranking-table td { padding: 12px 10px; border-bottom: 1px solid #eee; }
-        .team-cell { display: flex; align-items: center; gap: 10px; font-weight: 500; }
-        .team-cell img { width: 25px; height: 25px; object-fit: contain; }
-        .side-news-list { list-style: none; padding: 0; }
-        .side-news-item { margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-        .side-news-item a { text-decoration: none; color: #333; display: block; }
-        .side-news-title { font-weight: 500; font-size: 0.95rem; display: block; margin-bottom: 5px; }
-        .side-news-time { font-size: 0.8rem; color: #999; }
+        .team2 { justify-content: flex-start; text-align: left; }
+
+        .match-center { flex: 0 0 140px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .match-status-badge { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; }
+        .badge-live { background: #fee2e2; color: #ef4444; }
+        .badge-upcoming { background: #f3f4f6; color: #6b7280; }
+        .badge-finished { background: #d1fae5; color: #059669; }
+        .match-score { font-size: 1.3rem; font-weight: 800; color: #1a1a2e; letter-spacing: 2px; }
+        .match-time { font-size: 1rem; font-weight: 700; color: #7c3aed; }
+        .match-tournament { font-size: 0.72rem; color: #aaa; }
+
+        /* Teams grid */
+        .teams-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 16px; }
+        .team-card { text-align: center; border: 1px solid #f0f0f0; padding: 16px 10px; border-radius: 10px; transition: all 0.2s; }
+        .team-card:hover { border-color: #7c3aed; box-shadow: 0 2px 8px rgba(124,58,237,0.1); }
+        .team-card img { width: 50px; height: 50px; object-fit: contain; margin-bottom: 8px; }
+        .team-card h4 { margin: 0 0 4px; font-size: 0.85rem; color: #333; }
+        .team-card span { font-size: 0.7rem; color: #aaa; background: #f3f4f6; padding: 2px 8px; border-radius: 10px; }
+
+        /* Rankings */
+        .ranking-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+        .ranking-table th { text-align: left; padding: 10px 8px; color: #888; font-size: 0.75rem; text-transform: uppercase; border-bottom: 2px solid #f0f0f0; }
+        .ranking-table td { padding: 10px 8px; border-bottom: 1px solid #f8f8f8; }
+        .ranking-table tr:hover td { background: #fafafa; }
+        .rank-num { font-weight: 800; color: #7c3aed; }
+        .team-cell { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+        .team-cell img { width: 22px; height: 22px; object-fit: contain; }
+        .wl-badge { font-size: 0.8rem; color: #666; font-weight: 600; }
+
+        /* Side news */
+        .side-news-item { padding: 12px 0; border-bottom: 1px solid #f5f5f5; }
+        .side-news-item:last-child { border-bottom: none; }
+        .side-news-item a { text-decoration: none; color: #333; }
+        .side-news-item a:hover .side-news-title { color: #7c3aed; }
+        .side-news-title { font-weight: 600; font-size: 0.88rem; display: block; margin-bottom: 4px; line-height: 1.4; }
+        .side-news-time { font-size: 0.75rem; color: #aaa; }
+
+        /* Empty state */
+        .empty-state { text-align: center; padding: 40px 20px; color: #aaa; }
+        .empty-state i { font-size: 2.5rem; margin-bottom: 12px; display: block; }
     </style>
 @endsection
 
 @section('content')
+<div class="tournament-page">
 <div class="main-tournament-schedule">
-    <aside class="sidebar left-sidebar">
-        <h3><i class="fas fa-trophy"></i> Games</h3>
-        <ul>
-            <li><a href="{{ url('tournament') }}" class="{{ !$gameFilter ? 'active' : '' }}"><i class="fas fa-gamepad"></i> All Games</a></li>
-            <li><a href="{{ url('tournament?game=lol') }}" class="{{ $gameFilter === 'lol' ? 'active' : '' }}"><i class="fas fa-ghost"></i> League of Legends</a></li>
-            <li><a href="{{ url('tournament?game=csgo') }}" class="{{ $gameFilter === 'csgo' ? 'active' : '' }}"><i class="fas fa-crosshairs"></i> CS:GO</a></li>
-            <li><a href="{{ url('tournament?game=valorant') }}" class="{{ $gameFilter === 'valorant' ? 'active' : '' }}"><i class="fas fa-bullseye"></i> Valorant</a></li>
-            <li><a href="{{ url('tournament?game=dota2') }}" class="{{ $gameFilter === 'dota2' ? 'active' : '' }}"><i class="fas fa-fist-raised"></i> Dota 2</a></li>
-        </ul>
+
+    {{-- LEFT SIDEBAR --}}
+    <aside class="left-sidebar">
+        <div class="sidebar-card">
+            <h3><i class="fas fa-trophy"></i> Games</h3>
+            <ul>
+                <li><a href="{{ url('tournament') }}" class="{{ !$gameFilter ? 'active' : '' }}"><i class="fas fa-gamepad"></i> All Games</a></li>
+                <li><a href="{{ url('tournament?game=lol') }}" class="{{ $gameFilter === 'lol' ? 'active' : '' }}"><i class="fas fa-ghost"></i> League of Legends</a></li>
+                <li><a href="{{ url('tournament?game=csgo') }}" class="{{ $gameFilter === 'csgo' ? 'active' : '' }}"><i class="fas fa-crosshairs"></i> CS:GO</a></li>
+                <li><a href="{{ url('tournament?game=valorant') }}" class="{{ $gameFilter === 'valorant' ? 'active' : '' }}"><i class="fas fa-bullseye"></i> Valorant</a></li>
+                <li><a href="{{ url('tournament?game=dota2') }}" class="{{ $gameFilter === 'dota2' ? 'active' : '' }}"><i class="fas fa-fist-raised"></i> Dota 2</a></li>
+            </ul>
+        </div>
     </aside>
 
+    {{-- MAIN CONTENT --}}
     <main class="schedule-content">
-        <div class="tournament-section">
-            <h2><i class="fas fa-calendar-alt"></i> Match Schedule {{ $gameFilter ? '- ' . strtoupper($gameFilter) : '' }}</h2>
-            
-            <div class="filter-container" style="margin-bottom: 30px;">
-                <form method="GET" action="{{ url('tournament') }}">
-                    @if($gameFilter) <input type="hidden" name="game" value="{{ $gameFilter }}"> @endif
-                    <select name="tournament" onchange="this.form.submit()" style="padding: 10px 15px; border-radius: 5px; border: 1px solid #ddd; width: 100%; max-width: 300px;">
-                        <option value="">-- All Tournaments --</option>
-                        @foreach ($tournamentList as $t)
-                            <option value="{{ $t }}" {{ $tournamentFilter === $t ? 'selected' : '' }}>{{ $t }}</option>
-                        @endforeach
-                    </select>
-                </form>
-            </div>
+        {{-- Match Schedule --}}
+        <div class="section-card">
+            <h2><i class="fas fa-calendar-alt"></i> Match Schedule {{ $gameFilter ? '— ' . strtoupper($gameFilter) : '' }}</h2>
+
+            <form method="GET" action="{{ url('tournament') }}" style="margin-bottom: 24px;">
+                @if($gameFilter) <input type="hidden" name="game" value="{{ $gameFilter }}"> @endif
+                <select name="tournament" class="filter-select" onchange="this.form.submit()">
+                    <option value="">— All Tournaments —</option>
+                    @foreach ($tournamentList as $t)
+                        <option value="{{ $t }}" {{ $tournamentFilter === $t ? 'selected' : '' }}>{{ $t }}</option>
+                    @endforeach
+                </select>
+            </form>
 
             @if (empty($groupedMatches))
-                <div style="text-align: center; padding: 40px; background: #f9f9f9; border-radius: 10px;">No matches found for the selected criteria.</div>
+                <div class="empty-state">
+                    <i class="fas fa-calendar-times"></i>
+                    No matches found for the selected criteria.
+                </div>
             @else
                 @foreach ($groupedMatches as $date => $matches)
                 <div class="match-day">
-                    <h3>{{ date('l, M d', strtotime($date)) }}</h3>
-                    <ul class="matches">
-                        @foreach ($matches as $m)
-                        <li class="match-item {{ $m->status === 'live' ? 'live' : '' }}">
-                            <div class="team team1">
-                                <span>{{ $m->team1_name }}</span>
-                                <img src="{{ asset('img/teams/' . $m->team1_logo) }}" onerror="this.src='{{ asset('img/product/default.jpg') }}'">
-                            </div>
-                            <div class="match-details">
-                                @if ($m->status === 'live')
-                                    <span class="match-status status-live">● LIVE</span>
-                                    <span class="score">{{ $m->score_team1 }} - {{ $m->score_team2 }}</span>
-                                @elseif ($m->status === 'finished')
-                                    <span class="match-status status-finished">Finished</span>
-                                    <span class="score">{{ $m->score_team1 }} - {{ $m->score_team2 }}</span>
-                                @else
-                                    <span class="match-status status-upcoming">Upcoming</span>
-                                    <span style="font-weight:bold;">{{ date('H:i', strtotime($m->match_time)) }}</span>
-                                @endif
-                                <span style="font-size: 0.75rem; color: #999; margin-top: 5px;">{{ $m->tournament_name }}</span>
-                            </div>
-                            <div class="team team2">
-                                <img src="{{ asset('img/teams/' . $m->team2_logo) }}" onerror="this.src='{{ asset('img/product/default.jpg') }}'">
-                                <span>{{ $m->team2_name }}</span>
-                            </div>
-                        </li>
-                        @endforeach
-                    </ul>
+                    <div class="match-day-header"><i class="far fa-calendar"></i> {{ date('l, M d', strtotime($date)) }}</div>
+                    @foreach ($matches as $m)
+                    <div class="match-item {{ $m->status === 'live' ? 'live' : ($m->status === 'finished' ? 'finished' : '') }}">
+                        <div class="team team1">
+                            <span>{{ $m->team1_name }}</span>
+                            <img src="{{ asset('img/teams/' . $m->team1_logo) }}" onerror="this.src='{{ asset('img/product/default.jpg') }}'">
+                        </div>
+                        <div class="match-center">
+                            @if ($m->status === 'live')
+                                <span class="match-status-badge badge-live">● LIVE</span>
+                                <span class="match-score">{{ $m->score_team1 }} — {{ $m->score_team2 }}</span>
+                            @elseif ($m->status === 'finished')
+                                <span class="match-status-badge badge-finished">✓ Finished</span>
+                                <span class="match-score">{{ $m->score_team1 }} — {{ $m->score_team2 }}</span>
+                            @else
+                                <span class="match-status-badge badge-upcoming">Upcoming</span>
+                                <span class="match-time">{{ date('H:i', strtotime($m->match_time)) }}</span>
+                            @endif
+                            <span class="match-tournament">{{ $m->tournament_name }}</span>
+                        </div>
+                        <div class="team team2">
+                            <img src="{{ asset('img/teams/' . $m->team2_logo) }}" onerror="this.src='{{ asset('img/product/default.jpg') }}'">
+                            <span>{{ $m->team2_name }}</span>
+                        </div>
+                    </div>
+                    @endforeach
                 </div>
                 @endforeach
             @endif
         </div>
 
-        <div class="tournament-section">
+        {{-- Teams --}}
+        @if($teamsList->isNotEmpty())
+        <div class="section-card">
             <h2><i class="fas fa-users"></i> Participating Teams</h2>
             <div class="teams-grid">
                 @foreach ($teamsList as $team)
                 <div class="team-card">
                     <img src="{{ asset('img/teams/' . $team->logo) }}" onerror="this.src='{{ asset('img/product/default.jpg') }}'">
-                    <h4 style="margin: 0; font-size: 0.9rem;">{{ $team->name }}</h4>
-                    <span style="font-size: 0.7rem; color: #999;">{{ strtoupper($team->game_type) }}</span>
+                    <h4>{{ $team->name }}</h4>
+                    <span>{{ strtoupper($team->game_type) }}</span>
                 </div>
                 @endforeach
             </div>
         </div>
+        @endif
     </main>
 
-    <aside class="sidebar right-sidebar">
-        @if (empty($groupedRankings))
+    {{-- RIGHT SIDEBAR --}}
+    <aside class="right-sidebar">
+        <div class="sidebar-card" style="margin-bottom: 20px;">
             <h3><i class="fas fa-chart-bar"></i> Standings</h3>
-            <p style="color: #999; text-align: center;">No rankings available.</p>
-        @else
-            @foreach ($groupedRankings as $tournamentName => $teams)
-                <h3><i class="fas fa-chart-bar"></i> Standings: {{ $tournamentName }}</h3>
-                <table class="ranking-table" style="margin-bottom: 30px;">
+            @if (empty($groupedRankings))
+                <p style="color:#bbb; text-align:center; font-size:0.85rem; padding:10px 0;">No rankings available.</p>
+            @else
+                @foreach ($groupedRankings as $tournamentName => $teams)
+                <p style="font-size:0.8rem; font-weight:700; color:#7c3aed; margin:0 0 10px;">{{ $tournamentName }}</p>
+                <table class="ranking-table" style="margin-bottom:20px;">
                     <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Team</th>
-                            <th style="text-align: right;">W-L</th>
-                        </tr>
+                        <tr><th>#</th><th>Team</th><th style="text-align:right;">W-L</th></tr>
                     </thead>
                     <tbody>
                         @foreach ($teams as $team)
                         <tr>
-                            <td style="font-weight:bold; color:#555;">{{ $team->rank_position }}</td>
+                            <td><span class="rank-num">{{ $team->rank_position }}</span></td>
                             <td>
                                 <div class="team-cell">
                                     <img src="{{ asset('img/teams/' . $team->team_logo) }}" onerror="this.src='{{ asset('img/product/default.jpg') }}'">
-                                    <span>{{ $team->team_name }}</span>
+                                    {{ $team->team_name }}
                                 </div>
                             </td>
-                            <td style="text-align: right; color:#777;">{{ $team->wins }}-{{ $team->losses }}</td>
+                            <td style="text-align:right;"><span class="wl-badge">{{ $team->wins }}-{{ $team->losses }}</span></td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
-            @endforeach
-        @endif
+                @endforeach
+            @endif
+        </div>
 
-        <h3><i class="fas fa-bolt"></i> Tournament News</h3>
-        <ul class="side-news-list">
+        <div class="sidebar-card">
+            <h3><i class="fas fa-bolt"></i> Tournament News</h3>
             @foreach ($sideNews as $news)
-            <li class="side-news-item">
+            <div class="side-news-item">
                 <a href="{{ url('news/' . $news->id) }}">
                     <span class="side-news-title">{{ $news->title }}</span>
                     <span class="side-news-time"><i class="far fa-clock"></i> {{ date('M d, Y', strtotime($news->created_at)) }}</span>
                 </a>
-            </li>
+            </div>
             @endforeach
-        </ul>
+        </div>
     </aside>
+
+</div>
 </div>
 @endsection

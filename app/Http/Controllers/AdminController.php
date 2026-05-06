@@ -504,6 +504,25 @@ class AdminController extends Controller
         return back()->with('success', 'Xóa xếp hạng thành công.');
     }
 
+    public function orderShow($id)
+    {
+        $order = DB::table('orders')
+            ->leftJoin('users', 'orders.user_id', '=', 'users.id')
+            ->select('orders.*', 'users.username', 'users.email', 'users.phone as user_phone')
+            ->where('orders.id', $id)
+            ->first();
+
+        if (!$order) abort(404);
+
+        $items = DB::table('order_items')
+            ->join('products', 'order_items.product_id', '=', 'products.id')
+            ->where('order_items.order_id', $id)
+            ->select('order_items.*', 'products.name', 'products.image')
+            ->get();
+
+        return view('admin.order_detail', compact('order', 'items'));
+    }
+
     public function updateOrderStatus(Request $request, $id)
     {
         $request->validate(['status' => 'required']);
@@ -511,6 +530,11 @@ class AdminController extends Controller
         $order = DB::table('orders')->where('id', $id)->first();
         $oldStatus = $order ? $order->status : null;
         $newStatus = $request->status;
+
+        // Không cho phép thay đổi trạng thái khi đơn hàng đã giao
+        if ($oldStatus === 'delivered') {
+            return back()->with('error', 'Không thể thay đổi trạng thái đơn hàng đã giao.');
+        }
 
         DB::table('orders')->where('id', $id)->update(['status' => $newStatus, 'updated_at' => now()]);
 

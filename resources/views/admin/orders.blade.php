@@ -59,7 +59,7 @@
                 </td>
                 <td style="padding:15px; color:#888;">{{ date('M d, Y H:i', strtotime($order->created_at)) }}</td>
                 <td style="padding:15px;">
-                    <a href="{{ route('orders.show', $order->id) }}" style="text-decoration:none; color:#3498db; font-size:0.85rem;">
+                    <a href="{{ route('admin.orders.show', $order->id) }}" style="text-decoration:none; color:#3498db; font-size:0.85rem;">
                         <i class="fas fa-eye"></i> Details
                     </a>
                 </td>
@@ -70,8 +70,34 @@
             @endif
         </tbody>
     </table>
-    <div style="margin-top:20px;">
-        {{ $orders->appends(['status' => $statusFilter])->links() }}
+    <div style="margin-top:20px; display:flex; justify-content:center;">
+        <nav style="display:flex; gap:4px; align-items:center; flex-wrap:wrap;">
+            {{-- Previous --}}
+            @if($orders->onFirstPage())
+                <span style="padding:8px 14px; border-radius:6px; background:#f5f5f5; color:#ccc; font-size:0.85rem; cursor:not-allowed;">‹ Prev</span>
+            @else
+                <a href="{{ $orders->appends(['status' => $statusFilter])->previousPageUrl() }}" style="padding:8px 14px; border-radius:6px; background:white; border:1px solid #ddd; color:#333; text-decoration:none; font-size:0.85rem; transition:all 0.2s;" onmouseover="this.style.background='#3498db';this.style.color='white'" onmouseout="this.style.background='white';this.style.color='#333'">‹ Prev</a>
+            @endif
+
+            {{-- Page numbers --}}
+            @foreach($orders->appends(['status' => $statusFilter])->getUrlRange(max(1, $orders->currentPage()-2), min($orders->lastPage(), $orders->currentPage()+2)) as $page => $url)
+                @if($page == $orders->currentPage())
+                    <span style="padding:8px 14px; border-radius:6px; background:#3498db; color:white; font-size:0.85rem; font-weight:600;">{{ $page }}</span>
+                @else
+                    <a href="{{ $url }}" style="padding:8px 14px; border-radius:6px; background:white; border:1px solid #ddd; color:#333; text-decoration:none; font-size:0.85rem; transition:all 0.2s;" onmouseover="this.style.background='#3498db';this.style.color='white'" onmouseout="this.style.background='white';this.style.color='#333'">{{ $page }}</a>
+                @endif
+            @endforeach
+
+            {{-- Next --}}
+            @if($orders->hasMorePages())
+                <a href="{{ $orders->appends(['status' => $statusFilter])->nextPageUrl() }}" style="padding:8px 14px; border-radius:6px; background:white; border:1px solid #ddd; color:#333; text-decoration:none; font-size:0.85rem; transition:all 0.2s;" onmouseover="this.style.background='#3498db';this.style.color='white'" onmouseout="this.style.background='white';this.style.color='#333'">Next ›</a>
+            @else
+                <span style="padding:8px 14px; border-radius:6px; background:#f5f5f5; color:#ccc; font-size:0.85rem; cursor:not-allowed;">Next ›</span>
+            @endif
+        </nav>
     </div>
+    <p style="text-align:center; color:#aaa; font-size:0.8rem; margin-top:10px;">
+        Showing {{ $orders->firstItem() ?? 0 }}–{{ $orders->lastItem() ?? 0 }} of {{ $orders->total() }} orders
+    </p>
 </div>
 @endsection

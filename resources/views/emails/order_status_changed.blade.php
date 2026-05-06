@@ -57,7 +57,7 @@
             </div>
             <div class="info-row">
                 <span class="info-label">Tổng tiền:</span>
-                <span class="info-value" style="color:#e63946">{{ number_format($order->total, 0, ',', '.') }}₫</span>
+                <span class="info-value" style="color:#e63946">${{ number_format($order->total / 25000, 2) }}</span>
             </div>
             <div class="info-row">
                 <span class="info-label">Địa chỉ giao hàng:</span>

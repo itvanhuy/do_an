@@ -24,7 +24,7 @@
                 <td style="padding:15px;"><img src="{{ asset('img/product/'.$product->image) }}" style="width:40px; height:40px; object-fit:contain;" onerror="this.src='{{ asset('img/product/default.jpg') }}'"></td>
                 <td style="padding:15px; font-weight:600;">{{ $product->name }}</td>
                 <td style="padding:15px; color:#666;">{{ $product->category_name }}</td>
-                <td style="padding:15px; font-weight:bold;">{{ number_format($product->price, 0, ',', '.') }}₫</td>
+                <td style="padding:15px; font-weight:bold;">${{ number_format($product->price / 25000, 2) }}</td>
                 <td style="padding:15px;">{{ $product->stock_quantity }}</td>
                 <td style="padding:15px;">
                     <a href="{{ route('admin.products.edit', $product->id) }}" style="border:none; background:none; color:#3498db; cursor:pointer; margin-right:15px; text-decoration:none;"><i class="fas fa-edit"></i></a>

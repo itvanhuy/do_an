@@ -224,14 +224,14 @@ class CheckoutController extends Controller
 
     private function createVnpayPayment($orderId, $amount)
     {
-        $vnp_TmnCode    = env('VNPAY_TMN_CODE', 'CGXZLS0Z');
-        $vnp_HashSecret = env('VNPAY_HASH_SECRET', 'XNBCJFAKRN2');
+        $vnp_TmnCode    = env('VNPAY_TMN_CODE');
+        $vnp_HashSecret = env('VNPAY_HASH_SECRET');
         $vnp_Url        = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
         $vnp_Returnurl  = url('/checkout/vnpay_return');
         $vnp_TxnRef     = $orderId . '_' . time();
-        $vnp_OrderInfo  = 'TechShop - Order #' . $orderId;
-        $vnp_Amount     = $amount * 100;
-        $vnp_IpAddr     = request()->ip();
+        $vnp_OrderInfo  = 'Thanh toan don hang ' . $orderId;
+        $vnp_Amount     = (int)($amount * 100);
+        $vnp_IpAddr     = request()->ip() ?: '127.0.0.1';
 
         $inputData = [
             'vnp_Version'    => '2.1.0',
@@ -243,27 +243,20 @@ class CheckoutController extends Controller
             'vnp_IpAddr'     => $vnp_IpAddr,
             'vnp_Locale'     => 'vn',
             'vnp_OrderInfo'  => $vnp_OrderInfo,
-            'vnp_OrderType'  => 'billpayment',
+            'vnp_OrderType'  => 'other',
             'vnp_ReturnUrl'  => $vnp_Returnurl,
             'vnp_TxnRef'     => $vnp_TxnRef,
         ];
 
         ksort($inputData);
-        $query    = '';
-        $hashdata = '';
-        $i = 0;
-        foreach ($inputData as $key => $value) {
-            if ($i == 1) {
-                $hashdata .= '&' . urlencode($key) . '=' . urlencode($value);
-            } else {
-                $hashdata .= urlencode($key) . '=' . urlencode($value);
-                $i = 1;
-            }
-            $query .= urlencode($key) . '=' . urlencode($value) . '&';
-        }
 
+        $hashdata = urldecode(http_build_query($inputData));
         $secureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
-        $payUrl     = $vnp_Url . '?' . $query . 'vnp_SecureHash=' . $secureHash;
+
+        $payUrl = $vnp_Url . '?' . http_build_query($inputData) . '&vnp_SecureHash=' . $secureHash;
+
+        \Log::info('VNPay hashdata: ' . $hashdata);
+        \Log::info('VNPay hash: ' . $secureHash);
 
         DB::table('orders')->where('id', $orderId)->update(['payment_ref' => $vnp_TxnRef]);
 
@@ -272,27 +265,22 @@ class CheckoutController extends Controller
 
     public function vnpayReturn(Request $request)
     {
-        $vnp_HashSecret = env('VNPAY_HASH_SECRET', 'XNBCJFAKRN2');
+        $vnp_HashSecret = env('VNPAY_HASH_SECRET');
         $vnp_SecureHash = $request->vnp_SecureHash;
 
+        // Lấy tất cả param vnp_ trừ SecureHash và SecureHashType
         $inputData = [];
         foreach ($request->all() as $key => $value) {
-            if (substr($key, 0, 4) === 'vnp_') {
+            if (str_starts_with($key, 'vnp_') && $key !== 'vnp_SecureHash' && $key !== 'vnp_SecureHashType') {
                 $inputData[$key] = $value;
             }
         }
-        unset($inputData['vnp_SecureHash']);
         ksort($inputData);
 
+        // Build hash string — không encode
         $hashData = '';
-        $i = 0;
         foreach ($inputData as $key => $value) {
-            if ($i == 1) {
-                $hashData .= '&' . urlencode($key) . '=' . urlencode($value);
-            } else {
-                $hashData .= urlencode($key) . '=' . urlencode($value);
-                $i = 1;
-            }
+            $hashData .= ($hashData ? '&' : '') . $key . '=' . $value;
         }
 
         $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
@@ -310,5 +298,49 @@ class CheckoutController extends Controller
     public function success(Request $request)
     {
         return view('checkout_success', ['orderId' => $request->order_id]);
+    }
+
+    public function applyCoupon(Request $request)
+    {
+        $code     = strtoupper(trim($request->coupon_code ?? ''));
+        $subtotal = (float) ($request->subtotal ?? 0);
+
+        if (!$code) {
+            return response()->json(['success' => false, 'message' => 'Please enter a coupon code.']);
+        }
+
+        $coupon = \Illuminate\Support\Facades\DB::table('coupons')
+            ->where('code', $code)
+            ->where('is_active', 1)
+            ->where(function ($q) { $q->whereNull('expires_at')->orWhere('expires_at', '>', now()); })
+            ->where(function ($q) { $q->whereNull('max_uses')->orWhereRaw('used_count < max_uses'); })
+            ->first();
+
+        if (!$coupon) {
+            return response()->json(['success' => false, 'message' => 'Invalid or expired coupon code.']);
+        }
+
+        if ($subtotal < $coupon->min_order) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Minimum order ' . number_format($coupon->min_order / 1000, 0, ',', '.') . 'đ required.',
+            ]);
+        }
+
+        $discount = $coupon->discount_type === 'percent'
+            ? $subtotal * ($coupon->discount_value / 100)
+            : (float) $coupon->discount_value;
+
+        $discount = min($discount, $subtotal);
+
+        return response()->json([
+            'success'         => true,
+            'message'         => $coupon->discount_type === 'percent'
+                ? "Applied {$coupon->discount_value}% discount!"
+                : "Applied " . number_format($coupon->discount_value / 1000, 0, ',', '.') . "đ discount!",
+            'discount_amount' => $discount,
+            'discount_type'   => $coupon->discount_type,
+            'discount_value'  => $coupon->discount_value,
+        ]);
     }
 }
